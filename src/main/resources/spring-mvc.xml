@@ -36,9 +36,15 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
 		  <bean class="com.tangshengbo.commons.MyInterceptor"></bean>
 		</mvc:interceptor>
 	</mvc:interceptors>-->
-	
-	
- 	<!-- 配置ViewResolver。 可以用多个ViewResolver。 使用order属性排序。 InternalResourceViewResolver放在最后。 -->
+    <!-- 静态资源访问   -->
+     <mvc:resources location="/js/" mapping="/js/**"/>
+     <mvc:resources location="/img/" mapping="/img/**"/>
+     <mvc:resources location="/css/" mapping="/css/**"/>
+
+
+
+
+    <!-- 配置ViewResolver。 可以用多个ViewResolver。 使用order属性排序。 InternalResourceViewResolver放在最后。 -->
 	<bean
 		class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
 		<property name="order" value="1" />

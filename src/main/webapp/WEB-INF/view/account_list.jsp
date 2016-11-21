@@ -1,9 +1,5 @@
-<%@ page language="java" pageEncoding="UTF-8"%>
-<%--引入JSTL核心标签库 --%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fun"%>
-
-<!DOCTYPE html>
+<%@ include file="/common/taglibs.jsp"%>
+<%@ page language="java"  pageEncoding="UTF-8" contentType="text/html;charset=UTF-8" %>
 <html>
     <head>
         <title>显示用户信息</title>

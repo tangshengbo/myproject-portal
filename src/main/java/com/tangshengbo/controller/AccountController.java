@@ -5,6 +5,8 @@ import com.tangshengbo.service.AccountService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,7 +36,17 @@ public class AccountController {
         model.addAttribute("accountList", list);
         log.info("getAccountAll end>>>>>>>>>>>>>>>>>>>>>>>>");
         return "account_list";
-
+    }
+    // 本方法将处理 /courses/view?courseId=123 形式的URL
+    @RequestMapping(value = "/staticpage.html", method = RequestMethod.POST)
+    public ResponseEntity addAccount(Model model) {
+        log.info("addAccount start>>>>>>>>>>>>>>>>>>>>>>>>");
+        Account account = new Account();
+        account.setName("dubbo+spring");
+        account.setMoney(11.11);
+        accountService.addAccount(account);;
+        log.info("addAccount end>>>>>>>>>>>>>>>>>>>>>>>>");
+        return   new ResponseEntity("success", HttpStatus.OK);
     }
 
 }
