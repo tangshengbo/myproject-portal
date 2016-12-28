@@ -20,7 +20,9 @@ import java.util.List;
 @Controller
 @RequestMapping("/account")
 public class AccountController {
+
     private Log log = LogFactory.getLog(this.getClass());
+
     @Autowired
     private AccountService accountService;
 
@@ -28,25 +30,30 @@ public class AccountController {
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     public String getAccountAll(Model model) {
         log.info("getAccountAll start>>>>>>>>>>>>>>>>>>>>>>>>");
-        for (int i = 0; i <10 ; i++) {
+
+        for (int i = 0; i < 10; i++) {
             log.info("getAccountAll start>>>>>>>>>>>>>>>>>>>>>>>>");
         }
         List<Account> list = accountService.getAccountAll();
         System.out.println(list.size());
         model.addAttribute("accountList", list);
+
         log.info("getAccountAll end>>>>>>>>>>>>>>>>>>>>>>>>");
         return "account_list";
     }
+
     // 本方法将处理 /courses/view?courseId=123 形式的URL
     @RequestMapping(value = "/staticpage.html", method = RequestMethod.POST)
     public ResponseEntity addAccount(Model model) {
         log.info("addAccount start>>>>>>>>>>>>>>>>>>>>>>>>");
+
         Account account = new Account();
         account.setName("dubbo+spring");
         account.setMoney(11.11);
-        accountService.addAccount(account);;
+        accountService.addAccount(account);
+
         log.info("addAccount end>>>>>>>>>>>>>>>>>>>>>>>>");
-        return   new ResponseEntity("success", HttpStatus.OK);
+        return new ResponseEntity("success", HttpStatus.OK);
     }
 
 }

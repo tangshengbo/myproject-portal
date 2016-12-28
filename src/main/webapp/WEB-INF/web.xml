@@ -18,7 +18,7 @@
     </context-param>
 
     <listener>
-        <description>Spring监听器</description>
+        <description>Spring Listener</description>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
 
