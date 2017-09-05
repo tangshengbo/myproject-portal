@@ -52,11 +52,119 @@
             <version>${spring.version}</version>
         </dependency>
         <!-- spring end -->
+        <!-- 添加servlet3.0核心包 -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
+        </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>jstl</artifactId>
             <version>1.2</version>
         </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.10</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.7.10</version>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.1.41</version>
+        </dependency>
+        <dependency>
+            <groupId>org.bgee.log4jdbc-log4j2</groupId>
+            <artifactId>log4jdbc-log4j2-jdbc4.1</artifactId>
+            <version>1.16</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <version>1.2.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper</artifactId>
+            <version>4.1.6</version>
+        </dependency>
+        <dependency>
+            <groupId>tk.mybatis</groupId>
+            <artifactId>mapper</artifactId>
+            <version>3.4.0</version>
+        </dependency>
+        <!-- 添加mybatis的核心包 -->
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+            <version>3.2.8</version>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.38</version>
+        </dependency>
+
+        <!-- 添加mybatis与Spring整合的核心包 -->
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis-spring</artifactId>
+            <version>1.2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>23.0</version>
+        </dependency>
+        <!-- 添加druid连接池包 -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>1.0.12</version>
+        </dependency>
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>2.5.1</version>
+        </dependency>
+        <!--添加aspectjweaver包 -->
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.8.5</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>2.5.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>2.5.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.5.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.jr</groupId>
+            <artifactId>jackson-jr-all</artifactId>
+            <version>2.5.0</version>
+        </dependency>
+
     </dependencies>
     <build>
         <plugins>
@@ -105,20 +213,24 @@
             </activation>
             <properties>
                 <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-                <!-- log4j -->
-                <p.rootLogger>DEBUG, A1</p.rootLogger>
-                <p.loger.lever.ibatis>DEBUG</p.loger.lever.ibatis>
-                <p.loger.lever.sql>DEBUG</p.loger.lever.sql>
-                <!-- 改为OFF可以关掉sql的输出 (INFO,console) -->
-                <p.log4j.logger.jdbc.sqltiming>INFO,console</p.log4j.logger.jdbc.sqltiming>
-
-                <!-- dubbo -->
-                <p.dubbo.application.name>myproject_service</p.dubbo.application.name>
-                <p.dubbo.registry.address>127.0.0.1:2181</p.dubbo.registry.address>
-                <p.dubbo.registry.protocol>zookeeper</p.dubbo.registry.protocol>
-                <p.dubbo.protocol.port>20881</p.dubbo.protocol.port>
-                <p.dubbo.monitor.address>127.0.0.1:7070</p.dubbo.monitor.address>
-                <p.dubbo.registry.delay>30000</p.dubbo.registry.delay>
+                <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+                <archiveClasses>false</archiveClasses>
+                <filtering.resource>*.properties</filtering.resource>
+                <driverClassName>com.mysql.jdbc.Driver</driverClassName>
+                <driverClassNameLog>net.sf.log4jdbc.sql.jdbcapi.DriverSpy</driverClassNameLog>
+                <validationQuery>SELECT 1</validationQuery>
+                <jdbc_url>
+                    <![CDATA[
+                        jdbc:mysql://localhost:3306/myproject?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
+                    ]]>
+                </jdbc_url>
+                <jdbc_url_log>
+                    <![CDATA[
+                        jdbc:log4jdbc:mysql://localhost:3306/myproject?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
+                    ]]>
+                </jdbc_url_log>
+                <jdbc_username>root</jdbc_username>
+                <jdbc_password>root</jdbc_password>
             </properties>
 
         </profile>
