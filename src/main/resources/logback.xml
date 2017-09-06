@@ -38,6 +38,13 @@
         <appender-ref ref="stdout" />
         <appender-ref ref="file" />
     </logger>
+
+    <logger name="jdbc.sqlonly" level="WARN"/>
+    <logger name="jdbc.sqltiming" level="INFO"/>
+    <logger name="jdbc.resultsettable" level="INFO"/>
+    <logger name="jdbc.resultset" level="WARN"/>
+    <logger name="jdbc.connection" level="WARN"/>
+    <logger name="jdbc.audit" level="WARN"/>
     <!-- root将级别为“DEBUG”及大于“DEBUG”的日志信息交给已经配置好的名为“Console”的appender处理，“Console”appender将信息打印到Console -->
     <root level="INFO">
         <appender-ref ref="stdout" /> <!-- 标识这个appender将会添加到这个logger -->

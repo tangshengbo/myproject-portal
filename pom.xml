@@ -98,7 +98,11 @@
             <artifactId>logback-ext-spring</artifactId>
             <version>0.1.1</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.bgee.log4jdbc-log4j2</groupId>
+            <artifactId>log4jdbc-log4j2-jdbc4.1</artifactId>
+            <version>1.16</version>
+        </dependency>
         <dependency>
             <groupId>com.github.pagehelper</groupId>
             <artifactId>pagehelper</artifactId>
@@ -169,7 +173,11 @@
             <artifactId>jackson-jr-all</artifactId>
             <version>2.5.0</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.mchange</groupId>
+            <artifactId>c3p0</artifactId>
+            <version>0.9.5.2</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -218,27 +226,8 @@
             </activation>
             <properties>
                 <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-                <!-- log4j -->
-                <p.rootLogger>DEBUG</p.rootLogger>
-                <p.loger.lever.ibatis>DEBUG</p.loger.lever.ibatis>
-                <p.loger.lever.sql>DEBUG</p.loger.lever.sql>
-                <!-- 改为OFF可以关掉sql的输出 (INFO,console) -->
-                <p.log4j.logger.jdbc.sqltiming>INFO,console</p.log4j.logger.jdbc.sqltiming>
-                <archiveClasses>false</archiveClasses>
                 <filtering.resource>*.properties</filtering.resource>
-                <driverClassName>com.mysql.jdbc.Driver</driverClassName>
-                <driverClassNameLog>net.sf.log4jdbc.sql.jdbcapi.DriverSpy</driverClassNameLog>
                 <validationQuery>SELECT 1</validationQuery>
-                <jdbc_url>
-                    <![CDATA[
-                        jdbc:mysql://localhost:3306/myproject?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
-                    ]]>
-                </jdbc_url>
-                <jdbc_url_log>
-                    <![CDATA[
-                        jdbc:log4jdbc:mysql://localhost:3306/myproject?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
-                    ]]>
-                </jdbc_url_log>
                 <jdbc_username>root</jdbc_username>
                 <jdbc_password>root</jdbc_password>
             </properties>
