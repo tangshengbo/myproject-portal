@@ -94,8 +94,8 @@ http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
 
     <!-- Hikari Datasource -->
     <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource"  destroy-method="close">
-        <property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy" />  <!-- 无需指定，除非系统无法自动识别 -->
-        <property name="jdbcUrl" value="jdbc:log4jdbc:mysql://localhost:3306/myproject?useUnicode=true&amp;characterEncoding=UTF-8&amp;useSSL=true&amp;zeroDateTimeBehavior=convertToNull" />
+        <property name="driverClassName" value="${driverClassNameLog}" />  <!-- 无需指定，除非系统无法自动识别 -->
+        <property name="jdbcUrl" value="${jdbc_url_log}" />
         <property name="username" value="${jdbc_username}" />
         <property name="password" value="${jdbc_password}" />
         <!-- 连接只读数据库时配置为true， 保证安全 -->

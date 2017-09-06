@@ -227,7 +227,21 @@
             <properties>
                 <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
                 <filtering.resource>*.properties</filtering.resource>
+                <archiveClasses>false</archiveClasses>
+                <filtering.resource>*.properties</filtering.resource>
+                <driverClassName>com.mysql.jdbc.Driver</driverClassName>
+                <driverClassNameLog>net.sf.log4jdbc.sql.jdbcapi.DriverSpy</driverClassNameLog>
                 <validationQuery>SELECT 1</validationQuery>
+                <jdbc_url>
+                    <![CDATA[
+                        jdbc:mysql://localhost:3306/myproject?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
+                    ]]>
+                </jdbc_url>
+                <jdbc_url_log>
+                    <![CDATA[
+                        jdbc:log4jdbc:mysql://localhost:3306/myproject?useUnicode=true&amp;characterEncoding=UTF-8&amp;useSSL=true&amp;zeroDateTimeBehavior=convertToNull
+                    ]]>
+                </jdbc_url_log>
                 <jdbc_username>root</jdbc_username>
                 <jdbc_password>root</jdbc_password>
             </properties>
