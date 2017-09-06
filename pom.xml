@@ -83,10 +83,11 @@
             <artifactId>fastjson</artifactId>
             <version>1.1.41</version>
         </dependency>
+        <!--log4jdbc -->
         <dependency>
-            <groupId>org.bgee.log4jdbc-log4j2</groupId>
-            <artifactId>log4jdbc-log4j2-jdbc4.1</artifactId>
-            <version>1.16</version>
+            <groupId>com.googlecode.log4jdbc</groupId>
+            <artifactId>log4jdbc</artifactId>
+            <version>1.2</version>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
@@ -213,7 +214,12 @@
             </activation>
             <properties>
                 <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-                <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+                <!-- log4j -->
+                <p.rootLogger>DEBUG</p.rootLogger>
+                <p.loger.lever.ibatis>DEBUG</p.loger.lever.ibatis>
+                <p.loger.lever.sql>DEBUG</p.loger.lever.sql>
+                <!-- 改为OFF可以关掉sql的输出 (INFO,console) -->
+                <p.log4j.logger.jdbc.sqltiming>INFO,console</p.log4j.logger.jdbc.sqltiming>
                 <archiveClasses>false</archiveClasses>
                 <filtering.resource>*.properties</filtering.resource>
                 <driverClassName>com.mysql.jdbc.Driver</driverClassName>
