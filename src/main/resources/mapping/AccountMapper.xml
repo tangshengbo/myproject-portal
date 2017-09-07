@@ -10,5 +10,14 @@
     <result column="MONEY" jdbcType="DOUBLE" property="money" />
     <result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate" />
   </resultMap>
-
+  <insert id="insertBatch" parameterType="java.util.List">
+    INSERT INTO account(NAME,MONEY,CREATE_DATE)
+    <foreach collection="list" item="item" index="index"  separator="union all">
+      select
+      #{item.name,jdbcType=VARCHAR},
+      #{item.money,jdbcType=DOUBLE},
+      #{item.createDate,jdbcType=TIMESTAMP}
+      from dual
+    </foreach>
+  </insert>
 </mapper>
