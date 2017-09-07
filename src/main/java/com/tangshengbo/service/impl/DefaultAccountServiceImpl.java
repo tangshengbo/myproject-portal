@@ -6,7 +6,6 @@ import com.tangshengbo.service.AbstractService;
 import com.tangshengbo.service.AccountService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.TimeUnit;
@@ -19,7 +18,6 @@ public class DefaultAccountServiceImpl extends AbstractService<Account> implemen
 
     private static Logger logger = LoggerFactory.getLogger(DefaultAccountServiceImpl.class);
 
-    @Autowired
     private AccountMapper accountMapper;
 
     @Override
