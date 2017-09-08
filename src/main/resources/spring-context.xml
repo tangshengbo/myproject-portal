@@ -9,8 +9,6 @@
     <!-- 自动扫描(自动注入)，扫描com.tangshengbo.service这个包以及它的子包的所有使用@Service注解标注的类 -->
     <context:component-scan base-package="com.tangshengbo.service" />
 
-
-
     <!-- 完成请求和注解POJO的映射 -->
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"/>
     <!-- 引入dbconfig.properties属性文件 -->
@@ -18,10 +16,10 @@
         <property name="locations">
             <list>
                 <value>classpath:dbconfig.properties</value>
+                <value>classpath:config.properties</value>
             </list>
         </property>
     </bean>
-
     <import resource="spring-mybatis.xml"/>
-
+    <import resource="spring-redis.xml"/>
 </beans>

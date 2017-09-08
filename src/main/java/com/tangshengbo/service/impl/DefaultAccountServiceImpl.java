@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -34,5 +35,10 @@ public class DefaultAccountServiceImpl extends AbstractService<Account> implemen
     @Override
     public void updateBatchAccount(int batchCount) {
 
+    }
+
+    @Override
+    public List<Account> findAllByType(String type) {
+        return null;
     }
 }
