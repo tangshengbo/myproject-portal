@@ -200,6 +200,13 @@
             <artifactId>commons-net</artifactId>
             <version>3.3</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.camel/camel-dozer -->
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-dozer</artifactId>
+            <version>2.18.2</version>
+        </dependency>
+
     </dependencies>
     <build>
         <plugins>

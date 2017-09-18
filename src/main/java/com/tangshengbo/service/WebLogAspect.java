@@ -39,7 +39,6 @@ public class WebLogAspect {
         logger.info("CLASS_METHOD : " + joinPoint.getSignature().getDeclaringTypeName() + "."
                 + joinPoint.getSignature().getName());
         logger.info("参数 : " + Arrays.toString(joinPoint.getArgs()));
-
     }
 
     // returning的值和doAfterReturning的参数名一致
@@ -57,4 +56,13 @@ public class WebLogAspect {
         return ob;
     }
 
+    private String getUrl(HttpServletRequest request) {
+        String url = request.getScheme() + "://"
+                + request.getServerName() + ":"
+                + request.getServerPort()
+                + request.getContextPath()
+                + request.getRequestURI();
+        String url2 = request.getRequestURL().toString();
+        return url;
+    }
 }
