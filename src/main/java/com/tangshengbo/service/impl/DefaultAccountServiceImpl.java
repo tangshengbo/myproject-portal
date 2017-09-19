@@ -41,4 +41,14 @@ public class DefaultAccountServiceImpl extends AbstractService<Account> implemen
     public List<Account> findAllByType(String type) {
         return null;
     }
+
+    @Override
+    public void saveAccount(Account account) {
+
+    }
+
+    @Override
+    public Account getAccount() {
+        return null;
+    }
 }

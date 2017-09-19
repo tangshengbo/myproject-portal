@@ -26,6 +26,8 @@ public class AccountServiceImpl extends AbstractService<Account> implements Acco
 
     private static Logger logger = LoggerFactory.getLogger(AccountServiceImpl.class);
 
+    private static final ThreadLocal<Account> THREAD_LOCAL = new ThreadLocal<Account>();
+
     @Autowired
     private AccountMapper accountMapper;
 
@@ -72,5 +74,21 @@ public class AccountServiceImpl extends AbstractService<Account> implements Acco
         //设置超时时间
         jedisClient.expire(REDIS_ACCOUNT_KEY, REDIS_ACCOUNT_EXPIRE);
         return accounts;
+    }
+
+    @Override
+    public void saveAccount(Account account) {
+        THREAD_LOCAL.set(account);
+    }
+
+    @Override
+    public Account getAccount() {
+        Account account = THREAD_LOCAL.get();
+        if (account == null) {
+            logger.info("account == null");
+            account = new Account(Thread.currentThread().getName(), 11.1, new Date());
+            THREAD_LOCAL.set(account);
+        }
+        return account;
     }
 }

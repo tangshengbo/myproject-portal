@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -66,7 +67,7 @@ public class AccountController {
         accounts.add(account);
         // 4、把list序列号写入cookie，进行编码。
         CookieUtils.setCookie(request, response, CAT_COOKIE_NAME, JsonUtils.objectToJson(accounts), CAT_COOKIE_EXPIRE,
-               COOKIE_ENCODING);
+                COOKIE_ENCODING);
         return new ResponseEntity(account, HttpStatus.OK);
     }
 
@@ -74,6 +75,11 @@ public class AccountController {
     public ResponseEntity<List<Account>> searchAccounts(@PathVariable("type") String type, HttpServletRequest request, HttpServletResponse response) {
         List<Account> accounts = accountService.findAllByType(type);
         return new ResponseEntity(accounts, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/search-thread-local", method = RequestMethod.GET)
+    public ResponseEntity<Account> searchByThreadLocal() {
+        return new ResponseEntity(accountService.getAccount(), HttpStatus.OK);
     }
 
     /**

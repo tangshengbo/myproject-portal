@@ -15,4 +15,8 @@ public interface AccountService extends Service<Account> {
     void updateBatchAccount(int batchCount);
 
     List<Account> findAllByType(String type);
+
+    void saveAccount(Account account);
+
+    Account getAccount();
 }
