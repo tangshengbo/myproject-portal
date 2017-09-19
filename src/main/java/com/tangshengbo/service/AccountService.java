@@ -16,7 +16,7 @@ public interface AccountService extends Service<Account> {
 
     List<Account> findAllByType(String type);
 
-    void saveAccount(Account account);
+    void removeAccount();
 
     Account getAccount();
 }

@@ -43,7 +43,7 @@ public class DefaultAccountServiceImpl extends AbstractService<Account> implemen
     }
 
     @Override
-    public void saveAccount(Account account) {
+    public void removeAccount() {
 
     }
 

@@ -1,5 +1,8 @@
 package com.tangshengbo.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.tangshengbo.core.CustomDateSerializer;
+
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -76,6 +79,7 @@ public class Account {
     /**
      * @return CREATE_DATE
      */
+    @JsonSerialize(using = CustomDateSerializer.class)
     public Date getCreateDate() {
         return createDate;
     }

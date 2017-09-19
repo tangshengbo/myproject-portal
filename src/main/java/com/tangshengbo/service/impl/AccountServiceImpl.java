@@ -77,8 +77,12 @@ public class AccountServiceImpl extends AbstractService<Account> implements Acco
     }
 
     @Override
-    public void saveAccount(Account account) {
-        THREAD_LOCAL.set(account);
+    public void removeAccount() {
+        Account account = THREAD_LOCAL.get();
+        if (account != null) {
+            THREAD_LOCAL.remove();
+        }
+
     }
 
     @Override
