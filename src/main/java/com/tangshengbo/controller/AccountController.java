@@ -4,6 +4,7 @@ import com.tangshengbo.core.CookieUtils;
 import com.tangshengbo.core.JsonUtils;
 import com.tangshengbo.model.Account;
 import com.tangshengbo.service.AccountService;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,6 +80,7 @@ public class AccountController {
         return new ResponseEntity(accounts, HttpStatus.OK);
     }
 
+    @ApiOperation(value = "获取用户详细信息", notes = "根据ThreadLocal")
     @RequestMapping(value = "/search-thread-local", method = RequestMethod.GET)
     public ResponseEntity<Account> searchByThreadLocal() {
         return new ResponseEntity(accountService.getAccount(), HttpStatus.OK);

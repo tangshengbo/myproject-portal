@@ -19,6 +19,11 @@
 	<context:component-scan base-package="com.tangshengbo.controller" />
 	<!-- 启动对@AspectJ注解的支持  -->
 	<aop:aspectj-autoproxy proxy-target-class="true"/>
+	<!-- 使用 Swagger Restful API文档时，添加此注解 -->
+	<mvc:default-servlet-handler />
+	<bean class="com.tangshengbo.core.RestApiConfig" />
+	<mvc:resources mapping="swagger-ui.html" location="classpath:/META-INF/resources/"/>
+	<mvc:resources mapping="/webjars/**" location="classpath:/META-INF/resources/webjars/"/>
 	<!-- 对模型视图名称的解析，在请求时模型视图名称添加前后缀 -->
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" p:prefix="/WEB-INF/view/" p:suffix=".jsp" />
 	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
