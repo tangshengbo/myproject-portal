@@ -2,6 +2,9 @@ package com.tangshengbo.controller;
 
 import com.tangshengbo.core.CookieUtils;
 import com.tangshengbo.core.JsonUtils;
+import com.tangshengbo.core.ResponseGenerator;
+import com.tangshengbo.core.ResponseMessage;
+import com.tangshengbo.exception.ServiceException;
 import com.tangshengbo.model.Account;
 import com.tangshengbo.service.AccountService;
 import io.swagger.annotations.ApiOperation;
@@ -107,5 +110,18 @@ public class AccountController {
         } catch (Exception e) {
             return new ArrayList<Account>();
         }
+    }
+
+
+    @ApiOperation(value = "异常测试")
+    @RequestMapping(value = "/exception-check", method = RequestMethod.GET)
+    public ResponseMessage exceptionHandler() {
+
+        try {
+            int i = 100 / 0;
+        }  catch (Exception e) {
+            throw new ServiceException("业务调用异常");
+        }
+        return ResponseGenerator.genSuccessResult();
     }
 }
