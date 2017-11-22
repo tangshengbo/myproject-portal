@@ -1,5 +1,6 @@
 package com.tangshengbo.service;
 
+import com.tangshengbo.controller.BaseController;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
@@ -17,7 +18,7 @@ import java.util.Arrays;
  */
 @Aspect
 @Component
-public class WebLogAspect {
+public class WebLogAspect extends BaseController {
 
     private static final Logger logger = LoggerFactory.getLogger(WebLogAspect.class);
 
@@ -35,7 +36,7 @@ public class WebLogAspect {
         // 记录下请求内容
         logger.info("请求地址 : " + request.getRequestURL().toString());
         logger.info("HTTP METHOD : " + request.getMethod());
-        logger.info("IP : " + request.getRemoteAddr());
+        logger.info("IP : " + getIpAddr(request));
         logger.info("CLASS_METHOD : " + joinPoint.getSignature().getDeclaringTypeName() + "."
                 + joinPoint.getSignature().getName());
         logger.info("参数 : " + Arrays.toString(joinPoint.getArgs()));
