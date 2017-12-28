@@ -32,7 +32,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/account")
-public class AccountController {
+public class AccountController extends BaseController {
 
     private static Logger logger = LoggerFactory.getLogger(AccountController.class);
 
@@ -120,7 +120,6 @@ public class AccountController {
     @ApiOperation(value = "异常测试")
     @RequestMapping(value = "/exception-check", method = RequestMethod.GET)
     public ResponseMessage exceptionHandler() {
-
         try {
             int i = 100 / 0;
         }  catch (Exception e) {
