@@ -22,11 +22,6 @@ public class ResponseMessage {
         return code;
     }
 
-    public ResponseMessage setCode(int code) {
-        this.code = code;
-        return this;
-    }
-
     public String getMessage() {
         return message;
     }

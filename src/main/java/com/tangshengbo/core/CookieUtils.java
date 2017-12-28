@@ -70,9 +70,9 @@ public final class CookieUtils {
         }
         String retValue = null;
         try {
-            for (int i = 0; i < cookieList.length; i++) {
-                if (cookieList[i].getName().equals(cookieName)) {
-                    retValue = URLDecoder.decode(cookieList[i].getValue(), encodeString);
+            for (Cookie aCookieList : cookieList) {
+                if (aCookieList.getName().equals(cookieName)) {
+                    retValue = URLDecoder.decode(aCookieList.getValue(), encodeString);
                     break;
                 }
             }

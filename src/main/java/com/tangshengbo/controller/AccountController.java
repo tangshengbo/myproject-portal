@@ -8,6 +8,7 @@ import com.tangshengbo.exception.ServiceException;
 import com.tangshengbo.model.Account;
 import com.tangshengbo.service.AccountService;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,13 +103,16 @@ public class AccountController {
         //从cookie中取商品列表
         String string = CookieUtils.getCookieValue(request, CAT_COOKIE_NAME, COOKIE_ENCODING);
         try {
+            if (StringUtils.isEmpty(string)) {
+                return new ArrayList<>();
+            }
             List<Account> list = JsonUtils.jsonToList(string, Account.class);
             if (list == null) {
-                return new ArrayList<Account>();
+                return new ArrayList<>();
             }
             return list;
         } catch (Exception e) {
-            return new ArrayList<Account>();
+            return new ArrayList<>();
         }
     }
 

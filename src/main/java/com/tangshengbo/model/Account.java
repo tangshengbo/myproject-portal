@@ -1,6 +1,8 @@
 package com.tangshengbo.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.tangshengbo.core.CustomDateDeserializer;
 import com.tangshengbo.core.CustomDateSerializer;
 
 import javax.persistence.Column;
@@ -22,6 +24,8 @@ public class Account {
     @Column(name = "MONEY")
     private Double money;
 
+    @JsonDeserialize(using = CustomDateDeserializer.class)
+    @JsonSerialize(using = CustomDateSerializer.class)
     @Column(name = "CREATE_DATE")
     private Date createDate;
 
@@ -79,7 +83,6 @@ public class Account {
     /**
      * @return CREATE_DATE
      */
-    @JsonSerialize(using = CustomDateSerializer.class)
     public Date getCreateDate() {
         return createDate;
     }

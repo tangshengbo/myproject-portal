@@ -1,7 +1,6 @@
 package com.tangshengbo.core;
 
 import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 
@@ -18,7 +17,7 @@ public class CustomDateSerializer extends JsonSerializer<Date> {
     public void serialize(Date value,
                           JsonGenerator jsonGenerator,
                           SerializerProvider provider)
-            throws IOException, JsonProcessingException {
+            throws IOException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         jsonGenerator.writeString(sdf.format(value));
     }
