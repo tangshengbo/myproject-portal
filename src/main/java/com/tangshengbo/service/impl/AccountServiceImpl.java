@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -22,6 +23,7 @@ import java.util.List;
  * Created by CodeGenerator on 2017/09/03.
  */
 @Service("accountService")
+@PropertySource(value = {"config.properties", "dbconfig.properties"})
 public class AccountServiceImpl extends AbstractService<Account> implements AccountService {
 
     private static Logger logger = LoggerFactory.getLogger(AccountServiceImpl.class);

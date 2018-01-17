@@ -2,7 +2,6 @@ package com.tangshengbo.core;
 
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
-import org.springframework.stereotype.Component;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -10,7 +9,6 @@ import java.io.InputStream;
 import java.util.Date;
 import java.util.Properties;
 
-@Component
 public class EmailUtils implements Runnable {
     /**
      * @EMAIL_PORT 邮箱端口
