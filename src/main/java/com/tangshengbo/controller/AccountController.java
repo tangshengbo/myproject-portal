@@ -50,8 +50,9 @@ public class AccountController extends BaseController {
 
     // 本方法将处理 /courses/view?courseId=123 形式的URL
     @ResponseBody
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public List<Account> getAccountAll(Model model) {
+    @RequestMapping(value = "/list", method = {RequestMethod.GET, RequestMethod.POST})
+    public List<Account> getAccountAll(Model model, String name, int age) {
+        logger.info("name:{}, age:{}", name, age);
         return accountService.findAll();
     }
 
@@ -127,4 +128,5 @@ public class AccountController extends BaseController {
         }
         return ResponseGenerator.genSuccessResult();
     }
+
 }
