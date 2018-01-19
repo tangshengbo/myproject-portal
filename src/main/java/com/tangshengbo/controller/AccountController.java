@@ -51,7 +51,7 @@ public class AccountController extends BaseController {
     // 本方法将处理 /courses/view?courseId=123 形式的URL
     @ResponseBody
     @RequestMapping(value = "/list", method = {RequestMethod.GET, RequestMethod.POST})
-    public List<Account> getAccountAll(Model model, String name, int age) {
+    public List<Account> getAccountAll(Model model, String name, Integer age) {
         logger.info("name:{}, age:{}", name, age);
         return accountService.findAll();
     }
@@ -63,7 +63,7 @@ public class AccountController extends BaseController {
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/search/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/search/{id}", method = {RequestMethod.GET, RequestMethod.POST})
     public ResponseEntity<Account> search(@PathVariable("id") int id, HttpServletRequest request, HttpServletResponse response) {
         List<Account> accounts = getItemListFromCart(request);
         for (Account account : accounts) {
@@ -94,7 +94,7 @@ public class AccountController extends BaseController {
     @RequestMapping(value = "/remove-thread-local", method = RequestMethod.GET)
     public ResponseEntity removeByThreadLocal() {
         accountService.removeAccount();
-        return new ResponseEntity("success",HttpStatus.OK);
+        return new ResponseEntity("success", HttpStatus.OK);
     }
 
     /**
@@ -123,7 +123,7 @@ public class AccountController extends BaseController {
     public ResponseMessage exceptionHandler() {
         try {
             int i = 100 / 0;
-        }  catch (Exception e) {
+        } catch (Exception e) {
             throw new ServiceException("业务调用异常");
         }
         return ResponseGenerator.genSuccessResult();
