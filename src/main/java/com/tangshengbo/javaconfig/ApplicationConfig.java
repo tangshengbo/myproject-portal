@@ -3,6 +3,7 @@ package com.tangshengbo.javaconfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.*;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
@@ -19,23 +20,27 @@ import javax.sql.DataSource;
 @Configuration
 @ComponentScan(basePackages = {"com.tangshengbo.service.*", "com.tangshengbo.dao.*"})
 @ImportResource(value = {"classpath*:spring-redis.xml"})
+@PropertySource(value = {"config.properties", "dbconfig.properties"})
 @EnableTransactionManagement
 public class ApplicationConfig {
 
     @Bean
-    public DataSource dataSource() {
+    public DataSource dataSource(@Value("${jdbc_url_log}") String url,
+                                 @Value("${jdbc_username}") String username,
+                                 @Value("${jdbc_password}") String password,
+                                 @Value("${driverClassNameLog}") String driver) {
         HikariDataSource dataSource = new HikariDataSource();
-        dataSource.setJdbcUrl("jdbc:log4jdbc:mysql://localhost:3306/myproject?useUnicode=true&amp;characterEncoding=UTF-8&amp;useSSL=true&amp;zeroDateTimeBehavior=convertToNull");
-        dataSource.setUsername("root");
-        dataSource.setPassword("root");
-        dataSource.setDriverClassName("net.sf.log4jdbc.sql.jdbcapi.DriverSpy");
+        dataSource.setJdbcUrl(url);
+        dataSource.setUsername(username);
+        dataSource.setPassword(password);
+        dataSource.setDriverClassName(driver);
         return dataSource;
     }
 
     @Bean
-    public SqlSessionFactory sqlSessionFactory() {
+    public SqlSessionFactory sqlSessionFactory(DataSource dataSource) {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
-        sqlSessionFactoryBean.setDataSource(dataSource());
+        sqlSessionFactoryBean.setDataSource(dataSource);
         //添加XML目录
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         try {
@@ -55,7 +60,7 @@ public class ApplicationConfig {
     }
 
     @Bean
-    public PlatformTransactionManager annotationDrivenTransactionManager() {
-        return new DataSourceTransactionManager(dataSource());
+    public PlatformTransactionManager annotationDrivenTransactionManager(DataSource dataSource) {
+        return new DataSourceTransactionManager(dataSource);
     }
 }

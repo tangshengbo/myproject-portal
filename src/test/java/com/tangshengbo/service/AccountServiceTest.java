@@ -1,6 +1,5 @@
 package com.tangshengbo.service;
 
-import com.tangshengbo.controller.AccountController;
 import com.tangshengbo.javaconfig.ApplicationConfig;
 import com.tangshengbo.model.Account;
 import org.junit.Test;
@@ -17,10 +16,10 @@ import java.util.List;
  * Created by Tangshengbo on 2018/1/17.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = ApplicationConfig.class)
+@ContextConfiguration(classes = {ApplicationConfig.class})
 public class AccountServiceTest {
 
-    private static Logger logger = LoggerFactory.getLogger(AccountController.class);
+    private static Logger logger = LoggerFactory.getLogger(AccountServiceTest.class);
 
     @Autowired
     private AccountService accountService;
