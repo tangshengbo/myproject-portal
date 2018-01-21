@@ -8,12 +8,15 @@ import com.tangshengbo.exception.ServiceException;
 import com.tangshengbo.model.Account;
 import com.tangshengbo.service.AccountService;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,8 +27,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by Administrator on 2016/11/16.
@@ -129,4 +134,33 @@ public class AccountController extends BaseController {
         return ResponseGenerator.genSuccessResult();
     }
 
+    @RequestMapping(value = "/download-file/{fileName}", method = {RequestMethod.GET, RequestMethod.POST})
+    public void downloadFile(@PathVariable("fileName") String fileName, HttpServletResponse response) {
+        InputStream is = AccountController.class.getResourceAsStream("/spring-mvc.xml");
+        OutputStream os = null;
+        try {
+            os = new BufferedOutputStream(response.getOutputStream());
+            response.setContentType("application/octet-stream");
+            response.setHeader("Content-disposition", "attachment; filename=" + new String(fileName.getBytes("utf-8"), "ISO8859-1")); // 指定下载的文件名
+            os.write(IOUtils.toByteArray(is));
+            os.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (Objects.nonNull(os)) {
+                IOUtils.closeQuietly(os);
+            }
+        }
+    }
+
+    @RequestMapping(value = "/download-file-rest/{fileName}", method = {RequestMethod.GET, RequestMethod.POST})
+    public ResponseEntity<byte[]> downloadFile(@PathVariable("fileName") String fileName) throws IOException {
+        InputStream is = AccountController.class.getResourceAsStream("/spring-mvc.xml");
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        headers.setContentDispositionFormData("attachment", fileName);
+        byte[] bytes = IOUtils.toByteArray(is);
+        IOUtils.closeQuietly(is);
+        return new ResponseEntity<>(bytes, headers, HttpStatus.OK);
+    }
 }
