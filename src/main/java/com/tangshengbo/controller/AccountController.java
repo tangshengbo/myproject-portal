@@ -140,8 +140,8 @@ public class AccountController extends BaseController {
         OutputStream os = null;
         try {
             os = new BufferedOutputStream(response.getOutputStream());
-            response.setContentType("application/octet-stream");
-            response.setHeader("Content-disposition", "attachment; filename=" + new String(fileName.getBytes("utf-8"), "ISO8859-1")); // 指定下载的文件名
+            response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
+            response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + new String(fileName.getBytes("utf-8"), "ISO8859-1")); // 指定下载的文件名
             os.write(IOUtils.toByteArray(is));
             os.flush();
         } catch (IOException e) {
@@ -156,6 +156,7 @@ public class AccountController extends BaseController {
     @RequestMapping(value = "/download-file-rest/{fileName}", method = {RequestMethod.GET, RequestMethod.POST})
     public ResponseEntity<byte[]> downloadFile(@PathVariable("fileName") String fileName) throws IOException {
         InputStream is = AccountController.class.getResourceAsStream("/spring-mvc.xml");
+//        is = new FileInputStream("E:/writer.zip");
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
         headers.setContentDispositionFormData("attachment", fileName);
