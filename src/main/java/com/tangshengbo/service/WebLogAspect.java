@@ -1,11 +1,13 @@
 package com.tangshengbo.service;
 
 import com.tangshengbo.controller.BaseController;
+import com.tangshengbo.model.HttpLog;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -22,6 +24,9 @@ public class WebLogAspect extends BaseController {
 
     private static final Logger logger = LoggerFactory.getLogger(WebLogAspect.class);
 
+    @Autowired
+    private LogService logService;
+
     //两个..代表所有子目录，最后括号里的两个..代表所有参数
     @Pointcut("execution(public * com.tangshengbo.controller.*.*(..))")
     public void logPointCut() {
@@ -32,14 +37,33 @@ public class WebLogAspect extends BaseController {
         // 接收到请求，记录请求内容
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
+        String requestUrl = request.getRequestURL().toString();
+        String httpMethod = request.getMethod();
+        String clientIp = getIpAddr(request);
+        String clientProxy = request.getHeader("User-Agent");
 
         // 记录下请求内容
-        logger.info("请求地址 : " + request.getRequestURL().toString());
-        logger.info("HTTP METHOD : " + request.getMethod());
-        logger.info("IP : " + getIpAddr(request));
+        logger.info("请求地址 : {}" , requestUrl);
+        logger.info("HTTP METHOD : {}", httpMethod);
+        logger.info("IP : {}", clientIp);
+        logger.info("代理 : {}", clientProxy);
         logger.info("CLASS_METHOD : " + joinPoint.getSignature().getDeclaringTypeName() + "."
                 + joinPoint.getSignature().getName());
         logger.info("参数 : " + Arrays.toString(joinPoint.getArgs()));
+
+        writeLog(requestUrl, httpMethod, clientIp, clientProxy);
+
+    }
+
+    private void writeLog(String requestUrl, String httpMethod, String clientIp, String clientProxy) {
+        if (!requestUrl.contains("/log/")) {
+            HttpLog httpLog = new HttpLog();
+            httpLog.setClientIp(clientIp);
+            httpLog.setClientProxy(clientProxy);
+            httpLog.setHttpMethod(httpMethod);
+            httpLog.setRequestUrl(requestUrl);
+            logService.saveHttpLog(httpLog);
+        }
     }
 
     // returning的值和doAfterReturning的参数名一致

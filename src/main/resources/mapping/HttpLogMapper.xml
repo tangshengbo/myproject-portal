@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tangshengbo.dao.HttpLogMapper" >
+  <resultMap id="BaseResultMap" type="com.tangshengbo.model.HttpLog" >
+    <id column="log_id" property="logId" jdbcType="INTEGER" />
+    <result column="request_url" property="requestUrl" jdbcType="VARCHAR" />
+    <result column="http_method" property="httpMethod" jdbcType="VARCHAR" />
+    <result column="client_ip" property="clientIp" jdbcType="VARCHAR" />
+    <result column="client_address" property="clientAddress" jdbcType="VARCHAR" />
+    <result column="client_proxy" property="clientProxy" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    log_id, request_url, http_method, client_ip, client_address, client_proxy, remark,
+    CREATE_DATE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from http_log
+    where log_id = #{logId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from http_log
+    where log_id = #{logId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.tangshengbo.model.HttpLog" >
+    insert into http_log (log_id, request_url, http_method,
+    client_ip, client_address, client_proxy,
+    remark, CREATE_DATE)
+    values (#{logId,jdbcType=INTEGER}, #{requestUrl,jdbcType=VARCHAR}, #{httpMethod,jdbcType=VARCHAR},
+    #{clientIp,jdbcType=VARCHAR}, #{clientAddress,jdbcType=VARCHAR}, #{clientProxy,jdbcType=VARCHAR},
+    #{remark,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tangshengbo.model.HttpLog" >
+    insert into http_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="logId != null" >
+        log_id,
+      </if>
+      <if test="requestUrl != null" >
+        request_url,
+      </if>
+      <if test="httpMethod != null" >
+        http_method,
+      </if>
+      <if test="clientIp != null" >
+        client_ip,
+      </if>
+      <if test="clientAddress != null" >
+        client_address,
+      </if>
+      <if test="clientProxy != null" >
+        client_proxy,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="logId != null" >
+        #{logId,jdbcType=INTEGER},
+      </if>
+      <if test="requestUrl != null" >
+        #{requestUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="httpMethod != null" >
+        #{httpMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="clientIp != null" >
+        #{clientIp,jdbcType=VARCHAR},
+      </if>
+      <if test="clientAddress != null" >
+        #{clientAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="clientProxy != null" >
+        #{clientProxy,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tangshengbo.model.HttpLog" >
+    update http_log
+    <set >
+      <if test="requestUrl != null" >
+        request_url = #{requestUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="httpMethod != null" >
+        http_method = #{httpMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="clientIp != null" >
+        client_ip = #{clientIp,jdbcType=VARCHAR},
+      </if>
+      <if test="clientAddress != null" >
+        client_address = #{clientAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="clientProxy != null" >
+        client_proxy = #{clientProxy,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where log_id = #{logId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tangshengbo.model.HttpLog" >
+    update http_log
+    set request_url = #{requestUrl,jdbcType=VARCHAR},
+      http_method = #{httpMethod,jdbcType=VARCHAR},
+      client_ip = #{clientIp,jdbcType=VARCHAR},
+      client_address = #{clientAddress,jdbcType=VARCHAR},
+      client_proxy = #{clientProxy,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
+    where log_id = #{logId,jdbcType=INTEGER}
+  </update>
+  <select id="listHttpLog" resultMap="BaseResultMap" resultType="com.tangshengbo.model.HttpLog">
+    select
+    <include refid="Base_Column_List" />
+    from http_log
+  </select>
+</mapper>
