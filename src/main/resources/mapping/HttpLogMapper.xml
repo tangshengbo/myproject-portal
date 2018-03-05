@@ -129,6 +129,6 @@
   <select id="listHttpLog" resultMap="BaseResultMap" resultType="com.tangshengbo.model.HttpLog">
     select
     <include refid="Base_Column_List" />
-    from http_log
+    from http_log  order by log_id desc limit 10
   </select>
 </mapper>
