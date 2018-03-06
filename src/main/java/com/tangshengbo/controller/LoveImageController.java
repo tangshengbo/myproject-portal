@@ -34,7 +34,7 @@ public class LoveImageController {
     @RequestMapping(value = "/show", method = {RequestMethod.GET, RequestMethod.POST})
     public String show(Model model) {
         model.addAttribute("loveImageList", loveImageService.listLoveImage());
-        return "love_image";
+        return "love_image_canvas";
     }
 
     @RequestMapping(value = "/upload_view", method = {RequestMethod.GET})
@@ -43,6 +43,13 @@ public class LoveImageController {
             return "upload";
         }
         return "redirect:/404.jsp";
+    }
+    @RequestMapping(value = "/load", method = {RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public String getImages() {
+        String data = " [{img:'/portal/img/3d/1.jpg', x:-1000, y:0, z:1500, nx:0, nz:1}]";
+        // north
+        return  data;
     }
 
     //上传文件会自动绑定到MultipartFile中
