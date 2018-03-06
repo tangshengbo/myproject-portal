@@ -1,5 +1,6 @@
 package com.tangshengbo.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.tangshengbo.core.CookieUtils;
 import com.tangshengbo.core.JsonUtils;
 import com.tangshengbo.core.ResponseGenerator;
@@ -28,9 +29,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Created by Administrator on 2016/11/16.
@@ -140,9 +139,15 @@ public class AccountController extends BaseController {
         OutputStream os = null;
         try {
             os = new BufferedOutputStream(response.getOutputStream());
-            response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
-            response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + new String(fileName.getBytes("utf-8"), "ISO8859-1")); // 指定下载的文件名
-            os.write(IOUtils.toByteArray(is));
+            response.setContentType(MediaType.APPLICATION_XML_VALUE);
+            response.setHeader("Content-Type", "application/json");
+//            response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + new String(fileName.getBytes("utf-8"), "ISO8859-1")); // 指定下载的文件名
+//            os.write(IOUtils.toByteArray(is));
+            Map<String, String> map=new HashMap<>();
+            map.put("page_size","10");
+            map.put("page_index","1");
+            String  param= JSON.toJSONString(map);
+            os.write(param.getBytes());
             os.flush();
         } catch (IOException e) {
             e.printStackTrace();
@@ -156,8 +161,9 @@ public class AccountController extends BaseController {
     @RequestMapping(value = "/download-file-rest/{fileName}", method = {RequestMethod.GET, RequestMethod.POST})
     public ResponseEntity<byte[]> downloadFile(@PathVariable("fileName") String fileName) throws IOException {
         InputStream is = AccountController.class.getResourceAsStream("/spring-mvc.xml");
-//        is = new FileInputStream("E:/writer.zip");
+        is = new FileInputStream("E:/writer.zip");
         HttpHeaders headers = new HttpHeaders();
+//        headers.set("Content-Type", "application/zip");
         headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
         headers.setContentDispositionFormData("attachment", fileName);
         byte[] bytes = IOUtils.toByteArray(is);

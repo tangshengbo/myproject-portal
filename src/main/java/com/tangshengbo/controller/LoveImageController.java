@@ -1,5 +1,7 @@
 package com.tangshengbo.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.tangshengbo.model.CanvasImage;
 import com.tangshengbo.model.LoveImage;
 import com.tangshengbo.service.LoveImageService;
 import org.apache.commons.lang3.StringUtils;
@@ -16,6 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Tangshengbo on 2018/3/6.
@@ -33,7 +37,7 @@ public class LoveImageController {
 
     @RequestMapping(value = "/show", method = {RequestMethod.GET, RequestMethod.POST})
     public String show(Model model) {
-        model.addAttribute("loveImageList", loveImageService.listLoveImage());
+//        model.addAttribute("loveImageList", loveImageService.listLoveImage());
         return "love_image_canvas";
     }
 
@@ -44,12 +48,23 @@ public class LoveImageController {
         }
         return "redirect:/404.jsp";
     }
+
     @RequestMapping(value = "/load", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public String getImages() {
-        String data = " [{img:'/portal/img/3d/1.jpg', x:-1000, y:0, z:1500, nx:0, nz:1}]";
-        // north
-        return  data;
+    public String getImages(HttpServletRequest request) {
+        List<CanvasImage> imageList = new ArrayList<>();
+        String context = request.getContextPath();
+        logger.info("{}, {}", context);
+        CanvasImage canvasImage = new CanvasImage("/portal/img/3d/1.jpg", -1000, 0, 1500, 0, 1);
+        imageList.add(canvasImage);
+        imageList.add(new CanvasImage("/portal/img/3d/1.jpg", -1000, 0, 1500, 0, 1));
+        imageList.add(new CanvasImage("/portal/img/3d/1.jpg", -1000, 0, 1500, 0, 1));
+        imageList.add(new CanvasImage("/portal/img/3d/1.jpg", -1000, 0, 1500, 0, 1));
+        imageList.add(new CanvasImage("/portal/img/3d/1.jpg", -1000, 0, 1500, 0, 1));
+        imageList.add(new CanvasImage("/portal/img/3d/1.jpg", -1000, 0, 1500, 0, 1));
+        String json = JSON.toJSONString(imageList);
+        logger.info("json:{}", json);
+        return json;
     }
 
     //上传文件会自动绑定到MultipartFile中
