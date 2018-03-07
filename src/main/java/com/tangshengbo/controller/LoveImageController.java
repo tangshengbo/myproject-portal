@@ -1,9 +1,12 @@
 package com.tangshengbo.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.tangshengbo.core.BeanCopier;
+import com.tangshengbo.core.RandomUtils;
 import com.tangshengbo.model.CanvasImage;
 import com.tangshengbo.model.LoveImage;
 import com.tangshengbo.service.LoveImageService;
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,18 +33,23 @@ public class LoveImageController {
 
     private static Logger logger = LoggerFactory.getLogger(LoveImageController.class);
 
-    private static final String BASE_IMG_URL = "img/love/";
+    private static final String BASE_IMG_URL = "/img/love/";
 
     @Autowired
     private LoveImageService loveImageService;
 
-    @RequestMapping(value = "/show", method = {RequestMethod.GET, RequestMethod.POST})
-    public String show(Model model) {
-//        model.addAttribute("loveImageList", loveImageService.listLoveImage());
+    @RequestMapping(value = "/show_square", method = {RequestMethod.GET, RequestMethod.POST})
+    public String showSquare(Model model) {
+        model.addAttribute("loveImageList", loveImageService.listLoveImage());
+        return "love_image_square";
+    }
+
+    @RequestMapping(value = "/show_canvas", method = {RequestMethod.GET, RequestMethod.POST})
+    public String showCanvas() {
         return "love_image_canvas";
     }
 
-    @RequestMapping(value = "/upload_view", method = {RequestMethod.GET})
+    @RequestMapping(value = "/upload_view", method = RequestMethod.GET)
     public String uploadView(String name) {
         if (StringUtils.isNotEmpty(name) && "tsb".equals(name)) {
             return "upload";
@@ -49,22 +57,37 @@ public class LoveImageController {
         return "redirect:/404.jsp";
     }
 
-    @RequestMapping(value = "/load", method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "/load", method = RequestMethod.POST)
     @ResponseBody
-    public String getImages(HttpServletRequest request) {
+    public String getImages(HttpServletRequest request) throws Exception {
         List<CanvasImage> imageList = new ArrayList<>();
         String context = request.getContextPath();
-        logger.info("{}, {}", context);
-        CanvasImage canvasImage = new CanvasImage("/portal/img/3d/1.jpg", -1000, 0, 1500, 0, 1);
-        imageList.add(canvasImage);
-        imageList.add(new CanvasImage("/portal/img/3d/1.jpg", -1000, 0, 1500, 0, 1));
-        imageList.add(new CanvasImage("/portal/img/3d/1.jpg", -1000, 0, 1500, 0, 1));
-        imageList.add(new CanvasImage("/portal/img/3d/1.jpg", -1000, 0, 1500, 0, 1));
-        imageList.add(new CanvasImage("/portal/img/3d/1.jpg", -1000, 0, 1500, 0, 1));
-        imageList.add(new CanvasImage("/portal/img/3d/1.jpg", -1000, 0, 1500, 0, 1));
+        List<CanvasImage> canvasImageList = CanvasImage.canvasImages();
+        List<LoveImage> loveImageList = loveImageService.listLoveImage();
+        for (LoveImage loveImage : loveImageList) {
+            imageList.add(buildCanvasImage(context, canvasImageList, loveImage));
+        }
         String json = JSON.toJSONString(imageList);
         logger.info("json:{}", json);
         return json;
+    }
+
+    /**
+     * 构建画板对象
+     * @param context
+     * @param canvasImageList
+     * @param loveImage
+     * @return
+     * @throws Exception
+     */
+    private CanvasImage buildCanvasImage(String context, List<CanvasImage> canvasImageList, LoveImage loveImage)
+            throws Exception {
+        CanvasImage srcCanvasImage = RandomUtils.getRandomElement(canvasImageList);
+        CanvasImage destCanvasImage = BeanCopier.copy(srcCanvasImage, CanvasImage.class);
+        BeanUtils.copyProperties(destCanvasImage, srcCanvasImage);
+        destCanvasImage.setImg(context + "/" + loveImage.getImgUrl());
+        canvasImageList.remove(srcCanvasImage);
+        return destCanvasImage;
     }
 
     //上传文件会自动绑定到MultipartFile中

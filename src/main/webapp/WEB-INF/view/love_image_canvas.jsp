@@ -91,9 +91,9 @@
             // ---- init section ----
                     init = function (json) {
                         $.post("${ctx}/love/load", function (result) {
-                            alert(result);
-                            json.imgdata = JSON.parse(result);/*[
-                                // north
+                            json.imgdata = JSON.parse(result);
+                                   /*[
+                                // north     JSON.parse(result);
                                 {img: '${ctx}/img/3d/1.jpg', x: -1000, y: 0, z: 1500, nx: 0, nz: 1},
                                 {img: '${ctx}/img/3d/2.jpg', x: 0, y: 0, z: 1500, nx: 0, nz: 1},
                                 {img: '${ctx}/img/3d/3.jpg', x: 1000, y: 0, z: 1500, nx: 0, nz: 1},

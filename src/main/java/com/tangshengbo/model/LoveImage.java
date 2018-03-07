@@ -25,6 +25,20 @@ public class LoveImage {
      */
     private Date createDate;
 
+    private CanvasImage canvasImage = new CanvasImage();
+
+    /**
+     * 画板图片对象
+     * @return
+     */
+    public CanvasImage getCanvasImage() {
+        return canvasImage;
+    }
+
+    public void setCanvasImage(CanvasImage canvasImage) {
+        this.canvasImage = canvasImage;
+    }
+
     /**
      *
      * @return id
