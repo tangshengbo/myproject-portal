@@ -1,5 +1,6 @@
 package com.tangshengbo.controller;
 
+import cn.hutool.core.io.FileTypeUtil;
 import com.alibaba.fastjson.JSON;
 import com.tangshengbo.core.BeanCopier;
 import com.tangshengbo.core.RandomUtils;
@@ -74,6 +75,7 @@ public class LoveImageController {
 
     /**
      * 构建画板对象
+     *
      * @param context
      * @param canvasImageList
      * @param loveImage
@@ -101,6 +103,10 @@ public class LoveImageController {
             String path = request.getServletContext().getRealPath(BASE_IMG_URL);
             //上传文件名
             String filename = file.getOriginalFilename();
+            String fileType = FileTypeUtil.getType(file.getInputStream());
+            if (!("jpg".equals(fileType) || "png".equals(fileType))) {
+                return "Please upload the picture!";
+            }
             File filepath = new File(path, filename);
             //判断路径是否存在，如果不存在就创建一个
             if (!filepath.getParentFile().exists()) {
