@@ -41,7 +41,7 @@ public class LogServiceImpl implements LogService {
         queryString.add("action", "1");
         String address = "";
         try {
-            Document doc = Jsoup.parse(new URL("http://www.ip138.com/ips1388.asp?" + queryString), 10000);
+            Document doc = Jsoup.parse(new URL("http://www.ip138.com/ips1388.asp?" + queryString), 5000);
             Elements elements = doc.select("ul.ul1 li");
             address = elements.get(0).text();
             address = address.substring(address.indexOf("：") + 1);
