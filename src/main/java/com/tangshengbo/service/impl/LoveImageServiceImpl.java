@@ -26,4 +26,9 @@ public class LoveImageServiceImpl implements LoveImageService {
     public List<LoveImage> listLoveImage() {
         return loveImageMapper.listLoveImage();
     }
+
+    @Override
+    public void deleteImage(String url) {
+        loveImageMapper.delete(url);
+    }
 }

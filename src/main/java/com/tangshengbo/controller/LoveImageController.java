@@ -58,6 +58,21 @@ public class LoveImageController {
         return "redirect:/404.jsp";
     }
 
+    @RequestMapping(value = "/show_images", method = {RequestMethod.GET})
+    public String showImages(Model model) {
+        model.addAttribute("loveImageList", loveImageService.listLoveImage());
+        return "love_show_images";
+    }
+
+    @RequestMapping(value = "/delete-image", method = {RequestMethod.POST})
+    @ResponseBody
+    public String deleteImage(@RequestParam(value = "url") String url, HttpServletRequest request) {
+        logger.info("{}", url);
+        String path = request.getServletContext().getRealPath("/");
+        loveImageService.deleteImage(url);
+        return new File(path + url).delete()? "delete success": "delete fail";
+    }
+
     @RequestMapping(value = "/load", method = RequestMethod.POST)
     @ResponseBody
     public String getImages(HttpServletRequest request) throws Exception {
@@ -87,7 +102,7 @@ public class LoveImageController {
         CanvasImage srcCanvasImage = RandomUtils.getRandomElement(canvasImageList);
         CanvasImage destCanvasImage = BeanCopier.copy(srcCanvasImage, CanvasImage.class);
         BeanUtils.copyProperties(destCanvasImage, srcCanvasImage);
-        destCanvasImage.setImg(context + "/" + loveImage.getImgUrl());
+        destCanvasImage.setImg(context + loveImage.getImgUrl());
         canvasImageList.remove(srcCanvasImage);
         return destCanvasImage;
     }
@@ -115,9 +130,9 @@ public class LoveImageController {
             //将上传文件保存到一个目标文件当中
             file.transferTo(new File(path + File.separator + filename));
             loveImageService.save(new LoveImage(BASE_IMG_URL + filename));
-            return "success";
+            return "upload success";
         } else {
-            return "error";
+            return "upload error";
         }
     }
 }

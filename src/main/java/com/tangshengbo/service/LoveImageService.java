@@ -12,4 +12,6 @@ public interface LoveImageService {
     void save(LoveImage loveImage);
 
     List<LoveImage> listLoveImage();
+
+    void deleteImage(String url);
 }

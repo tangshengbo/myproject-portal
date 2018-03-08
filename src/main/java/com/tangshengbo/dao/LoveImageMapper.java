@@ -42,4 +42,6 @@ public interface LoveImageMapper {
     int updateByPrimaryKey(LoveImage record);
 
     List<LoveImage> listLoveImage();
+
+    void delete(String url);
 }
