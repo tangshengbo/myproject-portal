@@ -83,8 +83,13 @@ public class LoveImageController {
         List<CanvasImage> canvasImageList = CanvasImage.canvasImages();
         List<LoveImage> loveImageList = loveImageService.listLoveImage();
         for (LoveImage loveImage : loveImageList) {
-            imageList.add(buildCanvasImage(context, canvasImageList, loveImage));
+            CanvasImage canvasImage = buildCanvasImage(context, canvasImageList, loveImage);
+            if (Objects.isNull(canvasImage)) {
+                continue;
+            }
+            imageList.add(canvasImage);
         }
+
         String json = JSON.toJSONString(imageList);
         logger.info("json:{}", json);
         return json;
@@ -101,12 +106,15 @@ public class LoveImageController {
      */
     private CanvasImage buildCanvasImage(String context, List<CanvasImage> canvasImageList, LoveImage loveImage)
             throws Exception {
-        CanvasImage srcCanvasImage = RandomUtils.getRandomElement(canvasImageList);
-        CanvasImage destCanvasImage = BeanCopier.copy(srcCanvasImage, CanvasImage.class);
-        BeanUtils.copyProperties(destCanvasImage, srcCanvasImage);
-        destCanvasImage.setImg(context + loveImage.getImgUrl());
-        canvasImageList.remove(srcCanvasImage);
-        return destCanvasImage;
+        if (canvasImageList.size() > 0) {
+            CanvasImage srcCanvasImage = RandomUtils.getRandomElement(canvasImageList);
+            CanvasImage destCanvasImage = BeanCopier.copy(srcCanvasImage, CanvasImage.class);
+            BeanUtils.copyProperties(destCanvasImage, srcCanvasImage);
+            destCanvasImage.setImg(context + loveImage.getImgUrl());
+            canvasImageList.remove(srcCanvasImage);
+            return destCanvasImage;
+        }
+        return null;
     }
 
     //上传文件会自动绑定到MultipartFile中
