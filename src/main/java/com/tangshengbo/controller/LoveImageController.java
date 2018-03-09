@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.Objects;
 
@@ -129,6 +130,7 @@ public class LoveImageController {
             //上传文件名
             String filename = file.getOriginalFilename();
             BufferedImage fileType = ImageIO.read(file.getInputStream());
+            String encodeImg =  Base64.getEncoder().encodeToString(file.getBytes());
             if (Objects.isNull(fileType)) {
                 return "Please upload the picture!";
             }
@@ -140,7 +142,7 @@ public class LoveImageController {
             //将上传文件保存到一个目标文件当中
             file.transferTo(new File(path + File.separator + filename));
             loveImageService.save(new LoveImage(BASE_IMG_URL + filename));
-            return "upload success";
+            return "upload success " + encodeImg;
         } else {
             return "upload error";
         }

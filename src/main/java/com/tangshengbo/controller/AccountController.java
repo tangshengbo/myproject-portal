@@ -28,7 +28,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.*;
 
 /**
@@ -134,21 +137,18 @@ public class AccountController extends BaseController {
     }
 
     @RequestMapping(value = "/download-file/{fileName}", method = {RequestMethod.GET, RequestMethod.POST})
-    public void downloadFile(@PathVariable("fileName") String fileName, HttpServletResponse response) {
+    @ResponseBody
+    public String downloadFile(@PathVariable("fileName") String fileName, HttpServletResponse response) {
         InputStream is = AccountController.class.getResourceAsStream("/spring-mvc.xml");
         OutputStream os = null;
         try {
-            os = new BufferedOutputStream(response.getOutputStream());
-            response.setContentType(MediaType.APPLICATION_XML_VALUE);
-            response.setHeader("Content-Type", "application/json");
-//            response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + new String(fileName.getBytes("utf-8"), "ISO8859-1")); // 指定下载的文件名
-//            os.write(IOUtils.toByteArray(is));
-            Map<String, String> map=new HashMap<>();
-            map.put("page_size","10");
-            map.put("page_index","1");
-            String  param= JSON.toJSONString(map);
-            os.write(param.getBytes());
-            os.flush();
+//            os = new BufferedOutputStream(response.getOutputStream());
+//            os.write());
+//            os.flush();
+            Map<String, String> resultMap = new LinkedHashMap<>();
+            resultMap.put("resp_msg", "success");
+            resultMap.put("resp_body", Base64.getEncoder().encodeToString(IOUtils.toByteArray(is)));
+            return JSON.toJSONString(resultMap);
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -156,6 +156,7 @@ public class AccountController extends BaseController {
                 IOUtils.closeQuietly(os);
             }
         }
+        return null;
     }
 
     @RequestMapping(value = "/download-file-rest/{fileName}", method = {RequestMethod.GET, RequestMethod.POST})
