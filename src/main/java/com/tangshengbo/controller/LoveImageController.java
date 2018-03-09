@@ -21,8 +21,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -43,8 +46,9 @@ public class LoveImageController {
     private LoveImageService loveImageService;
 
     @RequestMapping(value = "/show_square", method = {RequestMethod.GET, RequestMethod.POST})
-    public String showSquare(Model model) {
+    public String showSquare(Model model, HttpServletResponse response) {
         model.addAttribute("loveImageList", loveImageService.listLoveImage());
+        response.addHeader("Cache-Control", "max-age=2592000");
         return "love_image_square";
     }
 
@@ -62,8 +66,9 @@ public class LoveImageController {
     }
 
     @RequestMapping(value = "/show_images", method = {RequestMethod.GET})
-    public String showImages(Model model) {
+    public String showImages(Model model, HttpServletResponse response) {
         model.addAttribute("loveImageList", loveImageService.listLoveImage());
+        response.addHeader("Cache-Control", "max-age=2592000");
         return "love_show_images";
     }
 
@@ -77,8 +82,7 @@ public class LoveImageController {
     }
 
     @RequestMapping(value = "/load", method = RequestMethod.POST)
-    @ResponseBody
-    public String getImages(HttpServletRequest request) throws Exception {
+    public void getImages(HttpServletRequest request, HttpServletResponse response) throws Exception {
         List<CanvasImage> imageList = new ArrayList<>();
         String context = request.getContextPath();
         List<CanvasImage> canvasImageList = CanvasImage.canvasImages();
@@ -90,10 +94,12 @@ public class LoveImageController {
             }
             imageList.add(canvasImage);
         }
-
+        OutputStream os = new BufferedOutputStream(response.getOutputStream());
         String json = JSON.toJSONString(imageList);
         logger.info("json:{}", json);
-        return json;
+        os.write(json.getBytes());
+        os.flush();
+        os.close();
     }
 
     /**
