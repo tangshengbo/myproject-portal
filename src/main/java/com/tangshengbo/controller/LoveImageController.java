@@ -113,15 +113,16 @@ public class LoveImageController {
      */
     private CanvasImage buildCanvasImage(String context, List<CanvasImage> canvasImageList, LoveImage loveImage)
             throws Exception {
-        if (canvasImageList.size() > 0) {
-            CanvasImage srcCanvasImage = RandomUtils.getRandomElement(canvasImageList);
-            CanvasImage destCanvasImage = BeanCopier.copy(srcCanvasImage, CanvasImage.class);
-            BeanUtils.copyProperties(destCanvasImage, srcCanvasImage);
-            destCanvasImage.setImg(context + loveImage.getImgUrl());
-            canvasImageList.remove(srcCanvasImage);
-            return destCanvasImage;
+        if (canvasImageList.size() == 0) {
+            return null;
         }
-        return null;
+        CanvasImage srcCanvasImage = RandomUtils.getRandomElement(canvasImageList);
+        CanvasImage destCanvasImage = BeanCopier.copy(srcCanvasImage, CanvasImage.class);
+        BeanUtils.copyProperties(destCanvasImage, srcCanvasImage);
+        destCanvasImage.setImg(context + loveImage.getImgUrl());
+        canvasImageList.remove(srcCanvasImage);
+        return destCanvasImage;
+
     }
 
     //上传文件会自动绑定到MultipartFile中
