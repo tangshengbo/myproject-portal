@@ -42,4 +42,8 @@ public interface HttpLogMapper {
     int updateByPrimaryKey(HttpLog record);
 
     List<HttpLog> listHttpLog();
+
+    List<HttpLog> listByNullAddress();
+
+    void updateBatch(List<HttpLog> list);
 }

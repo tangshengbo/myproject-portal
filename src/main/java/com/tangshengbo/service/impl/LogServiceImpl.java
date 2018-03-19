@@ -36,8 +36,14 @@ public class LogServiceImpl implements LogService {
 
     @Override
     public void saveHttpLog(HttpLog httpLog) {
+        String address = getAddressByIp(httpLog.getClientIp());
+        httpLog.setClientAddress(address);
+        logMapper.insertSelective(httpLog);
+    }
+
+    private String getAddressByIp(String ip) {
         QueryString queryString = new QueryString();
-        queryString.add("ip", httpLog.getClientIp());
+        queryString.add("ip", ip);
         queryString.add("action", "1");
         String address = "";
         try {
@@ -49,7 +55,15 @@ public class LogServiceImpl implements LogService {
         } catch (Exception e) {
             logger.error("{}", ExceptionUtils.getStackTrace(e));
         }
-        httpLog.setClientAddress(address);
-        logMapper.insertSelective(httpLog);
+        return address;
+    }
+
+    @Override
+    public void complementIpAddress() {
+        logger.info("定时任务开始.......");
+        List<HttpLog> httpLogList = logMapper.listByNullAddress();
+        httpLogList.forEach(httpLog -> httpLog.setClientAddress(getAddressByIp(httpLog.getClientIp())));
+        logMapper.updateBatch(httpLogList);
+        logger.info("定时任务结束.......");
     }
 }

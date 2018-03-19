@@ -12,4 +12,6 @@ public interface LogService {
     List<HttpLog> listHttpLog();
 
     void saveHttpLog(HttpLog httpLog);
+
+    void complementIpAddress();
 }

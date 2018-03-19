@@ -22,4 +22,5 @@
     </bean>
     <import resource="spring-mybatis.xml"/>
     <import resource="spring-redis.xml"/>
+    <import resource="spring-task.xml"/>
 </beans>

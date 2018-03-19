@@ -131,4 +131,27 @@
     <include refid="Base_Column_List" />
     from http_log  order by log_id desc limit 10
   </select>
+  <select id="listByNullAddress" resultMap="BaseResultMap" resultType="com.tangshengbo.model.HttpLog">
+    select
+    <include refid="Base_Column_List" />
+    from http_log where client_address = ''
+  </select>
+
+  <update id="updateBatch" parameterType="java.util.List">
+    <if test="list != null">
+      <foreach collection="list" item="item" index="index" open="begin" close=";end;" separator=";">
+        UPDATE http_log
+        <set>
+          <if test="item.clientAddress != null">
+            client_address = #{item.clientAddress,jdbcType=VARCHAR}
+          </if>
+        </set>
+        <where>
+          <if test="item.logId != null" >
+            log_id = #{item.logId,jdbcType=INTEGER}
+          </if>
+        </where>
+      </foreach>
+    </if>
+  </update>
 </mapper>
