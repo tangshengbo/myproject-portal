@@ -62,8 +62,11 @@ public class LogServiceImpl implements LogService {
     public void complementIpAddress() {
         logger.info("定时任务开始.......");
         List<HttpLog> httpLogList = logMapper.listByNullAddress();
-        httpLogList.forEach(httpLog -> httpLog.setClientAddress(getAddressByIp(httpLog.getClientIp())));
-        logMapper.updateBatch(httpLogList);
+        httpLogList.forEach(httpLog -> {
+            httpLog.setClientAddress(getAddressByIp(httpLog.getClientIp()));
+            logMapper.updateByPrimaryKeySelective(httpLog);
+
+        });
         logger.info("定时任务结束.......");
     }
 }

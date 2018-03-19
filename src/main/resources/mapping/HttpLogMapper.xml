@@ -139,7 +139,7 @@
 
   <update id="updateBatch" parameterType="java.util.List">
     <if test="list != null">
-      <foreach collection="list" item="item" index="index" open="begin" close=";end;" separator=";">
+      <foreach collection="list" item="item" index="index" open="" close="" separator=";">
         UPDATE http_log
         <set>
           <if test="item.clientAddress != null">
