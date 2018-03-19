@@ -14,7 +14,7 @@ public class TaskService {
     @Autowired
     private LogService logService;
 
-    @Scheduled(cron = "*/20 * * * * ?")
+    @Scheduled(cron = "0 0 1,12 * * * ?")
     public void logTask() {
         logService.complementIpAddress();
     }
