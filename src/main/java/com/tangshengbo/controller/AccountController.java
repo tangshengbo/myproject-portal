@@ -21,10 +21,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -65,9 +62,25 @@ public class AccountController extends BaseController {
 
     // 本方法将处理 /courses/view?courseId=123 形式的URL
     @RequestMapping(value = "/save/{count}", method = RequestMethod.GET)
-    public ResponseEntity addAccount(@PathVariable("count") int count) {
+    public ResponseEntity<String> addAccount(@PathVariable("count") int count) {
         accountService.saveBatchAccount(count);
-        return new ResponseEntity("success", HttpStatus.OK);
+        return new ResponseEntity<>("success", HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/save-urlencoded", method = RequestMethod.POST)
+    public ResponseEntity<String> addAccountByUrlEncoded(Account account) {
+        return getStringResponseEntity(account);
+    }
+
+    @RequestMapping(value = "/save-body", method = RequestMethod.POST)
+    public ResponseEntity<String> addAccountByBody(@RequestBody Account account) {
+        return getStringResponseEntity(account);
+    }
+
+    private ResponseEntity<String> getStringResponseEntity(Account account) {
+        logger.info("{}", account);
+        return new ResponseEntity<>(Base64.getEncoder()
+                .encodeToString(account.toString().getBytes()), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/search/{id}", method = {RequestMethod.GET, RequestMethod.POST})
