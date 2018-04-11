@@ -1,5 +1,6 @@
 package com.tangshengbo.controller;
 
+import cn.hutool.core.thread.ThreadUtil;
 import com.alibaba.fastjson.JSON;
 import com.tangshengbo.core.CookieUtils;
 import com.tangshengbo.core.JsonUtils;
@@ -183,5 +184,12 @@ public class AccountController extends BaseController {
         byte[] bytes = IOUtils.toByteArray(is);
         IOUtils.closeQuietly(is);
         return new ResponseEntity<>(bytes, headers, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/sync_or_async", method = {RequestMethod.GET, RequestMethod.POST})
+    public ResponseEntity<String> syncOrAsync(String requestType) {
+        logger.info("调用方式是:{}", requestType);
+        ThreadUtil.sleep(10000);
+        return new ResponseEntity<>("success", HttpStatus.OK);
     }
 }
