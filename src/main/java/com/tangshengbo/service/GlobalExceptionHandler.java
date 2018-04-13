@@ -20,14 +20,14 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ServiceException.class)
     @ResponseBody
     public ResponseMessage customHandler(ServiceException e) {
-        return ResponseGenerator.genSuccessResult(e.getMessage());
+        return ResponseGenerator.genFailResult(e.getMessage());
     }
 
     //其他未处理的异常
     @ExceptionHandler(Exception.class)
     @ResponseBody
     public ResponseMessage exceptionHandler(Exception e) {
-        return ResponseGenerator.genSuccessResult(e.getMessage());
+        return ResponseGenerator.genServerErrorResult("服务器内部错误");
     }
 }
 

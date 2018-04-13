@@ -1,7 +1,6 @@
 package com.tangshengbo.controller;
 
 import cn.hutool.core.thread.ThreadUtil;
-import com.alibaba.fastjson.JSON;
 import com.tangshengbo.core.CookieUtils;
 import com.tangshengbo.core.JsonUtils;
 import com.tangshengbo.core.ResponseGenerator;
@@ -56,9 +55,9 @@ public class AccountController extends BaseController {
     // 本方法将处理 /courses/view?courseId=123 形式的URL
     @ResponseBody
     @RequestMapping(value = "/list", method = {RequestMethod.GET, RequestMethod.POST})
-    public List<Account> getAccountAll(Model model, String name, Integer age) {
+    public ResponseMessage<List<Account>> getAccountAll(Model model, String name, Integer age) {
         logger.info("name:{}, age:{}", name, age);
-        return accountService.findAll();
+        return ResponseGenerator.genSuccessResult(accountService.findAll());
     }
 
     // 本方法将处理 /courses/view?courseId=123 形式的URL
@@ -152,7 +151,7 @@ public class AccountController extends BaseController {
 
     @RequestMapping(value = "/download-file/{fileName}", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public String downloadFile(@PathVariable("fileName") String fileName, HttpServletResponse response) {
+    public ResponseMessage downloadFile(@PathVariable("fileName") String fileName, HttpServletResponse response) {
         InputStream is = AccountController.class.getResourceAsStream("/spring-mvc.xml");
         OutputStream os = null;
         try {
@@ -160,9 +159,8 @@ public class AccountController extends BaseController {
 //            os.write());
 //            os.flush();
             Map<String, String> resultMap = new LinkedHashMap<>();
-            resultMap.put("resp_msg", "success");
             resultMap.put("resp_body", Base64.getEncoder().encodeToString(IOUtils.toByteArray(is)));
-            return JSON.toJSONString(resultMap);
+            return ResponseGenerator.genSuccessResult(resultMap);
         } catch (IOException e) {
             e.printStackTrace();
         } finally {

@@ -3,15 +3,18 @@ package com.tangshengbo.core;
 import com.alibaba.fastjson.JSON;
 import com.tangshengbo.enums.ResponseCode;
 
+import java.io.Serializable;
+
 
 /**
  * Created by tangshengbo on 2017/1/10.
  */
-public class ResponseMessage {
+public class ResponseMessage<T> implements Serializable {
 
+    private static final long serialVersionUID = 2478271177910606374L;
     private int code;
     private String message;
-    private Object data;
+    private T data;
 
     public ResponseMessage setCode(ResponseCode responseCode) {
         this.code = responseCode.code;
@@ -35,7 +38,7 @@ public class ResponseMessage {
         return data;
     }
 
-    public ResponseMessage setData(Object data) {
+    public ResponseMessage setData(T data) {
         this.data = data;
         return this;
     }
@@ -44,6 +47,4 @@ public class ResponseMessage {
     public String toString() {
         return JSON.toJSONString(this);
     }
-
-
 }
