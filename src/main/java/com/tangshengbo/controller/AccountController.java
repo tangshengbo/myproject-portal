@@ -67,7 +67,7 @@ public class AccountController extends BaseController {
         return new ResponseEntity<>("success", HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/save-urlencoded", method = RequestMethod.POST)
+    @RequestMapping(value = "/save-urlencoded", method = {RequestMethod.POST, RequestMethod.PUT})
     public ResponseEntity<String> addAccountByUrlEncoded(Account account) {
         return getStringResponseEntity(account);
     }
@@ -185,9 +185,10 @@ public class AccountController extends BaseController {
     }
 
     @RequestMapping(value = "/sync_or_async", method = {RequestMethod.GET, RequestMethod.POST})
-    public ResponseEntity<String> syncOrAsync(String requestType) {
+    @ResponseBody
+    public ResponseMessage syncOrAsync(String requestType) {
         logger.info("调用方式是:{}", requestType);
         ThreadUtil.sleep(10000);
-        return new ResponseEntity<>("success", HttpStatus.OK);
+        return ResponseGenerator.genSuccessResult("成功");
     }
 }
