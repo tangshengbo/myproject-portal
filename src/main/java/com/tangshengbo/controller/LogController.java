@@ -32,9 +32,14 @@ public class LogController {
     public ResponseMessage getHttpLogs() {
         List<HttpLog> logList = logService.listHttpLog();
         if (logList.size() > 0) {
-           return ResponseGenerator.genFailResult("查询数据状态异常");
+            return ResponseGenerator.genFailResult("查询数据状态异常");
         }
         return ResponseGenerator.genSuccessResult();
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/code", method = {RequestMethod.GET, RequestMethod.POST})
+    public ResponseMessage genVerificationCode() {
+        return ResponseGenerator.genSuccessResult((int) (Math.random() * 900000) + 100000);
+    }
 }
