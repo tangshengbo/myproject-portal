@@ -7,6 +7,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -42,6 +43,9 @@ public class WebLogAspect extends BaseController {
         String clientIp = getIpAddr(request);
         String clientProxy = request.getHeader("User-Agent");
 
+        MDC.put("clientIp", clientIp);
+        MDC.put("clientProxy", clientProxy);
+
         // 记录下请求内容
         logger.info("请求地址 : {}" , requestUrl);
         logger.info("HTTP METHOD : {}", httpMethod);
@@ -71,6 +75,7 @@ public class WebLogAspect extends BaseController {
     public void doAfterReturning(Object ret) throws Throwable {
         // 处理完请求，返回内容
         logger.info("返回值 : " + ret);
+        logger.info("{}", MDC.getCopyOfContextMap().size());
     }
 
     @Around("logPointCut()")
