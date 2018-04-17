@@ -75,7 +75,8 @@ public class WebLogAspect extends BaseController {
     public void doAfterReturning(Object ret) throws Throwable {
         // 处理完请求，返回内容
         logger.info("返回值 : " + ret);
-        logger.info("{}", MDC.getCopyOfContextMap().size());
+        MDC.clear();
+//        logger.info("{}", MDC.getCopyOfContextMap().size());
     }
 
     @Around("logPointCut()")

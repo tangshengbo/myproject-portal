@@ -68,13 +68,15 @@ public class AccountController extends BaseController {
     }
 
     @RequestMapping(value = "/save-urlencoded", method = {RequestMethod.POST, RequestMethod.PUT})
-    public ResponseEntity<String> addAccountByUrlEncoded(Account account) {
-        return getStringResponseEntity(account);
+    @ResponseBody
+    public ResponseMessage addAccountByUrlEncoded(Account account) {
+        return ResponseGenerator.genSuccessResult(getStringResponseEntity(account));
     }
 
     @RequestMapping(value = "/save-body", method = RequestMethod.POST)
-    public ResponseEntity<String> addAccountByBody(@RequestBody Account account) {
-        return getStringResponseEntity(account);
+    @ResponseBody
+    public ResponseMessage addAccountByBody(@RequestBody Account account) {
+        return ResponseGenerator.genSuccessResult(getStringResponseEntity(account));
     }
 
     private ResponseEntity<String> getStringResponseEntity(Account account) {
