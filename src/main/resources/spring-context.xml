@@ -23,4 +23,5 @@
     <import resource="spring-mybatis.xml"/>
     <import resource="spring-redis.xml"/>
     <import resource="spring-task.xml"/>
+    <import resource="spring-mongo.xml"/>
 </beans>

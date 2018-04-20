@@ -12,6 +12,7 @@
     <packaging>war</packaging>
     <properties>
         <spring.version>4.3.10.RELEASE</spring.version>
+        <spring.data.version>1.10.1.RELEASE</spring.data.version>
     </properties>
     <dependencies>
 
@@ -234,6 +235,18 @@
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
             <version>4.0.5</version>
+        </dependency>
+
+        <!-- spring整合MongoDB -->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-mongodb</artifactId>
+            <version>${spring.data.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongo-java-driver</artifactId>
+            <version>3.2.2</version>
         </dependency>
     </dependencies>
     <build>
