@@ -10,9 +10,12 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.io.Serializable;
 import java.util.Date;
 
-public class Account {
+public class Account implements Serializable {
+
+    private static final long serialVersionUID = 7168893387429037326L;
 
     @Id
     @Column(name = "ID")

@@ -66,7 +66,7 @@ public class WebLogAspect extends BaseController {
             httpLog.setClientProxy(clientProxy);
             httpLog.setHttpMethod(httpMethod);
             httpLog.setRequestUrl(requestUrl);
-            logService.saveHttpLog(httpLog);
+//            logService.saveHttpLog(httpLog);
         }
     }
 

@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -105,17 +106,21 @@ public class AccountServiceImpl extends AbstractService<Account> implements Acco
         return account;
     }
 
+    @Cacheable(value = "MyCache")
     @Override
     public List<Account> findAll() {
-        String value = (String)redisTemplate.opsForValue().get(ACCOUNT_JSON);
-        List<Account> accountList;
+        String value = (String) redisTemplate.opsForValue().get(ACCOUNT_JSON);
+        List<Account> accountList = null;
         if (Objects.isNull(value)) {
             accountList = super.findAll();
+            logger.info("MySql查询:{}", accountList);
             String accountJson = JSON.toJSONString(accountList);
             redisTemplate.opsForValue().set(ACCOUNT_JSON, accountJson, 10 * 60, TimeUnit.SECONDS);
         } else {
+            logger.info("Redis查询:{}");
             accountList = JSON.parseArray(value, Account.class);
         }
+        logger.info("accountList:Size:{}", accountList.size());
         return accountList;
     }
 }
