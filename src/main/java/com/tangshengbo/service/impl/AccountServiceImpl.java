@@ -1,5 +1,6 @@
 package com.tangshengbo.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
 import com.tangshengbo.cache.JedisClient;
 import com.tangshengbo.core.JsonUtils;
@@ -12,10 +13,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -39,6 +43,11 @@ public class AccountServiceImpl extends AbstractService<Account> implements Acco
 
     @Value("${REDIS_ACCOUNT_EXPIRE}")
     private Integer REDIS_ACCOUNT_EXPIRE;
+
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
+
+    private static final String ACCOUNT_JSON = "accountJson";
 
     @Override
     public void saveBatchAccount(int batchCount) {
@@ -94,5 +103,19 @@ public class AccountServiceImpl extends AbstractService<Account> implements Acco
             THREAD_LOCAL.set(account);
         }
         return account;
+    }
+
+    @Override
+    public List<Account> findAll() {
+        String value = (String)redisTemplate.opsForValue().get(ACCOUNT_JSON);
+        List<Account> accountList;
+        if (Objects.isNull(value)) {
+            accountList = super.findAll();
+            String accountJson = JSON.toJSONString(accountList);
+            redisTemplate.opsForValue().set(ACCOUNT_JSON, accountJson, 10 * 60, TimeUnit.SECONDS);
+        } else {
+            accountList = JSON.parseArray(value, Account.class);
+        }
+        return accountList;
     }
 }
