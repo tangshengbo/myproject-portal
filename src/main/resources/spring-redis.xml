@@ -95,9 +95,25 @@
     <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
         <property name="connectionFactory" ref="jedisConnectionFactory"/>
         <property name="defaultSerializer">
-            <bean class="org.springframework.data.redis.serializer.StringRedisSerializer"/>
+            <bean class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer"/>
         </property>
     </bean>
+
+    <bean id="redisCacheManager" class="org.springframework.data.redis.cache.RedisCacheManager">
+        <constructor-arg ref="redisTemplate"/>
+        <property name="defaultExpiration" value="100"/>
+        <property name="expires">
+            <map>
+               <entry key="MyRedisCache" value="100"/>
+            </map>
+        </property>
+        <property name="cacheNames">
+            <list>
+              <value>MyRedisCache</value>
+            </list>
+        </property>
+    </bean>
+
     <bean id="rejectedPolicy" class="java.util.concurrent.ThreadPoolExecutor.DiscardOldestPolicy"/>
     <bean id="redisMessageListener" class="com.tangshengbo.service.RedisMessageListener"/>
     <bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">

@@ -106,7 +106,7 @@ public class AccountServiceImpl extends AbstractService<Account> implements Acco
         return account;
     }
 
-    @Cacheable(value = "MyCache")
+    @Cacheable(value = "MyRedisCache")
     @Override
     public List<Account> findAll() {
         String value = (String) redisTemplate.opsForValue().get(ACCOUNT_JSON);

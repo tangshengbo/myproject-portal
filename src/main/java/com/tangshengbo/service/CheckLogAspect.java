@@ -11,6 +11,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 
 /**
  * Created by Tangshengbo on 2017/9/19.
@@ -65,7 +66,7 @@ public class CheckLogAspect {
             logger.info("异常代码:" + e.getClass().getName());
             logger.info("异常信息:" + e.getMessage());
             logger.info("异常方法:" + (joinPoint.getTarget().getClass().getName() + "." + joinPoint.getSignature().getName() + "()"));
-            logger.info("方法描述:" + getServiceMethodDescription(joinPoint));
+            logger.info("方法描述:" + Arrays.toString(getServiceMethodDescription(joinPoint)));
             //构造数据库日志对象
 
             //保存数据库
