@@ -13,10 +13,11 @@
             diskPersistent="false"
             diskExpiryThreadIntervalSeconds="120"/>
 
-    <cache name="MyEhCache"
+    <cache name="MyCache"
            maxElementsInMemory="1000"
            eternal="false"
            overflowToDisk="true"
            timeToIdleSeconds="300"
-           timeToLiveSeconds="300"/>
+           timeToLiveSeconds="300"
+           diskPersistent="true"/>
 </ehcache>

@@ -104,12 +104,12 @@
         <property name="defaultExpiration" value="100"/>
         <property name="expires">
             <map>
-               <entry key="MyRedisCache" value="100"/>
+               <entry key="MyCache" value="100"/>
             </map>
         </property>
         <property name="cacheNames">
             <list>
-              <value>MyRedisCache</value>
+              <value>MyCache</value>
             </list>
         </property>
     </bean>

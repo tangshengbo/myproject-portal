@@ -1,6 +1,7 @@
 package com.tangshengbo.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageHelper;
 import com.google.common.collect.Lists;
 import com.tangshengbo.cache.JedisClient;
 import com.tangshengbo.core.JsonUtils;
@@ -106,12 +107,13 @@ public class AccountServiceImpl extends AbstractService<Account> implements Acco
         return account;
     }
 
-    @Cacheable(value = "MyRedisCache")
+    @Cacheable(value = "MyCache")
     @Override
     public List<Account> findAll() {
         String value = (String) redisTemplate.opsForValue().get(ACCOUNT_JSON);
         List<Account> accountList = null;
         if (Objects.isNull(value)) {
+            PageHelper.startPage(1, 10);
             accountList = super.findAll();
             logger.info("MySql查询:{}", accountList);
             String accountJson = JSON.toJSONString(accountList);
