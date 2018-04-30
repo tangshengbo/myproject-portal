@@ -71,7 +71,7 @@ public class LogController {
     @ResponseBody
     public ResponseMessage delete(int id) {
         logger.info("updateHttpLog:{}", log);
-        dao.remvoeHttpById(id);
+        dao.removeById(id);
         return ResponseGenerator.genSuccessResult(id);
     }
 }

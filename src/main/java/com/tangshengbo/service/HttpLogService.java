@@ -56,9 +56,9 @@ public class HttpLogService {
         logger.info("updateHttpLog:{}", result);
     }
 
-    public void remvoeHttpById(int logId) {
+    public void removeById(int logId) {
         WriteResult result = mongoTemplate.remove(new Query(Criteria.where("logId").is(logId)), HttpLog.class);
-        logger.info("remvoeHttpById:{}", result);
+        logger.info("removeById:{}", result);
 
     }
 }
