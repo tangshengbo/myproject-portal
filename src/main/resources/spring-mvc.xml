@@ -14,7 +14,7 @@
 
 	<!--s使用默认处理器过滤静态资源文件-->
 	<mvc:default-servlet-handler />
-	<!--开启Spring MVC 注解配置功能-->
+	<!--开启Spring注解配置功能-->
 	<context:annotation-config/>
 	<!-- 启动注解驱动的Spring MVC功能，注册请求url和注解POJO类方法的映射-->
 	<mvc:annotation-driven />
