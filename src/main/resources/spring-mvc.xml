@@ -12,20 +12,23 @@
       http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd ">
 
-
+	<!--s使用默认处理器过滤静态资源文件-->
+	<mvc:default-servlet-handler />
+	<!--开启Spring MVC 注解配置功能-->
+	<context:annotation-config/>
 	<!-- 启动注解驱动的Spring MVC功能，注册请求url和注解POJO类方法的映射-->
 	<mvc:annotation-driven />
 	<!-- 启动包扫描功能，以便注册带有@Controller、@Service、@repository、@Component等注解的类成为spring的bean -->
-	<context:component-scan base-package="com.tangshengbo.controller" />
+	<!--<context:component-scan base-package="com.tangshengbo.controller" />-->
 	<!-- 启动对@AspectJ注解的支持  -->
 	<aop:aspectj-autoproxy proxy-target-class="true"/>
 	<!-- 使用 Swagger Restful API文档时，添加此注解 -->
-	<mvc:default-servlet-handler />
 	<bean class="com.tangshengbo.core.RestApiConfig" />
 	<mvc:resources mapping="swagger-ui.html" location="classpath:/META-INF/resources/"/>
 	<mvc:resources mapping="/webjars/**" location="classpath:/META-INF/resources/webjars/"/>
 	<!-- 对模型视图名称的解析，在请求时模型视图名称添加前后缀 -->
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" p:prefix="/WEB-INF/view/" p:suffix=".jsp" />
+	<!-- 完成请求和注解POJO的映射 -->
 	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
 		<property name="messageConverters">
 			<list>
@@ -46,5 +49,5 @@
 
 	<!-- 单独为webapplicationContext注入placeholder  -->
 	<context:property-placeholder ignore-unresolvable="true"
-								  location="classpath*:config.properties" />
+								  location="classpath:config.properties" />
 </beans>

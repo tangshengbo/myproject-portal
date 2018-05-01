@@ -21,10 +21,12 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -62,9 +64,9 @@ public class AccountController extends BaseController {
 
     // 本方法将处理 /courses/view?courseId=123 形式的URL
     @RequestMapping(value = "/save/{count}", method = RequestMethod.GET)
-    public ResponseEntity<String> addAccount(@PathVariable("count") int count) {
+    public ResponseMessage<String> addAccount(@PathVariable("count") int count) {
         accountService.saveBatchAccount(count);
-        return new ResponseEntity<>("success", HttpStatus.OK);
+        return ResponseGenerator.genSuccessResult("批量新增成功");
     }
 
     @RequestMapping(value = "/save-urlencoded", method = {RequestMethod.POST, RequestMethod.PUT})
@@ -75,7 +77,10 @@ public class AccountController extends BaseController {
 
     @RequestMapping(value = "/save-body", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseMessage addAccountByBody(@RequestBody Account account) {
+    public ResponseMessage addAccountByBody(@Valid @RequestBody Account account, BindingResult result) {
+        if (result.hasErrors()) {
+            return ResponseGenerator.genFailResult(result.toString());
+        }
         return ResponseGenerator.genSuccessResult(getStringResponseEntity(account));
     }
 
