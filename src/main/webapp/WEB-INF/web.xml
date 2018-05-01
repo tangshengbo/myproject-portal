@@ -25,6 +25,7 @@
             <param-value>classpath:spring-mvc.xml</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
+        <async-supported>true</async-supported>
         <multipart-config/>
     </servlet>
     <!-- 拦截设置 -->
@@ -37,6 +38,7 @@
     <filter>
         <filter-name>encodingFilter</filter-name>
         <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <async-supported>true</async-supported>
         <init-param>
             <param-name>encoding</param-name>
             <param-value>UTF-8</param-value>
@@ -45,6 +47,7 @@
             <param-name>forceEncoding</param-name>
             <param-value>true</param-value>
         </init-param>
+
     </filter>
 
     <filter-mapping>

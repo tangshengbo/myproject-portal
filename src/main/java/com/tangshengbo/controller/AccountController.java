@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.*;
+import java.util.concurrent.Callable;
 
 /**
  * Created by Administrator on 2016/11/16.
@@ -197,5 +198,14 @@ public class AccountController extends BaseController {
         logger.info("调用方式是:{}", requestType);
         ThreadUtil.sleep(10000);
         return ResponseGenerator.genSuccessResult("成功");
+    }
+
+    @RequestMapping(value = "/async", method = {RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public Callable<ResponseMessage> callable() {
+        return () -> {
+            ThreadUtil.sleep(5000);
+            return ResponseGenerator.genSuccessResult("Async controller result");
+        };
     }
 }
