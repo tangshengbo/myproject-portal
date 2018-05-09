@@ -11,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,6 +45,9 @@ public class LoveImageController {
 
     @Autowired
     private LoveImageService loveImageService;
+
+    @Autowired
+    private GridFsTemplate gridFsTemplate;
 
     @RequestMapping(value = "/show_square", method = {RequestMethod.GET, RequestMethod.POST})
     public String showSquare(Model model, HttpServletResponse response) {
@@ -149,6 +153,7 @@ public class LoveImageController {
             //将上传文件保存到一个目标文件当中
             file.transferTo(new File(path + File.separator + filename));
             loveImageService.save(new LoveImage(BASE_IMG_URL + filename));
+            gridFsTemplate.store(file.getInputStream(), filename);
             return "upload success " + encodeImg;
         } else {
             return "upload error";
