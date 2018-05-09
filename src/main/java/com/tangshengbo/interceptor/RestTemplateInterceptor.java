@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 /**
- * rest template 耗时统计
+ * Created by Tangshengbo on 2016/12/26 rest template 耗时统计
  */
 public class RestTemplateInterceptor implements ClientHttpRequestInterceptor {
 
