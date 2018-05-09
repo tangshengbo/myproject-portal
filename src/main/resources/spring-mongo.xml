@@ -11,14 +11,23 @@
         http://www.springframework.org/schema/data/mongo/spring-mongo.xsd
     ">
 
-    <bean id="mongoClient" class="com.mongodb.MongoClient">
-        <constructor-arg name="host" value="${mongodb_host}"/>
-        <constructor-arg name="port" value="${mongodb_port}"/>
-    </bean>
+    <!--<bean id="mongoClient" class="com.mongodb.MongoClient">-->
+        <!--<constructor-arg name="host" value="${mongodb_host}"/>-->
+        <!--<constructor-arg name="port" value="${mongodb_port}"/>-->
+    <!--</bean>-->
+
+    <mongo:mongo-client id="mongoClient"  host="${mongodb_host}" port="${mongodb_port}"/>
 
     <mongo:db-factory id="mongoDbFactory" dbname="${mongo.dbname}" mongo-ref="mongoClient" />
+    <mongo:mapping-converter id="mappingMongoConverter" />
 
-    <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
-        <constructor-arg name="mongoDbFactory" ref="mongoDbFactory" />
-    </bean>
+    <!--<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">-->
+    <!--<constructor-arg name="mongoDbFactory" ref="mongoDbFactory" />-->
+    <!--</bean>-->
+    <mongo:template id="mongoTemplate" db-factory-ref="mongoDbFactory"/>
+    <mongo:gridFsTemplate id="gridFsTemplate" db-factory-ref="mongoDbFactory" converter-ref="mappingMongoConverter"/>
+    <!--<bean id="gridFsTemplate" class="org.springframework.data.mongodb.gridfs.GridFsTemplate">-->
+        <!--<constructor-arg ref="mongoDbFactory" />-->
+        <!--<constructor-arg ref="mappingMongoConverter" />-->
+    <!--</bean>-->
 </beans>
