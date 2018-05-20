@@ -1,9 +1,10 @@
 package com.tangshengbo.controller;
 
+import com.dangdang.ddframe.rdb.sharding.id.generator.self.CommonSelfIdGenerator;
 import com.tangshengbo.core.ResponseGenerator;
 import com.tangshengbo.core.ResponseMessage;
-import com.tangshengbo.service.HttpLogService;
 import com.tangshengbo.model.HttpLog;
+import com.tangshengbo.service.HttpLogService;
 import com.tangshengbo.service.LogService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +32,9 @@ public class LogController {
     @Autowired
     private HttpLogService dao;
 
+    @Autowired
+    private CommonSelfIdGenerator commonSelfIdGenerator;
+
     // 本方法将处理 /courses/view?courseId=123 形式的URL
     @ResponseBody
     @RequestMapping(value = "/list", method = {RequestMethod.GET, RequestMethod.POST})
@@ -42,6 +46,12 @@ public class LogController {
     @RequestMapping(value = "/code", method = {RequestMethod.GET, RequestMethod.POST})
     public ResponseMessage genVerificationCode() {
         return ResponseGenerator.genSuccessResult((int) (Math.random() * 900000) + 100000);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/id", method = {RequestMethod.GET, RequestMethod.POST})
+    public ResponseMessage genId() {
+        return ResponseGenerator.genSuccessResult(commonSelfIdGenerator.generateId().longValue());
     }
 
     @RequestMapping(value = "/add", method = {RequestMethod.POST})

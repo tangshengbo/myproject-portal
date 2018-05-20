@@ -6,6 +6,7 @@ import com.google.common.collect.Lists;
 import com.tangshengbo.cache.JedisClient;
 import com.tangshengbo.core.JsonUtils;
 import com.tangshengbo.dao.AccountMapper;
+import com.tangshengbo.exception.ServiceException;
 import com.tangshengbo.model.Account;
 import com.tangshengbo.service.AbstractService;
 import com.tangshengbo.service.AccountService;
@@ -17,10 +18,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 
@@ -28,6 +31,7 @@ import java.util.concurrent.TimeUnit;
  * Created by CodeGenerator on 2017/09/03.
  */
 @Service("accountService")
+@Transactional(rollbackFor = ServiceException.class)
 public class AccountServiceImpl extends AbstractService<Account> implements AccountService {
 
     private static Logger logger = LoggerFactory.getLogger(AccountServiceImpl.class);
@@ -55,8 +59,9 @@ public class AccountServiceImpl extends AbstractService<Account> implements Acco
     public void saveBatchAccount(int batchCount) {
         logger.info("批量插入开始...................");
         List<Account> accounts = Lists.newArrayList();
+        Random rand = new Random();
         for (int i = 0; i < batchCount; i++) {
-            accounts.add(new Account("唐声波", (i * 11.3), new Date()));
+            accounts.add(new Account("唐声波", (i * 11.3 * rand.nextInt(100000)), new Date()));
         }
         logger.info("插入总数{}", accounts.size());
 //        userMapper.insertList(users);

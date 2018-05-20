@@ -42,7 +42,7 @@
             <!--&lt;!&ndash;不设置则默认为classpath下的 ValidationMessages.properties &ndash;&gt;-->
 
     <!--</bean>-->
-
+    <bean id="commonSelfIdGenerator" class="com.dangdang.ddframe.rdb.sharding.id.generator.self.CommonSelfIdGenerator"/>
     <import resource="spring-mybatis.xml"/>
     <import resource="spring-redis.xml"/>
     <import resource="spring-task.xml"/>
