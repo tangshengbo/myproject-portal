@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.DependsOn;
-import org.springframework.context.event.ContextStartedEvent;
+import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.core.env.Environment;
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,7 @@ import java.util.Arrays;
  */
 @Service
 @DependsOn("gridFsTemplate")
-public class MyServiceListener implements ApplicationListener<ContextStartedEvent> {
+public class MyServiceListener implements ApplicationListener<ContextRefreshedEvent> {
 
     private static Logger logger = LoggerFactory.getLogger(MyServiceListener.class);
 
@@ -26,8 +26,8 @@ public class MyServiceListener implements ApplicationListener<ContextStartedEven
     private GridFsTemplate gridFsTemplate;
 
     @Override
-    public void onApplicationEvent(ContextStartedEvent contextStartedEvent) {
-        Environment environment = contextStartedEvent.getApplicationContext().getEnvironment();
+    public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
+        Environment environment = contextRefreshedEvent.getApplicationContext().getEnvironment();
         logger.info("MyServiceListener:{}", Arrays.toString(environment.getDefaultProfiles()));
     }
 
