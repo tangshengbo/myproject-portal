@@ -18,7 +18,7 @@ import javax.sql.DataSource;
  * Created by Tangshengbo on 2018/1/17.
  */
 @Configuration
-@ComponentScan(basePackages = {"com.tangshengbo.service.*", "com.tangshengbo.dao.*"})
+@ComponentScan(basePackages = {"com.tangshengbo.service.*", "com.tangshengbo.dao"})
 @ImportResource(value = {"classpath*:spring-redis.xml"})
 @PropertySource(value = {"config.properties", "dbconfig.properties"})
 @EnableTransactionManagement

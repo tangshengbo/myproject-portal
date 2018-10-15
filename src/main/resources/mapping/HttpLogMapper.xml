@@ -12,8 +12,8 @@
     <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    log_id, request_url, http_method, client_ip, client_address, client_proxy, remark,
-    CREATE_DATE
+    log_id as logId, request_url as requestUrl, http_method as httpMethod, client_ip as clientIp, client_address as clientAddress, client_proxy as clientProxy, remark,
+    CREATE_DATE as createDate
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select
@@ -126,12 +126,12 @@
       CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
     where log_id = #{logId,jdbcType=INTEGER}
   </update>
-  <select id="listHttpLog" resultMap="BaseResultMap" resultType="com.tangshengbo.model.HttpLog">
+  <select id="listHttpLog" resultType="com.tangshengbo.model.HttpLog">
     select
     <include refid="Base_Column_List" />
     from http_log  order by log_id desc limit 10
   </select>
-  <select id="listByNullAddress" resultMap="BaseResultMap" resultType="com.tangshengbo.model.HttpLog">
+  <select id="listByNullAddress"  resultType="com.tangshengbo.model.HttpLog">
     select
     <include refid="Base_Column_List" />
     from http_log where client_address = ''

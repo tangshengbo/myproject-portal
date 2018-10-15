@@ -1,4 +1,4 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
+<beans profile="pro" xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:aop="http://www.springframework.org/schema/aop" xmlns:cache="http://www.springframework.org/schema/cache"
@@ -14,7 +14,7 @@
 
     <!-- <context:property-placeholder location="classpath:dbconfig.properties" />-->
     <!-- 自动扫描(自动注入)，扫描com.tangshengbo.service这个包以及它的子包的所有使用@Service注解标注的类 -->
-    <context:component-scan base-package="com.tangshengbo.controller, com.tangshengbo.service, com.tangshengbo.dao" />
+    <context:component-scan base-package="com.tangshengbo.service, com.tangshengbo.dao" />
     <!--Redis -->
    <!-- <cache:annotation-driven cache-manager="redisCacheManager"/>-->
 
@@ -30,10 +30,10 @@
             </list>
         </property>
     </bean>
-    <bean id="ehCacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+    <bean id="ehCacheManager"  class="org.springframework.cache.ehcache.EhCacheCacheManager">
         <property name="cacheManager" ref="ehcache"/>
     </bean>
-    <bean id="ehcache" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+    <bean  id="ehcache" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
         <property name="configLocation" value="classpath:spring-ehcache.xml"/>
     </bean>
 
