@@ -34,7 +34,6 @@
     <alias name="commonSelfIdGenerator" alias="idGenerator"/>
     <alias name="idGenerator" alias="commonSelfIdGenerator"/>
 
-    <bean id="ehCacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
     <bean id="ehCacheManager"  class="org.springframework.cache.ehcache.EhCacheCacheManager">
         <property name="cacheManager" ref="ehcache"/>
     </bean>
