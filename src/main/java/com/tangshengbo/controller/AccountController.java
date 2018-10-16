@@ -194,9 +194,10 @@ public class AccountController extends BaseController {
 
     @RequestMapping(value = "/sync_or_async", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public ResponseMessage syncOrAsync(String requestType) {
+    public ResponseMessage syncOrAsync(@RequestParam("requestType") String requestType) {
         logger.info("调用方式是:{}", requestType);
         ThreadUtil.sleep(10000);
+
         return ResponseGenerator.genSuccessResult("成功");
     }
 

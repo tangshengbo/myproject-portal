@@ -33,7 +33,7 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public ResponseMessage exceptionHandler(Exception e) {
         logger.error("{}", ExceptionUtils.getStackTrace(e));
-        return ResponseGenerator.genServerErrorResult("服务器内部错误");
+        return ResponseGenerator.genServerErrorResult(ExceptionUtils.getMessage(e));
     }
 }
 
