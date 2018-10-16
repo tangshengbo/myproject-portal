@@ -1,5 +1,6 @@
 package com.tangshengbo.model;
 
+import com.tangshengbo.listener.MyReaderEventListener;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -17,5 +18,6 @@ public class MyClassPathXmlApplicationContext extends ClassPathXmlApplicationCon
     protected void initBeanDefinitionReader(XmlBeanDefinitionReader reader) {
         super.initBeanDefinitionReader(reader);
         reader.setDocumentReaderClass(MyBeanDefinitionDocumentReader.class);
+        reader.setEventListener(new MyReaderEventListener());
     }
 }

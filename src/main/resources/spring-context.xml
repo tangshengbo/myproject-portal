@@ -1,4 +1,4 @@
-<beans profile="pro" xmlns="http://www.springframework.org/schema/beans"
+<beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:aop="http://www.springframework.org/schema/aop" xmlns:cache="http://www.springframework.org/schema/cache"
@@ -17,12 +17,20 @@
     <context:component-scan base-package="com.tangshengbo.service, com.tangshengbo.dao" />
     <!--Redis -->
    <!-- <cache:annotation-driven cache-manager="redisCacheManager"/>-->
-
     <!--EhCache -->
     <cache:annotation-driven cache-manager="ehCacheManager"/>
 
+    <bean id="personTest" class="com.tangshengbo.model.PersonTest">
+        <lookup-method name="getPerson" bean="student"/>
+        <replaced-method name="show" replacer="personReplacer"/>
+    </bean>
+    <bean id="teacher" class="com.tangshengbo.model.Teacher"/>
+    <bean id="student" class="com.tangshengbo.model.Student"/>
+    <bean id="replacer" class="com.tangshengbo.model.PersonReplacer"/>
+    <alias name="replacer" alias="personReplacer"/>
     <!-- 引入dbconfig.properties属性文件 -->
-    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    <bean  id="propertyConfigurer"  class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <meta key="fsdf" value="fsdfs"/>
         <property name="locations">
             <list>
                 <value>classpath:dbconfig.properties</value>
