@@ -6,7 +6,6 @@ import com.tangshengbo.service.LogService;
 import net.sf.cglib.beans.BeanMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.BeanFactory;
 import org.springframework.util.StopWatch;
 
 import java.util.List;
@@ -19,11 +18,12 @@ public class Application {
     private static Logger logger = LoggerFactory.getLogger(Application.class);
 
     public static void main(String[] args) {
-        BeanFactory beanFactory =
+        MyClassPathXmlApplicationContext beanFactory =
 //                new ClassPathXmlApplicationContext("");
 //                new XmlBeanFactory(new ClassPathResource("spring-context.xml"));
                 new MyClassPathXmlApplicationContext("spring-context.xml");
         LogService logService = (LogService) beanFactory.getBean("logService");
+        beanFactory.setValidating(false);
 //        logger.info("{}", logService.listHttpLog());
 //        PersonTest personTest = (PersonTest) beanFactory.getBean("personTest");
 //        personTest.show();

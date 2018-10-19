@@ -2,6 +2,7 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:aop="http://www.springframework.org/schema/aop" xmlns:cache="http://www.springframework.org/schema/cache"
+       xmlns:user="http://www.tangshengbo/schema/user"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
 
        http://www.springframework.org/schema/beans/spring-beans.xsd
@@ -10,7 +11,9 @@
     http://www.springframework.org/schema/aop
     http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
     http://www.springframework.org/schema/cache
-    http://www.springframework.org/schema/cache/spring-cache.xsd">
+    http://www.springframework.org/schema/cache/spring-cache.xsd
+    http://www.tangshengbo/schema/user
+    http://www.tangshengbo.com/schema/user.xsd">
 
     <!-- <context:property-placeholder location="classpath:dbconfig.properties" />-->
     <!-- 自动扫描(自动注入)，扫描com.tangshengbo.service这个包以及它的子包的所有使用@Service注解标注的类 -->
@@ -24,6 +27,9 @@
         <lookup-method name="getPerson" bean="student"/>
         <replaced-method name="show" replacer="personReplacer"/>
     </bean>
+
+    <user:user id="10" userName="唐" email="191991919@qq.com"/>
+
     <bean id="teacher" class="com.tangshengbo.model.Teacher"/>
     <bean id="student" class="com.tangshengbo.model.Student"/>
     <bean id="replacer" class="com.tangshengbo.model.PersonReplacer"/>
