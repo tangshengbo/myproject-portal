@@ -33,11 +33,11 @@ public class MyReaderEventListener implements ReaderEventListener {
 
     @Override
     public void aliasRegistered(AliasDefinition aliasDefinition) {
-
+        logger.info("aliasRegistered:{}", aliasDefinition.getAlias());
     }
 
     @Override
     public void importProcessed(ImportDefinition importDefinition) {
-
+        logger.info("importProcessed:{}", importDefinition.getImportedResource());
     }
 }

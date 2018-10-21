@@ -9,6 +9,6 @@ public class MyNamespaceHandler extends NamespaceHandlerSupport {
 
     @Override
     public void init() {
-        System.out.println("2342342342342");
+        registerBeanDefinitionParser("user", new MyBeanDefinitionParser());
     }
 }

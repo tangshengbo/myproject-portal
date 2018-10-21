@@ -8,6 +8,7 @@ import com.tangshengbo.core.ResponseMessage;
 import com.tangshengbo.exception.ServiceException;
 import com.tangshengbo.model.Account;
 import com.tangshengbo.service.AccountService;
+import com.tangshengbo.service.impl.DefaultAccountServiceImpl;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -60,6 +61,8 @@ public class AccountController extends BaseController {
     @RequestMapping(value = "/list", method = {RequestMethod.GET, RequestMethod.POST})
     public ResponseMessage<List<Account>> getAccountAll(Model model, String name, Integer age) {
         logger.info("name:{}, age:{}", name, age);
+        accountService = new DefaultAccountServiceImpl();
+        System.out.println("32423432");
         return ResponseGenerator.genSuccessResult(accountService.findAll());
     }
 

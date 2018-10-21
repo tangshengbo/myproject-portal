@@ -1,14 +1,17 @@
 package com.tangshengbo;
 
-import com.tangshengbo.model.HttpLog;
 import com.tangshengbo.model.MyClassPathXmlApplicationContext;
+import com.tangshengbo.model.User;
 import com.tangshengbo.service.LogService;
-import net.sf.cglib.beans.BeanMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.StopWatch;
+import org.springframework.core.io.support.PropertiesLoaderUtils;
+import org.springframework.util.CollectionUtils;
 
-import java.util.List;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
 
 /**
  * Created by TangShengBo on 2018/10/11
@@ -23,21 +26,32 @@ public class Application {
 //                new XmlBeanFactory(new ClassPathResource("spring-context.xml"));
                 new MyClassPathXmlApplicationContext("spring-context.xml");
         LogService logService = (LogService) beanFactory.getBean("logService");
-        beanFactory.setValidating(false);
+
+        User user = (User) beanFactory.getBean("com.tangshengbo.model.User#0");
+        logger.info("{}", user);
+        try {
+            Properties allProperties = PropertiesLoaderUtils.loadAllProperties("META-INF/spring.handlers");
+            Map<String, String> mapping = new HashMap<>(allProperties.size());
+            CollectionUtils.mergePropertiesIntoMap(allProperties, mapping);
+            logger.info("{}", mapping.get("http://www.tangshengbo.com/schema/user"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 //        logger.info("{}", logService.listHttpLog());
 //        PersonTest personTest = (PersonTest) beanFactory.getBean("personTest");
 //        personTest.show();
-        List<HttpLog> httpLogList = logService.listHttpLog();
-        StopWatch stopWatch = new StopWatch();
-        stopWatch.start();
-        for (int i = 0; i < 1000; i++) {
-            httpLogList.forEach(httpLog -> {
-                BeanMap beanMap =  BeanMap.create(httpLog);
-                logger.info("BeanMap:{}", beanMap);
-            });
-        }
-        stopWatch.stop();
-        logger.info("耗时：{}s", stopWatch.getTotalTimeSeconds());
+//        List<HttpLog> httpLogList = logService.listHttpLog();
+//        StopWatch stopWatch = new StopWatch();
+//        stopWatch.start();
+//        for (int i = 0; i < 1000; i++) {
+//            httpLogList.forEach(httpLog -> {
+//                BeanMap beanMap =  BeanMap.create(httpLog);
+//                logger.info("BeanMap:{}", beanMap);
+//            });
+//        }
+//        stopWatch.stop();
+//        logger.info("耗时：{}s", stopWatch.getTotalTimeSeconds());
 
 
     }
