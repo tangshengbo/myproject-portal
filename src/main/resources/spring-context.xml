@@ -35,6 +35,16 @@
     <bean id="teacher" class="com.tangshengbo.model.Teacher"/>
     <bean id="student" class="com.tangshengbo.model.Student"/>
     <bean id="replacer" class="com.tangshengbo.model.PersonReplacer"/>
+
+    <bean id="testA" class="com.tangshengbo.model.cycle.TestA">
+        <property name="testB" ref="testB"/>
+    </bean>
+    <bean id="testB" class="com.tangshengbo.model.cycle.TestB">
+       <property name="testC" ref="testC"/>
+    </bean>
+    <bean id="testC" class="com.tangshengbo.model.cycle.TestC">
+        <property name="testA" ref="testA"/>
+    </bean>
     <alias name="replacer" alias="personReplacer"/>
     <!-- 引入dbconfig.properties属性文件 -->
     <bean  id="propertyConfigurer"  class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
