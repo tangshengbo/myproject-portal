@@ -1,6 +1,5 @@
 package com.tangshengbo;
 
-import com.tangshengbo.dao.AccountMapper;
 import com.tangshengbo.model.MyClassPathXmlApplicationContext;
 import com.tangshengbo.model.User;
 import com.tangshengbo.service.LogService;
@@ -27,12 +26,12 @@ public class Application {
 //                new XmlBeanFactory(new ClassPathResource("spring-context.xml"));
                 new MyClassPathXmlApplicationContext("spring-context.xml");
         LogService logService = (LogService) beanFactory.getBean("logService");
-//        User userFactoryBean = (User) beanFactory.getBean("userFactoryBean");
-        FactoryBean userFactoryBean = (FactoryBean) beanFactory.getBean("&accountMapper");
+        FactoryBean userFactoryBean = (FactoryBean) beanFactory.getBean("&userFactoryBean");
+//        FactoryBean userFactoryBean = (FactoryBean) beanFactory.getBean("&accountMapper");
         User user = (User) beanFactory.getBean("com.tangshengbo.model.User#0");
         logger.info("Simple Bean{}", user);
         try {
-            logger.info("Factory Bean{}", ((AccountMapper) userFactoryBean.getObject()).selectAll());
+            logger.info("Factory Bean{}",userFactoryBean.getObject());
             Properties allProperties = PropertiesLoaderUtils.loadAllProperties("META-INF/spring.handlers");
             Map<String, String> mapping = new HashMap<>(allProperties.size());
             CollectionUtils.mergePropertiesIntoMap(allProperties, mapping);
