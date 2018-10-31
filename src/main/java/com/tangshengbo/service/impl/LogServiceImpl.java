@@ -3,6 +3,8 @@ package com.tangshengbo.service.impl;
 import com.tangshengbo.core.QueryString;
 import com.tangshengbo.dao.HttpLogMapper;
 import com.tangshengbo.model.HttpLog;
+import com.tangshengbo.model.MyInject;
+import com.tangshengbo.service.AccountService;
 import com.tangshengbo.service.LogService;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.jsoup.Jsoup;
@@ -27,10 +29,18 @@ public class LogServiceImpl implements LogService {
     @Autowired
     private HttpLogMapper logMapper;
 
+    @MyInject
+    private List<AccountService> accountServiceList;
+
     @Override
     public List<HttpLog> listHttpLog() {
         List<HttpLog> logList = logMapper.listHttpLog();
         logList.forEach(System.out::println);
+        accountServiceList.forEach(accountService -> {
+            logger.info(":{}", accountService.getClass());
+        });
+
+
         return logList;
     }
 

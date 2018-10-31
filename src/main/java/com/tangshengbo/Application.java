@@ -26,8 +26,10 @@ public class Application {
 //                new XmlBeanFactory(new ClassPathResource("spring-context.xml"));
                 new MyClassPathXmlApplicationContext("spring-context.xml");
         LogService logService = (LogService) beanFactory.getBean("logService");
+        logService.listHttpLog();
         FactoryBean userFactoryBean = (FactoryBean) beanFactory.getBean("&userFactoryBean");
 //        FactoryBean userFactoryBean = (FactoryBean) beanFactory.getBean("&accountMapper");
+        beanFactory.getBean("testA");
         User user = (User) beanFactory.getBean("com.tangshengbo.model.User#0");
         logger.info("Simple Bean{}", user);
         try {
@@ -36,6 +38,10 @@ public class Application {
             Map<String, String> mapping = new HashMap<>(allProperties.size());
             CollectionUtils.mergePropertiesIntoMap(allProperties, mapping);
             logger.info("{}", mapping.get("http://www.tangshengbo.com/schema/user"));
+            SecurityManager s = System.getSecurityManager();
+            if(s == null) {
+                logger.info("{}", "SecurityManager not been established..");
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
