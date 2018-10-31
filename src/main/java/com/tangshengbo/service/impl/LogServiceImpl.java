@@ -12,7 +12,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.net.URL;
@@ -26,7 +25,7 @@ public class LogServiceImpl implements LogService {
 
     private static Logger logger = LoggerFactory.getLogger(LogServiceImpl.class);
 
-    @Autowired
+    @MyInject
     private HttpLogMapper logMapper;
 
     @MyInject
@@ -36,11 +35,9 @@ public class LogServiceImpl implements LogService {
     public List<HttpLog> listHttpLog() {
         List<HttpLog> logList = logMapper.listHttpLog();
         logList.forEach(System.out::println);
-        accountServiceList.forEach(accountService -> {
-            logger.info(":{}", accountService.getClass());
+        accountServiceList.forEach(accountServiceList -> {
+            logger.info(":{}", accountServiceList.getClass());
         });
-
-
         return logList;
     }
 

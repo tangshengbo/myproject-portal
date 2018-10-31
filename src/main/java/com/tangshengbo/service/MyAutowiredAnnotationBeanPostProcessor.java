@@ -17,10 +17,14 @@ import java.util.Set;
 @Component
 public class MyAutowiredAnnotationBeanPostProcessor extends AutowiredAnnotationBeanPostProcessor {
 
+    public MyAutowiredAnnotationBeanPostProcessor() {
+        super.setAutowiredAnnotationTypes(custom());
+    }
+
     @SuppressWarnings("unchecked")
     private Set<Class<? extends Annotation>> custom() {
         Set<Class<? extends Annotation>> autowiredAnnotationTypes =
-                new LinkedHashSet<Class<? extends Annotation>>();
+                new LinkedHashSet<>();
         autowiredAnnotationTypes.add(Autowired.class);
         autowiredAnnotationTypes.add(MyInject.class);
         autowiredAnnotationTypes.add(Value.class);
@@ -35,8 +39,4 @@ public class MyAutowiredAnnotationBeanPostProcessor extends AutowiredAnnotationB
         return autowiredAnnotationTypes;
     }
 
-    @Override
-    public void setAutowiredAnnotationTypes(Set<Class<? extends Annotation>> autowiredAnnotationTypes) {
-        super.setAutowiredAnnotationTypes(custom());
-    }
 }
