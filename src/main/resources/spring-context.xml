@@ -17,7 +17,7 @@
 
     <!-- <context:property-placeholder location="classpath:dbconfig.properties" />-->
     <!-- 自动扫描(自动注入)，扫描com.tangshengbo.service这个包以及它的子包的所有使用@Service注解标注的类 -->
-    <context:component-scan base-package="com.tangshengbo.service, com.tangshengbo.dao"/>
+    <context:component-scan base-package="com.tangshengbo.service, com.tangshengbo.dao,com.tangshengbo.controller"/>
     <!--Redis -->
    <!-- <cache:annotation-driven cache-manager="redisCacheManager"/>-->
     <!--EhCache -->
@@ -78,4 +78,5 @@
     <import resource="spring-redis.xml"/>
     <import resource="spring-task.xml"/>
     <import resource="spring-mongo.xml"/>
+    <import resource="spring-mvc.xml"/>
 </beans>

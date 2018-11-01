@@ -10,10 +10,10 @@
         <param-value>classpath:spring-context.xml</param-value>
     </context-param>
 
-    <listener>
-        <description>Spring Listener</description>
-        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-    </listener>
+    <!--<listener>-->
+        <!--<description>Spring Listener</description>-->
+        <!--<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>-->
+    <!--</listener>-->
     
     <listener>
         <listener-class>com.tangshengbo.listener.MyServletContextListener</listener-class>
@@ -26,7 +26,7 @@
         <init-param>
             <param-name>contextConfigLocation</param-name>
             <!--spingMVC的配置路径  -->
-            <param-value>classpath:spring-mvc.xml</param-value>
+            <param-value>classpath:spring-context.xml</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
         <async-supported>true</async-supported>

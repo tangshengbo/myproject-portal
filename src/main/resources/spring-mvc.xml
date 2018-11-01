@@ -19,7 +19,7 @@
 	<!-- 启动注解驱动的Spring MVC功能，注册请求url和注解POJO类方法的映射-->
 	<mvc:annotation-driven/>
 	<!-- 启动包扫描功能，以便注册带有@Controller、@Service、@repository、@Component等注解的类成为spring的bean -->
-	<context:component-scan base-package="com.tangshengbo.controller" />
+	<!--<context:component-scan base-package="com.tangshengbo.controller" />-->
 	<!-- 启动对@AspectJ注解的支持  -->
 	<aop:aspectj-autoproxy proxy-target-class="true"/>
 	<!-- 使用 Swagger Restful API文档时，添加此注解 -->
@@ -50,5 +50,5 @@
 	<!-- 单独为webapplicationContext注入placeholder  -->
 	<context:property-placeholder ignore-unresolvable="true"
 								  location="classpath:config.properties" />
-	<bean id="myAutowiredAnnotationBeanPostProcessorMvc" class="com.tangshengbo.service.MyAutowiredAnnotationBeanPostProcessor"/>
+	<!--<bean id="myAutowiredAnnotationBeanPostProcessorMvc" class="com.tangshengbo.service.MyAutowiredAnnotationBeanPostProcessor"/>-->
 </beans>
