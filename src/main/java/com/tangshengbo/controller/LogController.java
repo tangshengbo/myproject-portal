@@ -4,12 +4,19 @@ import com.dangdang.ddframe.rdb.sharding.id.generator.self.CommonSelfIdGenerator
 import com.tangshengbo.core.ResponseGenerator;
 import com.tangshengbo.core.ResponseMessage;
 import com.tangshengbo.model.HttpLog;
+import com.tangshengbo.model.MyInject;
+import com.tangshengbo.service.AccountService;
 import com.tangshengbo.service.HttpLogService;
 import com.tangshengbo.service.LogService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 import static jdk.nashorn.internal.runtime.regexp.joni.Config.log;
 
@@ -28,7 +35,10 @@ public class LogController {
     @Autowired
     private HttpLogService dao;
 
-    @Autowired
+    @MyInject
+    private List<AccountService> accountServiceList;
+
+    @MyInject
     private CommonSelfIdGenerator commonSelfIdGenerator;
 
     // 本方法将处理 /courses/view?courseId=123 形式的URL

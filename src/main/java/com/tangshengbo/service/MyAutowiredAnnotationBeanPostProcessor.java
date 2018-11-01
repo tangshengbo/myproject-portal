@@ -19,6 +19,7 @@ public class MyAutowiredAnnotationBeanPostProcessor extends AutowiredAnnotationB
 
     public MyAutowiredAnnotationBeanPostProcessor() {
         super.setAutowiredAnnotationTypes(custom());
+        super.setOrder(1000);
     }
 
     @SuppressWarnings("unchecked")
