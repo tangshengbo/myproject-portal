@@ -50,5 +50,5 @@
 	<!-- 单独为webapplicationContext注入placeholder  -->
 	<context:property-placeholder ignore-unresolvable="true"
 								  location="classpath:config.properties" />
-	<!--<bean id="myAutowiredAnnotationBeanPostProcessorMvc" class="com.tangshengbo.service.MyAutowiredAnnotationBeanPostProcessor"/>-->
+	<!--<bean id="myAutowiredAnnotationBeanPostProcessorMvc" class="com.tangshengbo.service.component.MyAutowiredAnnotationBeanPostProcessor"/>-->
 </beans>

@@ -1,5 +1,6 @@
-package com.tangshengbo.service;
+package com.tangshengbo.service.component;
 
+import com.tangshengbo.service.LogService;
 import com.tangshengbo.service.impl.FactoryBeanLogService;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.stereotype.Component;

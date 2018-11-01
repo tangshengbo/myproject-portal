@@ -1,4 +1,4 @@
-package com.tangshengbo.service;
+package com.tangshengbo.service.component;
 
 import com.tangshengbo.model.MyInject;
 import org.springframework.beans.factory.annotation.Autowired;

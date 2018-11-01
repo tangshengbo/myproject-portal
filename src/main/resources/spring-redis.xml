@@ -119,7 +119,7 @@
     </bean>
 
     <bean id="rejectedPolicy" class="java.util.concurrent.ThreadPoolExecutor.DiscardOldestPolicy"/>
-    <bean id="redisMessageListener" class="com.tangshengbo.service.RedisMessageListener"/>
+    <bean id="redisMessageListener" class="com.tangshengbo.service.component.RedisMessageListener"/>
     <bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
         <!-- 核心线程数 -->
         <property name="corePoolSize" value="10"/>
