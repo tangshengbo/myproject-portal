@@ -3,7 +3,9 @@ package com.tangshengbo.controller;
 import com.dangdang.ddframe.rdb.sharding.id.generator.self.CommonSelfIdGenerator;
 import com.tangshengbo.core.ResponseGenerator;
 import com.tangshengbo.core.ResponseMessage;
+import com.tangshengbo.model.CanvasImage;
 import com.tangshengbo.model.HttpLog;
+import com.tangshengbo.model.LoveImage;
 import com.tangshengbo.model.MyInject;
 import com.tangshengbo.service.AccountService;
 import com.tangshengbo.service.HttpLogService;
@@ -11,11 +13,9 @@ import com.tangshengbo.service.LogService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 import static jdk.nashorn.internal.runtime.regexp.joni.Config.log;
@@ -40,6 +40,9 @@ public class LogController {
 
     @MyInject
     private CommonSelfIdGenerator commonSelfIdGenerator;
+
+    @MyInject
+    private LoveImage loveImage;
 
     // 本方法将处理 /courses/view?courseId=123 形式的URL
     @RequestMapping(value = "/list", method = {RequestMethod.GET, RequestMethod.POST})
@@ -82,5 +85,14 @@ public class LogController {
         logger.info("updateHttpLog:{}", log);
         dao.removeById(id);
         return ResponseGenerator.genSuccessResult(id);
+    }
+
+    @GetMapping("/love")
+    public ResponseMessage getLoveImage() {
+        loveImage.setCanvasImage(CanvasImage.canvasImages().get(0));
+        loveImage.setCreateDate(new Date());
+        loveImage.setImgUrl("http://");
+        loveImage.setId(commonSelfIdGenerator.generateId().intValue());
+        return ResponseGenerator.genSuccessResult(loveImage);
     }
 }
