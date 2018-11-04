@@ -1,6 +1,9 @@
 package com.tangshengbo.service.component;
 
 import com.tangshengbo.model.MyInject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,7 +18,9 @@ import java.util.Set;
  * Created by Tangshengbo on 2018/10/31
  */
 @Component
-public class MyAutowiredAnnotationBeanPostProcessor extends AutowiredAnnotationBeanPostProcessor {
+public class MyAutowiredAnnotationBeanPostProcessor extends AutowiredAnnotationBeanPostProcessor  implements InitializingBean {
+
+    private static Logger logger = LoggerFactory.getLogger(MyAutowiredAnnotationBeanPostProcessor.class);
 
     public MyAutowiredAnnotationBeanPostProcessor() {
         super.setAutowiredAnnotationTypes(custom());
@@ -40,4 +45,8 @@ public class MyAutowiredAnnotationBeanPostProcessor extends AutowiredAnnotationB
         return autowiredAnnotationTypes;
     }
 
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        logger.info("MyAutowiredAnnotationBeanPostProcessor......afterPropertiesSet");
+    }
 }

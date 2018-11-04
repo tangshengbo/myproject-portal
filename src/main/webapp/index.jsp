@@ -13,6 +13,9 @@
          <input type="submit" value="Test">
      </form>
    <div id="result"></div>
+
      <input type="button" id="addBtn" value="添加">
   </body>
 </html>
+
+
