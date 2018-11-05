@@ -3,10 +3,7 @@
 <!doctype html>
 <html>
 <head>
-<link rel="shortcut icon" href="${adminctx}/images/baosteelico.ico">
 <meta charset="utf-8">
-<title>宝钢股份慧创平台交易核-后台登录</title>
-<link href="${adminctx}/css/inderx.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
 .tyi {padding-left: 50px;padding-top: 7px;}
 .tycode {
