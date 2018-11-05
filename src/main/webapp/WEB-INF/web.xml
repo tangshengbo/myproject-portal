@@ -32,6 +32,15 @@
         <async-supported>true</async-supported>
         <multipart-config/>
     </servlet>
+    <servlet>
+        <servlet-name>initServlet</servlet-name>
+        <servlet-class>com.tangshengbo.model.InitServlet</servlet-class>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>initServlet</servlet-name>
+        <url-pattern>/init</url-pattern>
+    </servlet-mapping>
     <!-- 拦截设置 -->
     <servlet-mapping>
         <servlet-name>dispatcherServlet</servlet-name>
