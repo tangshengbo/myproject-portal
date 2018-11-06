@@ -2,6 +2,7 @@ package com.tangshengbo;
 
 import com.tangshengbo.model.MyClassPathXmlApplicationContext;
 import com.tangshengbo.model.User;
+import com.tangshengbo.model.cycle.TestA;
 import com.tangshengbo.service.LogService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +30,8 @@ public class Application {
         logService.listHttpLog();
         FactoryBean userFactoryBean = (FactoryBean) beanFactory.getBean("&userFactoryBean");
 //        FactoryBean userFactoryBean = (FactoryBean) beanFactory.getBean("&accountMapper");
-        beanFactory.getBean("testA");
+        TestA testA = (TestA) beanFactory.getBean("testA");
+        logger.info("{}", testA);
         User user = (User) beanFactory.getBean("com.tangshengbo.model.User#0");
         logger.info("Simple Bean{}", user);
         try {
@@ -45,13 +47,5 @@ public class Application {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        System.out.println(System.getenv());
-        System.out.println(System.getProperties());
-
-//        logger.info("{}", logService.listHttpLog());
-//        PersonTest personTest = (PersonTest) beanFactory.getBean("personTest");
-//        personTest.show();
-
     }
 }

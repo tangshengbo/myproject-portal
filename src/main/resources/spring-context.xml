@@ -39,6 +39,7 @@
     <bean id="testA" class="com.tangshengbo.model.cycle.TestA">
         <!--<constructor-arg index="0" ref="testB"/>-->
         <property name="testB" ref="testB"/>
+        <property name="date" value="2018-11-07"/>
     </bean>
     <bean id="testB" class="com.tangshengbo.model.cycle.TestB">
        <property name="testC" ref="testC"/>
@@ -56,6 +57,19 @@
                 <value>classpath:config.properties</value>
             </list>
         </property>
+    </bean>
+
+    <bean class="org.springframework.beans.factory.config.CustomEditorConfigurer">
+        <property name="propertyEditorRegistrars">
+            <list>
+              <bean class="com.tangshengbo.model.CustomPropertyEditorRegistrar"/>
+            </list>
+        </property>
+        <!--<property name="customEditors">-->
+            <!--<map>-->
+                <!--<entry key="java.util.Date" value="com.tangshengbo.model.DatePropertyEditor"/>-->
+            <!--</map>-->
+        <!--</property>-->
     </bean>
 
     <alias name="commonSelfIdGenerator" alias="idGenerator"/>
@@ -78,5 +92,5 @@
     <import resource="spring-redis.xml"/>
     <import resource="spring-task.xml"/>
     <import resource="spring-mongo.xml"/>
-    <import resource="spring-mvc.xml"/>
+    <!--<import resource="spring-mvc.xml"/>-->
 </beans>
