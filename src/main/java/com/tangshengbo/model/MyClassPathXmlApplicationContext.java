@@ -2,6 +2,8 @@ package com.tangshengbo.model;
 
 import com.tangshengbo.listener.MyReaderEventListener;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.QualifierAnnotationAutowireCandidateResolver;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -19,5 +21,18 @@ public class MyClassPathXmlApplicationContext extends ClassPathXmlApplicationCon
         super.initBeanDefinitionReader(reader);
         reader.setDocumentReaderClass(MyBeanDefinitionDocumentReader.class);
         reader.setEventListener(new MyReaderEventListener());
+    }
+
+    @Override
+    protected void initPropertySources() {
+        getEnvironment().setRequiredProperties("JAVA_HOME");
+    }
+
+    @Override
+    protected void customizeBeanFactory(DefaultListableBeanFactory beanFactory) {
+//        beanFactory.setAllowBeanDefinitionOverriding(false);
+//        beanFactory.setAllowCircularReferences(false);
+        beanFactory.setAutowireCandidateResolver(new QualifierAnnotationAutowireCandidateResolver());
+        super.customizeBeanFactory(beanFactory);
     }
 }

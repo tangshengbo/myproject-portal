@@ -11,6 +11,9 @@ public class TestA {
         this.testB = testB;
     }
 
+    public TestA() {
+    }
+
     public TestB getTestB() {
         return testB;
     }

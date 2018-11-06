@@ -13,7 +13,7 @@ public class LoveImage {
     /**
      *
      */
-    private String imgUrl;
+    private String imgUrl = "http:///";
 
     /**
      *

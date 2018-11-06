@@ -33,18 +33,21 @@ public class Application {
         User user = (User) beanFactory.getBean("com.tangshengbo.model.User#0");
         logger.info("Simple Bean{}", user);
         try {
-            logger.info("Factory Bean{}",userFactoryBean.getObject());
+            logger.info("Factory Bean{}", userFactoryBean.getObject());
             Properties allProperties = PropertiesLoaderUtils.loadAllProperties("META-INF/spring.handlers");
             Map<String, String> mapping = new HashMap<>(allProperties.size());
             CollectionUtils.mergePropertiesIntoMap(allProperties, mapping);
             logger.info("{}", mapping.get("http://www.tangshengbo.com/schema/user"));
             SecurityManager s = System.getSecurityManager();
-            if(s == null) {
+            if (s == null) {
                 logger.info("{}", "SecurityManager not been established..");
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        System.out.println(System.getenv());
+        System.out.println(System.getProperties());
 
 //        logger.info("{}", logService.listHttpLog());
 //        PersonTest personTest = (PersonTest) beanFactory.getBean("personTest");

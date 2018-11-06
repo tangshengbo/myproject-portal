@@ -13,6 +13,7 @@ import com.tangshengbo.service.LogService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -43,6 +44,9 @@ public class LogController {
 
     @MyInject
     private LoveImage loveImage;
+
+    @Value("#{loveImage.imgUrl}")
+    private String value;
 
     // 本方法将处理 /courses/view?courseId=123 形式的URL
     @RequestMapping(value = "/list", method = {RequestMethod.GET, RequestMethod.POST})
@@ -91,7 +95,7 @@ public class LogController {
     public ResponseMessage getLoveImage() {
         loveImage.setCanvasImage(CanvasImage.canvasImages().get(0));
         loveImage.setCreateDate(new Date());
-        loveImage.setImgUrl("http://");
+        loveImage.setImgUrl(value);
         loveImage.setId(commonSelfIdGenerator.generateId().intValue());
         return ResponseGenerator.genSuccessResult(loveImage);
     }
