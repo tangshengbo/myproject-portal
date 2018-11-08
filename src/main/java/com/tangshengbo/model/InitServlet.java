@@ -25,7 +25,7 @@ public class InitServlet extends HttpServlet {
         StopWatch watch = new StopWatch();
         watch.start();
         Map<String, Object> beans = new LinkedHashMap<>();
-        ApplicationContext applicationContext = ApplicationContextHolder.getApplicationContext();
+        ApplicationContext applicationContext = ApplicationContextHolder.applicationContext();
         String[] names = applicationContext.getBeanDefinitionNames();
         for (String name : names) {
             Object bean = applicationContext.getBean(name);
