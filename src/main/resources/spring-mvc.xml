@@ -37,22 +37,23 @@
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" p:prefix="/WEB-INF/view/"
           p:suffix=".jsp"/>
     <!-- 完成请求和注解POJO的映射 -->
-    <!--<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">-->
-    <!--<property name="messageConverters">-->
-    <!--<list>-->
-    <!--<bean-->
-    <!--class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">-->
-    <!--<property name="supportedMediaTypes">-->
-    <!--<list>-->
-    <!--<value>text/html;charset=UTF-8</value>-->
-    <!--<value>text/plain;charset=UTF-8</value>-->
-    <!--<value>application/json;charset=UTF-8</value>-->
-    <!--</list>-->
-    <!--</property>-->
-    <!--</bean>-->
-    <!--</list>-->
-    <!--</property>-->
-    <!--</bean>-->
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+        <property name="messageConverters">
+            <list>
+                <bean
+                        class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                    <property name="supportedMediaTypes">
+                        <list>
+                            <value>text/html;charset=UTF-8</value>
+                            <value>text/plain;charset=UTF-8</value>
+                            <value>application/json;charset=UTF-8</value>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="order" value="-1"/>
+    </bean>
     <mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/**"/>
@@ -61,7 +62,7 @@
     </mvc:interceptors>
 
     <!-- 单独为webapplicationContext注入placeholder  -->
-    <context:property-placeholder ignore-unresolvable="true"
-                                  location="classpath:config.properties"/>
+    <!--<context:property-placeholder ignore-unresolvable="true"-->
+    <!--location="classpath:config.properties"/>-->
     <!--<bean id="myAutowiredAnnotationBeanPostProcessorMvc" class="com.tangshengbo.service.component.MyAutowiredAnnotationBeanPostProcessor"/>-->
 </beans>

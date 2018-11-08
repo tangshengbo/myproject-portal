@@ -18,7 +18,7 @@ import java.util.Set;
  * Created by Tangshengbo on 2018/10/31
  */
 @Component
-public class MyAutowiredAnnotationBeanPostProcessor extends AutowiredAnnotationBeanPostProcessor  implements InitializingBean {
+public class MyAutowiredAnnotationBeanPostProcessor extends AutowiredAnnotationBeanPostProcessor implements InitializingBean {
 
     private static Logger logger = LoggerFactory.getLogger(MyAutowiredAnnotationBeanPostProcessor.class);
 
@@ -38,8 +38,7 @@ public class MyAutowiredAnnotationBeanPostProcessor extends AutowiredAnnotationB
             autowiredAnnotationTypes.add((Class<? extends Annotation>)
                     ClassUtils.forName("javax.inject.Inject", AutowiredAnnotationBeanPostProcessor.class.getClassLoader()));
             logger.info("JSR-330 'javax.inject.Inject' annotation found and supported for autowiring");
-        }
-        catch (ClassNotFoundException ex) {
+        } catch (ClassNotFoundException ex) {
             // JSR-330 API not available - simply skip.
         }
         return autowiredAnnotationTypes;

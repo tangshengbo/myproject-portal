@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.List;
 
 import static jdk.nashorn.internal.runtime.regexp.joni.Config.log;
@@ -94,7 +93,6 @@ public class LogController {
     @GetMapping("/love")
     public ResponseMessage getLoveImage() {
         loveImage.setCanvasImage(CanvasImage.canvasImages().get(0));
-        loveImage.setCreateDate(new Date());
         loveImage.setImgUrl(value);
         loveImage.setId(commonSelfIdGenerator.generateId().intValue());
         return ResponseGenerator.genSuccessResult(loveImage);
