@@ -1,6 +1,8 @@
 package com.tangshengbo.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.dangdang.ddframe.rdb.sharding.id.generator.self.CommonSelfIdGenerator;
+import com.google.gson.Gson;
 import com.tangshengbo.core.ResponseGenerator;
 import com.tangshengbo.core.ResponseMessage;
 import com.tangshengbo.model.CanvasImage;
@@ -10,13 +12,19 @@ import com.tangshengbo.model.MyInject;
 import com.tangshengbo.service.AccountService;
 import com.tangshengbo.service.HttpLogService;
 import com.tangshengbo.service.LogService;
+import com.tangshengbo.service.component.ApplicationContextHolder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
+import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 import static jdk.nashorn.internal.runtime.regexp.joni.Config.log;
 
@@ -46,6 +54,12 @@ public class LogController {
 
     @Value("#{loveImage.imgUrl}")
     private String value;
+
+    @Autowired
+    private Gson gson;
+
+    @MyInject
+    private ApplicationContextHolder applicationContextHolder;
 
     // 本方法将处理 /courses/view?courseId=123 形式的URL
     @RequestMapping(value = "/list", method = {RequestMethod.GET, RequestMethod.POST})
@@ -96,5 +110,46 @@ public class LogController {
         loveImage.setImgUrl(value);
         loveImage.setId(commonSelfIdGenerator.generateId().intValue());
         return ResponseGenerator.genSuccessResult(loveImage);
+    }
+
+    @PostMapping("/name")
+    public ResponseMessage getSpringContextName(String className) {
+        ApplicationContext applicationContext = applicationContextHolder.getApplicationContext();
+        try {
+            Class<?> aClass = ClassUtils.forName(className, this.getClass().getClassLoader());
+            String[] names = applicationContext.getBeanNamesForType(aClass, true, false);
+            return ResponseGenerator.genSuccessResult(JSON.toJSONString(names));
+        } catch (ClassNotFoundException e) {
+            return ResponseGenerator.genFailResult(ExceptionUtils.getRootCauseMessage(e));
+        }
+    }
+
+    @PostMapping("/value")
+    public ResponseMessage getSpringContextValue(String className) {
+        ApplicationContext applicationContext = applicationContextHolder.getApplicationContext();
+        try {
+            Class<?> aClass = ClassUtils.forName(className, this.getClass().getClassLoader());
+            Map<String, ?> beansOfType = applicationContext.getBeansOfType(aClass, true, true);
+            return ResponseGenerator.genSuccessResult(JSON.toJSONString(beansOfType));
+        } catch (ClassNotFoundException e) {
+            return ResponseGenerator.genFailResult(ExceptionUtils.getRootCauseMessage(e));
+        }
+    }
+
+    @PostMapping("/bean")
+    public ResponseMessage getSpringContextBean(String className) {
+        ApplicationContext applicationContext = applicationContextHolder.getApplicationContext();
+        Class<?> aClass = null;
+        boolean isClass = true;
+        try {
+            aClass = ClassUtils.forName(className, this.getClass().getClassLoader());
+        } catch (ClassNotFoundException e) {
+            logger.info("{}", ExceptionUtils.getRootCauseMessage(e));
+            isClass = false;
+        }
+        if (isClass) {
+            return ResponseGenerator.genSuccessResult(ToStringBuilder.reflectionToString(applicationContext.getBean(aClass, true)));
+        }
+        return ResponseGenerator.genSuccessResult(ToStringBuilder.reflectionToString(applicationContext.getBean(className)));
     }
 }
