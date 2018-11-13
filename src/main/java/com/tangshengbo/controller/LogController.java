@@ -1,6 +1,8 @@
 package com.tangshengbo.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.dangdang.ddframe.rdb.sharding.id.generator.self.CommonSelfIdGenerator;
 import com.google.gson.Gson;
 import com.tangshengbo.core.ResponseGenerator;
@@ -23,6 +25,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -150,6 +153,16 @@ public class LogController {
         if (isClass) {
             return ResponseGenerator.genSuccessResult(ToStringBuilder.reflectionToString(applicationContext.getBean(aClass, true)));
         }
-        return ResponseGenerator.genSuccessResult(ToStringBuilder.reflectionToString(applicationContext.getBean(className)));
+        String beanInfo = ToStringBuilder.reflectionToString(applicationContext.getBean(className));
+        String beanName = beanInfo.substring(0, beanInfo.indexOf("["));
+        int indexOf = beanInfo.indexOf("[");
+        int lastIndexOf = beanInfo.lastIndexOf("]");
+        String beanPropertyStr = beanInfo.substring(indexOf + 1, lastIndexOf);
+        String[] beanPropertyValues = beanPropertyStr.split(",");
+        JSONArray jsonArray = new JSONArray(Arrays.asList(beanPropertyValues));
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("bean", beanName);
+        jsonObject.put("property", jsonArray);
+        return ResponseGenerator.genSuccessResult(jsonObject.toJSONString());
     }
 }
