@@ -15,17 +15,21 @@ import com.tangshengbo.service.AccountService;
 import com.tangshengbo.service.HttpLogService;
 import com.tangshengbo.service.LogService;
 import com.tangshengbo.service.component.ApplicationContextHolder;
+import com.tangshengbo.service.component.MyApplicationContextEvent;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -63,6 +67,13 @@ public class LogController {
 
     @MyInject
     private ApplicationContextHolder applicationContextHolder;
+
+    @Autowired
+    private MyApplicationContextEvent contextEvent;
+
+    @Qualifier("conversionServiceFactoryBean")
+    @Autowired
+    private ConversionService conversionService;
 
     // 本方法将处理 /courses/view?courseId=123 形式的URL
     @RequestMapping(value = "/list", method = {RequestMethod.GET, RequestMethod.POST})
@@ -164,5 +175,16 @@ public class LogController {
         jsonObject.put("bean", beanName);
         jsonObject.put("property", jsonArray);
         return ResponseGenerator.genSuccessResult(jsonObject.toJSONString());
+    }
+
+    @GetMapping("/public-event")
+    public ResponseMessage publicEvent(String eventName) {
+        contextEvent.setEventName(eventName);
+        applicationContextHolder.getApplicationContext().publishEvent(contextEvent);
+        return ResponseGenerator.genSuccessResult(eventName);
+    }
+    @GetMapping("/convert")
+    public ResponseMessage stringToDate(String date) {
+        return ResponseGenerator.genSuccessResult(conversionService.convert(date, Date.class));
     }
 }

@@ -61,6 +61,14 @@
         </property>
     </bean>
 
+    <bean id="conversionServiceFactoryBean" class="org.springframework.context.support.ConversionServiceFactoryBean">
+        <property name="converters" >
+            <list>
+                <bean class="com.tangshengbo.model.MyStringToDateConverter"/>
+            </list>
+        </property>
+    </bean>
+
     <bean class="org.springframework.beans.factory.config.CustomEditorConfigurer">
         <!--<property name="propertyEditorRegistrars">-->
             <!--<list>-->
