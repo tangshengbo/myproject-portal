@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+    <title>生成随机数</title>
+    <script type="text/javascript">
+        var text = "";
+        var possible = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+        function create() {
+            for (var i = 0; i < 3; i++) {
+                text += possible.charAt(Math.floor(Math.random() * possible.length));
+            }
+            document.getElementById("rd").innerHTML = text + Math.ceil(((Math.random() * 9 + 1) * 100000));
+            text = "";
+        }
+
+        function createBatch() {
+            var num = document.getElementById("num").value;
+            var numList = document.getElementById("numList")
+            for (var a = 0; a < num; a++) {
+                for (var i = 0; i < 3; i++) {
+                    text += possible.charAt(Math.floor(Math.random() * possible.length));
+                }
+                var p = document.createElement("p");
+                p.innerText = text + Math.ceil(((Math.random() * 9 + 1) * 100000));
+                numList.appendChild(p);
+                text = "";
+            }
+        }
+    </script>
+</head>
+
+<body>
+<div style="float: left">
+    <div style="height: 50px">生成随机数</div>
+    <h1>
+        <span id="rd" style="color: red;"></span>
+    </h1>
+    <button type="button" onclick="create()" style="height:60px;width:90px;display:inline-block;">生成随机数</button>
+</div>
+<div style="float: right">
+    <div style="height: 50px">批量生成随机数</div>
+    <input id="num" type="text" size="10" value="">
+    <input type="button" style="height:60px;width:90px;display:inline-block;" onclick="createBatch()" value="批量生成">
+    <div id="numList">
+    </div>
+</div>
+</body>
+</html>
