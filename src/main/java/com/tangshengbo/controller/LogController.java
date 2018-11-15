@@ -20,6 +20,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.aop.framework.AopContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -59,8 +60,8 @@ public class LogController {
     @MyInject
     private LoveImage loveImage;
 
-    @Value("#{loveImage.imgUrl}")
-    private String value;
+    @Value("#{dataSource.jdbcUrl}")
+    private String imgUrl;
 
     @Autowired
     private Gson gson;
@@ -121,8 +122,7 @@ public class LogController {
     @GetMapping("/love")
     public ResponseMessage getLoveImage() {
         loveImage.setCanvasImage(CanvasImage.canvasImages().get(0));
-        loveImage.setImgUrl(value);
-        loveImage.setId(commonSelfIdGenerator.generateId().intValue());
+        loveImage.setImgUrl(imgUrl);
         return ResponseGenerator.genSuccessResult(loveImage);
     }
 
@@ -183,8 +183,17 @@ public class LogController {
         applicationContextHolder.getApplicationContext().publishEvent(contextEvent);
         return ResponseGenerator.genSuccessResult(eventName);
     }
+
     @GetMapping("/convert")
     public ResponseMessage stringToDate(String date) {
+        //暴露代理接口
+        LogController proxy = (LogController) AopContext.currentProxy();
+        proxy.exposeProxy(date);
         return ResponseGenerator.genSuccessResult(conversionService.convert(date, Date.class));
+    }
+
+    @GetMapping("/exposeProxy")
+    public void exposeProxy(String str) {
+        logger.info("exposeProxy:{}", str);
     }
 }

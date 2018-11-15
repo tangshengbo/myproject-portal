@@ -28,7 +28,7 @@
     <!-- 启动包扫描功能，以便注册带有@Controller、@Service、@repository、@Component等注解的类成为spring的bean -->
     <!--<context:component-scan base-package="com.tangshengbo.controller" />-->
     <!-- 启动对@AspectJ注解的支持  -->
-    <aop:aspectj-autoproxy proxy-target-class="true"/>
+    <aop:aspectj-autoproxy expose-proxy="true"/>
     <!-- 使用 Swagger Restful API文档时，添加此注解 -->
     <bean class="com.tangshengbo.core.RestApiConfig"/>
     <mvc:resources mapping="swagger-ui.html" location="classpath:/META-INF/resources/"/>

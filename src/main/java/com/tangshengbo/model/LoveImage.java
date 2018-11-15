@@ -8,7 +8,7 @@ public class LoveImage {
     /**
      *
      */
-    private Integer id;
+    private Long id;
 
     /**
      *
@@ -19,11 +19,14 @@ public class LoveImage {
      *
      */
     private String remark;
-
     /**
      *
      */
     private Date createDate;
+
+    private String beanFactoryProcessorDate;
+
+    private String beanProcessorDate;
 
     private CanvasImage canvasImage = new CanvasImage();
 
@@ -35,23 +38,31 @@ public class LoveImage {
         return canvasImage;
     }
 
+    public String getBeanFactoryProcessorDate() {
+        return beanFactoryProcessorDate;
+    }
+
+    public String getBeanProcessorDate() {
+        return beanProcessorDate;
+    }
+
+    public void setBeanProcessorDate(String beanProcessorDate) {
+        this.beanProcessorDate = beanProcessorDate;
+    }
+
+    public void setBeanFactoryProcessorDate(String beanFactoryProcessorDate) {
+        this.beanFactoryProcessorDate = beanFactoryProcessorDate;
+    }
+
     public void setCanvasImage(CanvasImage canvasImage) {
         this.canvasImage = canvasImage;
     }
 
-    /**
-     *
-     * @return id
-     */
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    /**
-     *
-     * @param id
-     */
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

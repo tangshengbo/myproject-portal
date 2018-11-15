@@ -51,6 +51,7 @@ public class MyBeanDefinitionRegistryPostProcessor implements BeanDefinitionRegi
                 propertyValue.put("createDate", current);
                 propertyValue.put("remark", DatePattern.NORM_DATETIME_FORMAT.format(current));
                 propertyValue.put("imgUrl", "https://aecpm.alicdn.com/simba/img/TB1W4nPJFXXXXbSXpXXSutbFXXX.jpg");
+                propertyValue.put("beanFactoryProcessorDate", DatePattern.NORM_DATETIME_FORMAT.format(current));
                 beanDefinition.getPropertyValues().addPropertyValues(propertyValue);
                 logger.info("设置loveImage结束..............");
             }
