@@ -2,6 +2,7 @@ package com.tangshengbo.service;
 
 import com.tangshengbo.controller.BaseController;
 import com.tangshengbo.model.HttpLog;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
@@ -47,7 +48,7 @@ public class WebLogAspect extends BaseController {
         MDC.put("clientProxy", clientProxy);
 
         // 记录下请求内容
-        logger.info("请求地址 : {}" , requestUrl);
+        logger.info("请求地址 : {}", requestUrl);
         logger.info("HTTP METHOD : {}", httpMethod);
         logger.info("IP : {}", clientIp);
         logger.info("代理 : {}", clientProxy);
@@ -85,6 +86,14 @@ public class WebLogAspect extends BaseController {
         Object ob = pjp.proceed();// ob 为方法的返回值
         logger.info("耗时 : " + (System.currentTimeMillis() - startTime) + "ms");
         return ob;
+    }
+
+    @After(value = "logPointCut()")
+    public void doAfter(JoinPoint joinPoint) {}
+
+    @AfterThrowing(value = "logPointCut()", throwing = "ex")
+    public void afterThrowing(JoinPoint joinPoint, Exception ex) {
+        logger.error("{}", ExceptionUtils.getStackTrace(ex));
     }
 
     private String getUrl(HttpServletRequest request) {
