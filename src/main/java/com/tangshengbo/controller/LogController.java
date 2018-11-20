@@ -194,7 +194,6 @@ public class LogController {
 
     @GetMapping("/exposeProxy")
     public void exposeProxy(String str) {
-        AccountService accountService = (AccountService) logService;
-        logger.info("exposeProxy:{}, {}", str, accountService.findAll());
+        logger.info("exposeProxy:{}, {}", str);
     }
 }

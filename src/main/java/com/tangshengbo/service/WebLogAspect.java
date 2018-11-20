@@ -25,7 +25,7 @@ public class WebLogAspect extends BaseController {
 
     private static final Logger logger = LoggerFactory.getLogger(WebLogAspect.class);
 
-    @DeclareParents(value = "com.tangshengbo.service.impl.LogServiceImpl", defaultImpl = com.tangshengbo.service.impl.AccountServiceImpl.class )
+    @DeclareParents(value = "com.tangshengbo.service.LogService+", defaultImpl = com.tangshengbo.service.impl.AccountServiceImpl.class )
     private AccountService AccountService;
 
     @Autowired
