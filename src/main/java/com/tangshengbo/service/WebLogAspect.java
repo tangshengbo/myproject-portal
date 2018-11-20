@@ -2,7 +2,6 @@ package com.tangshengbo.service;
 
 import com.tangshengbo.controller.BaseController;
 import com.tangshengbo.model.HttpLog;
-import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
@@ -88,13 +87,13 @@ public class WebLogAspect extends BaseController {
         return ob;
     }
 
-    @After(value = "logPointCut()")
-    public void doAfter(JoinPoint joinPoint) {}
+//    @After(value = "logPointCut()")
+//    public void doAfter(JoinPoint joinPoint) {}
 
-    @AfterThrowing(value = "logPointCut()", throwing = "ex")
-    public void afterThrowing(JoinPoint joinPoint, Exception ex) {
-        logger.error("{}", ExceptionUtils.getStackTrace(ex));
-    }
+//    @AfterThrowing(value = "logPointCut()", throwing = "ex")
+//    public void afterThrowing(JoinPoint joinPoint, Exception ex) {
+//        logger.error("{}", ExceptionUtils.getStackTrace(ex));
+//    }
 
     private String getUrl(HttpServletRequest request) {
         String url = request.getScheme() + "://"
