@@ -25,6 +25,9 @@ public class WebLogAspect extends BaseController {
 
     private static final Logger logger = LoggerFactory.getLogger(WebLogAspect.class);
 
+    @DeclareParents(value = "com.tangshengbo.service.impl.LogServiceImpl", defaultImpl = com.tangshengbo.service.impl.AccountServiceImpl.class )
+    private AccountService AccountService;
+
     @Autowired
     private LogService logService;
 
@@ -33,7 +36,11 @@ public class WebLogAspect extends BaseController {
     public void logPointCut() {
     }
 
-    @Before("logPointCut()")
+    @Pointcut("@within(org.springframework.web.bind.annotation.RestController)")
+    public void logPointCutWith() {
+    }
+
+    @Before("logPointCutWith()")
     public void doBefore(JoinPoint joinPoint) throws Throwable {
         // 接收到请求，记录请求内容
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
