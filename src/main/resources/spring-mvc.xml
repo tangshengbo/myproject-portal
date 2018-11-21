@@ -50,6 +50,7 @@
                 </bean>
             </list>
         </property>
+        <property name="webBindingInitializer" ref="configurableWebBindingInitializer"/>
         <property name="order" value="-1"/>
     </bean>
     <mvc:interceptors>
@@ -58,6 +59,10 @@
             <bean class="com.tangshengbo.interceptor.LogInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>
+    <bean id="configurableWebBindingInitializer" class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer">
+        <!--<property name="conversionService" ref="conversionServiceFactoryBean"/>-->
+        <property name="propertyEditorRegistrar"  ref="customPropertyEditorRegistrar"/>
+    </bean>
 
     <!-- 单独为webapplicationContext注入placeholder  -->
     <!--<context:property-placeholder ignore-unresolvable="true"-->
