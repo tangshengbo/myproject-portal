@@ -69,17 +69,18 @@
         </property>
     </bean>
 
+    <bean id="customPropertyEditorRegistrar" class="com.tangshengbo.model.CustomPropertyEditorRegistrar"/>
     <bean class="org.springframework.beans.factory.config.CustomEditorConfigurer">
-        <!--<property name="propertyEditorRegistrars">-->
-            <!--<list>-->
-              <!--<bean class="com.tangshengbo.model.CustomPropertyEditorRegistrar"/>-->
-            <!--</list>-->
-        <!--</property>-->
-        <property name="customEditors">
-            <map>
-                <entry key="java.util.Date" value="com.tangshengbo.model.DatePropertyEditor"/>
-            </map>
+        <property name="propertyEditorRegistrars">
+            <list>
+              <ref bean="customPropertyEditorRegistrar"/>
+            </list>
         </property>
+        <!--<property name="customEditors">-->
+            <!--<map>-->
+                <!--<entry key="java.util.Date" value="com.tangshengbo.model.DatePropertyEditor"/>-->
+            <!--</map>-->
+        <!--</property>-->
     </bean>
 
     <alias name="commonSelfIdGenerator" alias="idGenerator"/>

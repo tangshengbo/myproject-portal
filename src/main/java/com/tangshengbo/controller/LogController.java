@@ -188,13 +188,12 @@ public class LogController {
     public ResponseMessage stringToDate(String date) {
         //暴露代理接口
         LogController proxy = (LogController) AopContext.currentProxy();
-        proxy.exposeProxy(date);
+        proxy.exposeProxy(new Date());
         return ResponseGenerator.genSuccessResult(conversionService.convert(date, Date.class));
     }
 
-    @GetMapping("/exposeProxy")
-    public void exposeProxy(String str) {
-        AccountService accountService = (AccountService) logService;
-        logger.info("exposeProxy:{}, {}", str, accountService.findAll());
+    @PostMapping("/exposeProxy")
+    public void exposeProxy(Date str) {
+        logger.info("exposeProxy:{}", str);
     }
 }
