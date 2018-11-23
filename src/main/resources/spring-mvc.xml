@@ -60,8 +60,8 @@
         </mvc:interceptor>
     </mvc:interceptors>
     <bean id="configurableWebBindingInitializer" class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer">
-        <!--<property name="conversionService" ref="conversionServiceFactoryBean"/>-->
-        <property name="propertyEditorRegistrar"  ref="customPropertyEditorRegistrar"/>
+        <property name="conversionService" ref="defaultFormattingConversionService"/>
+        <!--<property name="propertyEditorRegistrar"  ref="customPropertyEditorRegistrar"/>-->
     </bean>
 
     <!-- 单独为webapplicationContext注入placeholder  -->

@@ -68,6 +68,17 @@
             </list>
         </property>
     </bean>
+    <!--<bean id="dateFormatterRegistrar" class="org.springframework.format.datetime.DateFormatterRegistrar"/>-->
+
+    <!--<bean id="formattingConversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">-->
+        <!--<property name="formatterRegistrars">-->
+            <!--<set>-->
+                <!--<ref bean="dateFormatterRegistrar"/>-->
+            <!--</set>-->
+        <!--</property>-->
+    <!--</bean>-->
+
+    <bean id="defaultFormattingConversionService" class="org.springframework.format.support.DefaultFormattingConversionService"/>
 
     <bean id="customPropertyEditorRegistrar" class="com.tangshengbo.model.CustomPropertyEditorRegistrar"/>
     <bean class="org.springframework.beans.factory.config.CustomEditorConfigurer">

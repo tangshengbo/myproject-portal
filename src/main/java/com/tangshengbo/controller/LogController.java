@@ -26,6 +26,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.convert.ConversionService;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -188,12 +189,12 @@ public class LogController {
     public ResponseMessage stringToDate(String date) {
         //暴露代理接口
         LogController proxy = (LogController) AopContext.currentProxy();
-        proxy.exposeProxy(new Date());
+        proxy.exposeProxy(null);
         return ResponseGenerator.genSuccessResult(conversionService.convert(date, Date.class));
     }
 
     @PostMapping("/exposeProxy")
-    public void exposeProxy(Date str) {
+    public void exposeProxy(@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date str) {
         logger.info("exposeProxy:{}", str);
     }
 }
