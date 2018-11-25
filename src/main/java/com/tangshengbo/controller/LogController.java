@@ -26,7 +26,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.convert.ConversionService;
-import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.core.env.Environment;
+import org.springframework.core.env.PropertySources;
 import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -76,6 +77,16 @@ public class LogController {
     @Qualifier("conversionServiceFactoryBean")
     @Autowired
     private ConversionService conversionService;
+
+    @Value("#{propertyConfigurer.getAppliedPropertySources()}")
+    private PropertySources propertySources;
+
+    @Value("#{environment.getProperty('spring.profiles.default')}")
+    private String profile;
+
+    @Autowired
+    private Environment environment;
+
 
     // 本方法将处理 /courses/view?courseId=123 形式的URL
     @RequestMapping(value = "/list", method = {RequestMethod.GET, RequestMethod.POST})
@@ -189,12 +200,30 @@ public class LogController {
     public ResponseMessage stringToDate(String date) {
         //暴露代理接口
         LogController proxy = (LogController) AopContext.currentProxy();
-        proxy.exposeProxy(null);
+        proxy.exposeProxy(new Date());
         return ResponseGenerator.genSuccessResult(conversionService.convert(date, Date.class));
     }
 
     @PostMapping("/exposeProxy")
-    public void exposeProxy(@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date str) {
-        logger.info("exposeProxy:{}", str);
+    public ResponseMessage exposeProxy(Date str) {
+        logger.info("exposeProxy:{},", str);
+        return ResponseGenerator.genSuccessResult(str.toString() + "-" + profile);
+    }
+
+    @GetMapping("/environment")
+    public ResponseMessage environment(String name) {
+        logger.info("environment:{},", name);
+        return ResponseGenerator.genSuccessResult(environment.getProperty(name));
+    }
+
+    @GetMapping("/property")
+    public ResponseMessage getPropertySourcesWithSpel() {
+        StringBuffer sb = new StringBuffer();
+        propertySources.forEach(propertySource -> {
+            Object source = propertySource.getSource();
+            logger.info("{}", source.toString());
+            sb.append(source.toString());
+        });
+        return ResponseGenerator.genSuccessResult(sb.toString());
     }
 }

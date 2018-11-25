@@ -51,7 +51,7 @@
     </bean>
     <alias name="replacer" alias="personReplacer"/>
     <!-- 引入dbconfig.properties属性文件 -->
-    <bean  id="propertyConfigurer"  class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    <bean  id="propertyConfigurer"  class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
         <meta key="fsdf" value="fsdfs"/>
         <property name="locations">
             <list>
@@ -60,6 +60,8 @@
             </list>
         </property>
     </bean>
+
+    <!--<context:property-placeholder location="classpath:dbconfig.properties,classpath:config.properties"/>-->
 
     <bean id="conversionServiceFactoryBean" class="org.springframework.context.support.ConversionServiceFactoryBean">
         <property name="converters" >

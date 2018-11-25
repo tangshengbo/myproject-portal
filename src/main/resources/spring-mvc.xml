@@ -37,32 +37,35 @@
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" p:prefix="/WEB-INF/view/"
           p:suffix=".jsp"/>
     <!-- 完成请求和注解POJO的映射 -->
-    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
-        <property name="messageConverters">
-            <list>
-                <bean
-                        class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
-                    <property name="supportedMediaTypes">
-                        <list>
-                            <value>application/json;charset=UTF-8</value>
-                        </list>
-                    </property>
-                </bean>
-            </list>
-        </property>
-        <property name="webBindingInitializer" ref="configurableWebBindingInitializer"/>
-        <property name="order" value="-1"/>
-    </bean>
-    <mvc:interceptors>
-        <mvc:interceptor>
-            <mvc:mapping path="/**"/>
-            <bean class="com.tangshengbo.interceptor.LogInterceptor"/>
-        </mvc:interceptor>
-    </mvc:interceptors>
-    <bean id="configurableWebBindingInitializer" class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer">
-        <property name="conversionService" ref="defaultFormattingConversionService"/>
-        <!--<property name="propertyEditorRegistrar"  ref="customPropertyEditorRegistrar"/>-->
-    </bean>
+    <beans profile="dev">
+        <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+            <property name="messageConverters">
+                <list>
+                    <bean
+                            class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                        <property name="supportedMediaTypes">
+                            <list>
+                                <value>application/json;charset=UTF-8</value>
+                            </list>
+                        </property>
+                    </bean>
+                </list>
+            </property>
+            <property name="webBindingInitializer" ref="configurableWebBindingInitializer"/>
+            <property name="order" value="-1"/>
+        </bean>
+        <mvc:interceptors>
+            <mvc:interceptor>
+                <mvc:mapping path="/**"/>
+                <bean class="com.tangshengbo.interceptor.LogInterceptor"/>
+            </mvc:interceptor>
+        </mvc:interceptors>
+        <bean id="configurableWebBindingInitializer" class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer">
+            <property name="conversionService" ref="defaultFormattingConversionService"/>
+            <property name="propertyEditorRegistrar"  ref="customPropertyEditorRegistrar"/>
+        </bean>
+    </beans>
+
 
     <!-- 单独为webapplicationContext注入placeholder  -->
     <!--<context:property-placeholder ignore-unresolvable="true"-->

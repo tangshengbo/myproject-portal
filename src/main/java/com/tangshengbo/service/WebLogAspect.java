@@ -15,6 +15,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * Created by Tang on 2017/6/26.
@@ -25,22 +26,22 @@ public class WebLogAspect extends BaseController {
 
     private static final Logger logger = LoggerFactory.getLogger(WebLogAspect.class);
 
-    @DeclareParents(value = "com.tangshengbo.service.LogService+", defaultImpl = com.tangshengbo.service.impl.AccountServiceImpl.class )
-    private AccountService AccountService;
+//    @DeclareParents(value = "com.tangshengbo.service.LogService+", defaultImpl = com.tangshengbo.service.impl.AccountServiceImpl.class )
+//    private AccountService AccountService;
 
     @Autowired
     private LogService logService;
 
     //两个..代表所有子目录，最后括号里的两个..代表所有参数
-    @Pointcut("execution(public * com.tangshengbo.controller.*.*(..))")
+    @Pointcut("execution(public * com.tangshengbo.controller.*.*(..)) && !bean(accountController)")
     public void logPointCut() {
     }
+//
+//    @Pointcut("@within(org.springframework.web.bind.annotation.RestController)")
+//    public void logPointCutWith() {
+//    }
 
-    @Pointcut("@within(org.springframework.web.bind.annotation.RestController)")
-    public void logPointCutWith() {
-    }
-
-    @Before("logPointCutWith()")
+    @Before("logPointCut()")
     public void doBefore(JoinPoint joinPoint) throws Throwable {
         // 接收到请求，记录请求内容
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
@@ -90,6 +91,9 @@ public class WebLogAspect extends BaseController {
     public Object doAround(ProceedingJoinPoint pjp) throws Throwable {
         long startTime = System.currentTimeMillis();
         Object ob = pjp.proceed();// ob 为方法的返回值
+        if (Objects.isNull(ob)) {
+            ob = pjp.proceed();// ob 为方法的返回值
+        }
         logger.info("耗时 : " + (System.currentTimeMillis() - startTime) + "ms");
         return ob;
     }
