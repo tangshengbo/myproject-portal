@@ -61,8 +61,6 @@ public class AccountController extends BaseController {
     @RequestMapping(value = "/list", method = {RequestMethod.GET, RequestMethod.POST})
     public ResponseMessage<List<Account>> getAccountAll(Model model, String name, Integer age) {
         logger.info("name:{}, age:{}", name, age);
-        accountService = new DefaultAccountServiceImpl();
-        System.out.println("32423432");
         return ResponseGenerator.genSuccessResult(accountService.findAll());
     }
 
