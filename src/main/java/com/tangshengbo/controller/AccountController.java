@@ -8,7 +8,6 @@ import com.tangshengbo.core.ResponseMessage;
 import com.tangshengbo.exception.ServiceException;
 import com.tangshengbo.model.Account;
 import com.tangshengbo.service.AccountService;
-import com.tangshengbo.service.impl.DefaultAccountServiceImpl;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -47,13 +46,13 @@ public class AccountController extends BaseController {
     @Autowired
     private AccountService accountService;
 
-    @Value("${CAT_COOKIE_EXPIRE}")
+    @Value("#{604800}")
     private Integer CAT_COOKIE_EXPIRE;
 
-    @Value("${CAT_COOKIE_NAME}")
+    @Value("Tang_Cookie")
     private String CAT_COOKIE_NAME;
 
-    @Value("${COOKIE_ENCODING}")
+    @Value("COOKIE_ENCODING")
     private String COOKIE_ENCODING;
 
     // 本方法将处理 /courses/view?courseId=123 形式的URL

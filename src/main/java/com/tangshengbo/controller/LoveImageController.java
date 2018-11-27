@@ -4,7 +4,9 @@ import com.alibaba.fastjson.JSON;
 import com.tangshengbo.core.BeanCopier;
 import com.tangshengbo.core.RandomUtils;
 import com.tangshengbo.model.CanvasImage;
+import com.tangshengbo.model.HttpLog;
 import com.tangshengbo.model.LoveImage;
+import com.tangshengbo.service.LogService;
 import com.tangshengbo.service.LoveImageService;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -48,6 +50,9 @@ public class LoveImageController {
 
     @Autowired
     private GridFsTemplate gridFsTemplate;
+
+    @Autowired
+    private LogService logService;
 
     @RequestMapping(value = "/show_square", method = {RequestMethod.GET, RequestMethod.POST})
     public String showSquare(Model model, HttpServletResponse response) {
@@ -158,5 +163,12 @@ public class LoveImageController {
         } else {
             return "upload error";
         }
+    }
+
+    @RequestMapping(value = "/list", method = {RequestMethod.GET})
+    public String getHttpLogs(Model model) {
+        List<HttpLog> httpLogs = logService.listHttpLog();
+        model.addAttribute("collects", httpLogs);
+        return "log_list";
     }
 }

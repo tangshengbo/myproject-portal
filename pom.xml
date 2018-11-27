@@ -363,6 +363,12 @@
                 </jdbc_url_log>
                 <jdbc_username>root</jdbc_username>
                 <jdbc_password>root</jdbc_password>
+                <mongodb_host>127.0.0.1</mongodb_host>
+                <mongodb_port>27017</mongodb_port>
+                <mongo.dbname>myproject_portal</mongo.dbname>
+                <mongodb_port>27017</mongodb_port>
+
+
             </properties>
 
         </profile>

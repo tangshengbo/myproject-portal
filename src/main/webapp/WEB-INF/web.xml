@@ -5,71 +5,71 @@
          version="3.1"
          metadata-complete="true">
     <display-name>myproject-portal</display-name>
-    <context-param>
-        <param-name>contextConfigLocation</param-name>
-        <param-value>classpath:spring-context.xml</param-value>
-    </context-param>
+    <!--<context-param>-->
+        <!--<param-name>contextConfigLocation</param-name>-->
+        <!--<param-value>classpath:spring-context.xml</param-value>-->
+    <!--</context-param>-->
+
+    <!--&lt;!&ndash;<listener>&ndash;&gt;-->
+        <!--&lt;!&ndash;<description>Spring Listener</description>&ndash;&gt;-->
+        <!--&lt;!&ndash;<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>&ndash;&gt;-->
+    <!--&lt;!&ndash;</listener>&ndash;&gt;-->
 
     <!--<listener>-->
-        <!--<description>Spring Listener</description>-->
-        <!--<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>-->
+        <!--<listener-class>com.tangshengbo.listener.MyServletContextListener</listener-class>-->
     <!--</listener>-->
 
-    <listener>
-        <listener-class>com.tangshengbo.listener.MyServletContextListener</listener-class>
-    </listener>
+    <!--&lt;!&ndash; springMVC核心配置 &ndash;&gt;-->
+    <!--<servlet>-->
+        <!--<servlet-name>dispatcherServlet</servlet-name>-->
+        <!--<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>-->
+        <!--<init-param>-->
+            <!--<param-name>contextConfigLocation</param-name>-->
+            <!--&lt;!&ndash;spingMVC的配置路径  &ndash;&gt;-->
+            <!--<param-value>classpath:spring-context.xml</param-value>-->
+        <!--</init-param>-->
+        <!--<init-param>-->
+            <!--<param-name>spring.profiles.default</param-name>-->
+            <!--<param-value>dev</param-value>-->
+        <!--</init-param>-->
+        <!--<load-on-startup>1</load-on-startup>-->
+        <!--<async-supported>true</async-supported>-->
+        <!--<multipart-config/>-->
+    <!--</servlet>-->
+    <!--<servlet>-->
+        <!--<servlet-name>initServlet</servlet-name>-->
+        <!--<servlet-class>com.tangshengbo.model.InitServlet</servlet-class>-->
+        <!--<load-on-startup>-1</load-on-startup>-->
+    <!--</servlet>-->
+    <!--<servlet-mapping>-->
+        <!--<servlet-name>initServlet</servlet-name>-->
+        <!--<url-pattern>/init</url-pattern>-->
+    <!--</servlet-mapping>-->
+    <!--&lt;!&ndash; 拦截设置 &ndash;&gt;-->
+    <!--<servlet-mapping>-->
+        <!--<servlet-name>dispatcherServlet</servlet-name>-->
+        <!--<url-pattern>/</url-pattern>-->
+    <!--</servlet-mapping>-->
 
-    <!-- springMVC核心配置 -->
-    <servlet>
-        <servlet-name>dispatcherServlet</servlet-name>
-        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-        <init-param>
-            <param-name>contextConfigLocation</param-name>
-            <!--spingMVC的配置路径  -->
-            <param-value>classpath:spring-context.xml</param-value>
-        </init-param>
-        <init-param>
-            <param-name>spring.profiles.default</param-name>
-            <param-value>dev</param-value>
-        </init-param>
-        <load-on-startup>1</load-on-startup>
-        <async-supported>true</async-supported>
-        <multipart-config/>
-    </servlet>
-    <servlet>
-        <servlet-name>initServlet</servlet-name>
-        <servlet-class>com.tangshengbo.model.InitServlet</servlet-class>
-        <load-on-startup>-1</load-on-startup>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>initServlet</servlet-name>
-        <url-pattern>/init</url-pattern>
-    </servlet-mapping>
-    <!-- 拦截设置 -->
-    <servlet-mapping>
-        <servlet-name>dispatcherServlet</servlet-name>
-        <url-pattern>/</url-pattern>
-    </servlet-mapping>
+    <!--&lt;!&ndash; 编码设置 &ndash;&gt;-->
+    <!--<filter>-->
+        <!--<filter-name>encodingFilter</filter-name>-->
+        <!--<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>-->
+        <!--<async-supported>true</async-supported>-->
+        <!--<init-param>-->
+            <!--<param-name>encoding</param-name>-->
+            <!--<param-value>UTF-8</param-value>-->
+        <!--</init-param>-->
+        <!--<init-param>-->
+            <!--<param-name>forceEncoding</param-name>-->
+            <!--<param-value>true</param-value>-->
+        <!--</init-param>-->
 
-    <!-- 编码设置 -->
-    <filter>
-        <filter-name>encodingFilter</filter-name>
-        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
-        <async-supported>true</async-supported>
-        <init-param>
-            <param-name>encoding</param-name>
-            <param-value>UTF-8</param-value>
-        </init-param>
-        <init-param>
-            <param-name>forceEncoding</param-name>
-            <param-value>true</param-value>
-        </init-param>
+    <!--</filter>-->
 
-    </filter>
-
-    <filter-mapping>
-        <filter-name>encodingFilter</filter-name>
-        <url-pattern>*</url-pattern>
-    </filter-mapping>
+    <!--<filter-mapping>-->
+        <!--<filter-name>encodingFilter</filter-name>-->
+        <!--<url-pattern>*</url-pattern>-->
+    <!--</filter-mapping>-->
 
 </web-app>

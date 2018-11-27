@@ -2,6 +2,7 @@ package com.tangshengbo.javaconfig;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 /**
@@ -11,7 +12,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 //@EnableAspectJAutoProxy(exposeProxy = true, proxyTargetClass = true)
 @Configuration
 //@ComponentScan(value = {"com.tangshengbo.controller"})
-@ImportResource(value = {"classpath:spring-mvc.xml"})
+@ImportResource(value = {"classpath:spring-context.xml"})
+@ActiveProfiles(value = {"dev"})
 public class WebConfig extends WebMvcConfigurerAdapter {
 
 //    @Bean

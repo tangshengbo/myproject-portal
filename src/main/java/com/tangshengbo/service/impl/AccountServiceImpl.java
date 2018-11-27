@@ -44,10 +44,10 @@ public class AccountServiceImpl extends AbstractService<Account> implements Acco
     @Autowired
     private JedisClient jedisClient;
 
-    @Value("${REDIS_ACCOUNT_KEY}")
+    @Value("REDIS_ACCOUNT")
     private String REDIS_ACCOUNT_KEY;
 
-    @Value("${REDIS_ACCOUNT_EXPIRE}")
+    @Value("#{100}")
     private Integer REDIS_ACCOUNT_EXPIRE;
 
     @Autowired

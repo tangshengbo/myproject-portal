@@ -34,8 +34,17 @@
     <mvc:resources mapping="swagger-ui.html" location="classpath:/META-INF/resources/"/>
     <mvc:resources mapping="/webjars/**" location="classpath:/META-INF/resources/webjars/"/>
     <!-- 对模型视图名称的解析，在请求时模型视图名称添加前后缀 -->
-    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" p:prefix="/WEB-INF/view/"
-          p:suffix=".jsp" p:viewClass="org.springframework.web.servlet.view.JstlView"/>
+    <!--<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" p:prefix="/WEB-INF/view/"-->
+          <!--p:suffix=".jsp" p:viewClass="org.springframework.web.servlet.view.JstlView"/>-->
+
+
+    <bean class="org.thymeleaf.spring4.view.ThymeleafViewResolver" p:templateEngine-ref="springTemplateEngine"
+          p:contentType="text/html;charset=UTF-8" p:characterEncoding="UTF-8"/>
+    <bean id="springTemplateEngine" class="org.thymeleaf.spring4.SpringTemplateEngine"
+          p:templateResolver-ref="contextTemplateResolver"/>
+    <bean id="contextTemplateResolver" class="org.thymeleaf.templateresolver.ServletContextTemplateResolver"
+          p:prefix="/WEB-INF/templates/"
+          p:suffix=".html" p:templateMode="HTML5" p:characterEncoding="UTF-8"/>
     <!-- 完成请求和注解POJO的映射 -->
     <beans profile="dev">
         <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
@@ -65,7 +74,6 @@
             <property name="propertyEditorRegistrar"  ref="customPropertyEditorRegistrar"/>
         </bean>
     </beans>
-
 
     <!-- 单独为webapplicationContext注入placeholder  -->
     <!--<context:property-placeholder ignore-unresolvable="true"-->
