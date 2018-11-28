@@ -44,7 +44,7 @@
           p:templateResolver-ref="contextTemplateResolver"/>
     <bean id="contextTemplateResolver" class="org.thymeleaf.templateresolver.ServletContextTemplateResolver"
           p:prefix="/WEB-INF/templates/"
-          p:suffix=".html" p:templateMode="HTML5" p:characterEncoding="UTF-8"/>
+          p:suffix=".html" p:templateMode="HTML" p:characterEncoding="UTF-8"/>
     <!-- 完成请求和注解POJO的映射 -->
     <beans profile="dev">
         <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
