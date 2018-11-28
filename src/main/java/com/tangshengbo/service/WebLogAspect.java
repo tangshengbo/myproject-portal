@@ -68,7 +68,10 @@ public class WebLogAspect extends BaseController {
     }
 
     private void writeLog(String requestUrl, String httpMethod, String clientIp, String clientProxy) {
-        if (!requestUrl.contains("/log/") || !requestUrl.contains("/love/list") ) {
+        if (requestUrl.contains("/love/list")) {
+            return;
+        }
+        if (!requestUrl.contains("/log/")) {
             HttpLog httpLog = new HttpLog();
             httpLog.setClientIp(clientIp);
             httpLog.setClientProxy(clientProxy);
