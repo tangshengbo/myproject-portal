@@ -68,6 +68,10 @@
                 <mvc:mapping path="/**"/>
                 <bean class="com.tangshengbo.interceptor.LogInterceptor"/>
             </mvc:interceptor>
+            <mvc:interceptor>
+                <mvc:mapping path="/log/*"/>
+                <bean class="com.tangshengbo.interceptor.SecurityIntercept"/>
+            </mvc:interceptor>
         </mvc:interceptors>
         <bean id="configurableWebBindingInitializer" class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer">
             <property name="conversionService" ref="defaultFormattingConversionService"/>

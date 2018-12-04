@@ -200,14 +200,14 @@ public class LogController {
     public ResponseMessage stringToDate(String date) {
         //暴露代理接口
         LogController proxy = (LogController) AopContext.currentProxy();
-        proxy.exposeProxy(new Date());
+        proxy.exposeProxy(new Date(), "");
         return ResponseGenerator.genSuccessResult(conversionService.convert(date, Date.class));
     }
 
     @PostMapping("/exposeProxy")
-    public ResponseMessage exposeProxy(Date str) {
+    public ResponseMessage exposeProxy(@RequestParam("str") Date str, @RequestParam("content") String content) {
         logger.info("exposeProxy:{},", str);
-        return ResponseGenerator.genSuccessResult(str.toString() + "-" + profile);
+        return ResponseGenerator.genSuccessResult(str.toString() + "-" + content);
     }
 
     @GetMapping("/environment")
