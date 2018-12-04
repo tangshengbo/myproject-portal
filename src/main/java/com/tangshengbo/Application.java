@@ -4,9 +4,11 @@ import com.tangshengbo.model.MyClassPathXmlApplicationContext;
 import com.tangshengbo.model.User;
 import com.tangshengbo.model.cycle.TestA;
 import com.tangshengbo.service.LogService;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.FactoryBean;
+import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.util.CollectionUtils;
 
@@ -44,6 +46,9 @@ public class Application {
             if (s == null) {
                 logger.info("{}", "SecurityManager not been established..");
             }
+            Resource resource = beanFactory.getResource("https://camo.githubusercontent.com/41e7f575a8b976921c9af281e51274d195ec8571/68747470733a2f2f692e696d6775722e636f6d2f4d7034304359662e6a7067");
+            String string = IOUtils.toString(resource.getInputStream(), "UTF-8");
+            logger.info("{}", string);
         } catch (Exception e) {
             e.printStackTrace();
         }

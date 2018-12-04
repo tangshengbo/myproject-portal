@@ -46,7 +46,7 @@
           p:prefix="/WEB-INF/templates/"
           p:suffix=".html" p:templateMode="HTML" p:characterEncoding="UTF-8"/>
     <!-- 完成请求和注解POJO的映射 -->
-    <beans profile="dev">
+    <!--<beans profile="dev">-->
         <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
             <property name="messageConverters">
                 <list>
@@ -71,9 +71,9 @@
         </mvc:interceptors>
         <bean id="configurableWebBindingInitializer" class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer">
             <property name="conversionService" ref="defaultFormattingConversionService"/>
-            <property name="propertyEditorRegistrar"  ref="customPropertyEditorRegistrar"/>
+            <property name="propertyEditorRegistrar" ref="customPropertyEditorRegistrar"/>
         </bean>
-    </beans>
+    <!--</beans>-->
 
     <!-- 单独为webapplicationContext注入placeholder  -->
     <!--<context:property-placeholder ignore-unresolvable="true"-->
