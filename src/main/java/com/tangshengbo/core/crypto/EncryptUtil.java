@@ -6,6 +6,8 @@ import com.alibaba.fastjson.TypeReference;
 import com.google.common.collect.Maps;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -18,7 +20,9 @@ import java.util.Map;
 /**
  * Created by Tangshengbo on 2018/12/4
  */
-public class EncryptUtil {
+public final class EncryptUtil {
+
+    private static Logger logger = LoggerFactory.getLogger(EncryptUtil.class);
 
     public static String encrypt(String msg) throws Exception {
         Map<String, Object> params = JSONObject.parseObject(msg,
@@ -83,8 +87,8 @@ public class EncryptUtil {
             byte[] key;
             byte[] iv;
             try {
-                iv = RSAUtil.decryptData(Base64.decodeBase64(ivStr), privateKey, "RSA");
                 key = RSAUtil.decryptData(Base64.decodeBase64(keyStr), privateKey, "RSA");
+                iv = RSAUtil.decryptData(Base64.decodeBase64(ivStr), privateKey, "RSA");
             } catch (Exception var12) {
                 throw new RuntimeException("值解密失败，AES密钥解密失败", var12);
             }
@@ -118,25 +122,26 @@ public class EncryptUtil {
         jsonContent.put("name", "唐");
         jsonContent.put("age", "18");
         jsonContent.put("birthday", new Date());
+        String original = jsonContent.toJSONString();
+        logger.info("原始数据:{}", original);
 
-        Map<String, Object> params = Maps.newHashMap();
-        params.put("content", jsonContent.toJSONString());
+        Map<String, Object> params = Maps.newLinkedHashMap();
+        params.put("content", original);
+        String encryptStr = encrypt(JSON.toJSONString(params));
+        logger.info("加密后:{}", encryptStr);
 
-        String ecMsg = encrypt(JSON.toJSONString(params));
-        System.out.println("crypto:" + ecMsg);
+        Map<String, Object> ecParams = JSON.parseObject(encryptStr);
+        String sign = SignUtil.sign(original);
+        logger.info("原始数据签名:{}", sign);
+        ecParams.put("sign", sign);
+        logger.info("最终加密数据:{}", ((JSONObject) ecParams).toJSONString());
 
-        Map<String, Object> ecParams = JSON.parseObject(ecMsg);
-        ecParams.put("sign", SignUtil.sign(jsonContent.toJSONString()));
-        System.out.println("final:" + ecParams);
 
-        boolean sign = SignUtil.verifySign(jsonContent.toJSONString(), ecParams.get("sign").toString());
-        System.out.println(sign);
+        boolean isSuccess = SignUtil.verifySign(original, ecParams.get("sign").toString());
+        logger.info("验签结果:{}", isSuccess);
 
         String decryptMsg = decrypt(JSON.toJSONString(ecParams));
-        System.out.println(decryptMsg);
-        sign = SignUtil.verifySign(decryptMsg);
-        System.out.println(sign);
+        logger.info("解密结果:{}", decryptMsg);
 
-//        System.out.println("decryptMsg:" + decryptMsg);
     }
 }

@@ -205,7 +205,7 @@ public class LogController {
     }
 
     @PostMapping("/exposeProxy")
-    public ResponseMessage exposeProxy(@RequestParam("str") Date str, @RequestParam("content") String content) {
+    public ResponseMessage exposeProxy(@RequestParam("str") Date str, @RequestParam(value = "content", required = false) String content) {
         logger.info("exposeProxy:{},", str);
         return ResponseGenerator.genSuccessResult(str.toString() + "-" + content);
     }

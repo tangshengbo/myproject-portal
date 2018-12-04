@@ -82,7 +82,7 @@ public class WebLogAspect extends BaseController {
     }
 
     // returning的值和doAfterReturning的参数名一致
-    @AfterReturning(returning = "ret", pointcut = "logPointCut()")
+    @AfterReturning(returning = "ret", pointcut = "logPointCut()" )
     public void doAfterReturning(Object ret) throws Throwable {
         // 处理完请求，返回内容
         logger.info("返回值 : " + ret);
