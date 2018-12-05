@@ -2,8 +2,8 @@ package com.tangshengbo.interceptor;
 
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
-import com.tangshengbo.core.crypto.EncryptUtil;
-import com.tangshengbo.core.crypto.SignUtil;
+import com.tangshengbo.core.security.EncryptUtil;
+import com.tangshengbo.core.security.SignUtil;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +23,7 @@ import java.util.Map;
  * Created by Tangshengbo on 2018/12/4
  */
 public class SecurityIntercept extends HandlerInterceptorAdapter {
+
     private static final Logger logger = LoggerFactory.getLogger(SecurityIntercept.class);
 
     @Override
@@ -71,20 +72,18 @@ public class SecurityIntercept extends HandlerInterceptorAdapter {
 
             Field coyoteRequestField = innerRequest.getClass().getDeclaredField("coyoteRequest");
             coyoteRequestField.setAccessible(true);
-            Object coyoteRequestObject = coyoteRequestField.get(innerRequest);//获取到coyoteRequest对象
-
+            //获取到coyoteRequest对象
+            Object coyoteRequestObject = coyoteRequestField.get(innerRequest);
             Field parametersField = coyoteRequestObject.getClass().getDeclaredField("parameters");
             parametersField.setAccessible(true);
-            Object parameterObject = parametersField.get(coyoteRequestObject);//获取到parameter的对象
-            //获取hashtable来完成对参数变量的修改
+            //获取到parameter的对象
+            Object parameterObject = parametersField.get(coyoteRequestObject);
+            //获取到parameter的对象
             Field hashTabArrField = parameterObject.getClass().getDeclaredField("paramHashValues");
             hashTabArrField.setAccessible(true);
             @SuppressWarnings("unchecked")
             Map<String, ArrayList<String>> map = (Map<String, ArrayList<String>>) hashTabArrField.get(parameterObject);
             map.put("content", Lists.newArrayList(decContent));
-            //也可以通过下面的方法，不过下面的方法只能添加参数，如果有相同的key，会追加参数，即，同一个key的结果集会有多个
-//            Method method = parameterObject.getClass().getDeclaredMethod("addParameterValues" , String.class , String[].class);
-//            method.invoke(parameterObject , "fuck" , new String[] {"fuck you!" , "sssss"});
         } catch (Exception e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
@@ -93,7 +92,6 @@ public class SecurityIntercept extends HandlerInterceptorAdapter {
     class ParameterRequestWrapper extends HttpServletRequestWrapper {
 
         private Map<String, String[]> params = new HashMap<>();
-
 
         @SuppressWarnings("unchecked")
         public ParameterRequestWrapper(HttpServletRequest request) {

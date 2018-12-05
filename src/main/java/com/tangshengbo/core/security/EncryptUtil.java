@@ -1,4 +1,4 @@
-package com.tangshengbo.core.crypto;
+package com.tangshengbo.core.security;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -38,7 +38,7 @@ public final class EncryptUtil {
         String encoding = "UTF-8";
         String content = (String) params.get("content");
         ByteArrayInputStream bti = new ByteArrayInputStream(content.getBytes(encoding));
-        PublicKey publicKey = RSAConfig.getDefaultInstance().getCoopPublicKey();
+        PublicKey publicKey = RSAConfig.getDefaultInstance().getKeyPair().getPublic();
         ByteArrayOutputStream bout = new ByteArrayOutputStream();
         byte[] key = AESUtil.generateKey(128);
         byte[] iv = AESUtil.generateRandomIV();
@@ -83,7 +83,7 @@ public final class EncryptUtil {
         String content = (String) params.get("content");
         if (!StringUtils.isEmpty(ivStr) && !StringUtils.isEmpty(keyStr) && !StringUtils.isEmpty(content)) {
             byte[] base64Content = Base64.decodeBase64(content);
-            PrivateKey privateKey = RSAConfig.getDefaultInstance().getPrivateKey();
+            PrivateKey privateKey = RSAConfig.getDefaultInstance().getKeyPair().getPrivate();
             byte[] key;
             byte[] iv;
             try {

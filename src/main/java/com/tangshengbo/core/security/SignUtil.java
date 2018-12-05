@@ -1,4 +1,4 @@
-package com.tangshengbo.core.crypto;
+package com.tangshengbo.core.security;
 
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.codec.binary.Base64;
@@ -20,7 +20,7 @@ public class SignUtil {
     private static Logger logger = LoggerFactory.getLogger(SignUtil.class);
 
     public static String sign(String content) throws Exception {
-        PrivateKey privateKey = RSAConfig.getDefaultInstance().getPrivateKey();
+        PrivateKey privateKey = RSAConfig.getDefaultInstance().getKeyPair().getPrivate();
         byte[] contentBytes = content.getBytes("UTF-8");
         return Base64.encodeBase64String(RSAUtil.genSignature(contentBytes, privateKey, "SHA256withRSA"));
     }
@@ -54,7 +54,7 @@ public class SignUtil {
 
     public static boolean verifySign(String content, String sign) throws Exception {
         logger.info("待验签字串:{}", content);
-        PublicKey publicKey = RSAConfig.getDefaultInstance().getCoopPublicKey();
+        PublicKey publicKey = RSAConfig.getDefaultInstance().getKeyPair().getPublic();
         Signature sig = Signature.getInstance("SHA256withRSA");
         sig.initVerify(publicKey);
         sig.update(content.getBytes("UTF-8"));

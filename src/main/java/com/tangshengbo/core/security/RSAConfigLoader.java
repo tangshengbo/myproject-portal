@@ -1,9 +1,12 @@
-package com.tangshengbo.core.crypto;
+package com.tangshengbo.core.security;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.InputStream;
+import java.security.KeyPair;
+import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.util.Properties;
 
 /**
@@ -35,10 +38,11 @@ public class RSAConfigLoader {
             configFile.close();
 
             String privateKeyPath = prop.getProperty("config.privateKeyPath");
-            config.setPrivateKey(RSAUtil.readRSAPrivateKeyFromFile(privateKeyPath, true));
+            PrivateKey privateKey = RSAUtil.readRSAPrivateKeyFromFile(privateKeyPath, true);
 
-            String coopPublicKeyPath = prop.getProperty("config.publicKeyPath");
-            config.setCoopPublicKey(RSAUtil.readRSAPublicKeyFromFile(coopPublicKeyPath));
+            String publicKeyPath = prop.getProperty("config.publicKeyPath");
+            PublicKey publicKey = RSAUtil.readRSAPublicKeyFromFile(publicKeyPath);
+            config.setKeyPair(new KeyPair(publicKey, privateKey));
             return config;
         } catch (Exception var10) {
             throw new RuntimeException("加载config配置文件失败", var10);

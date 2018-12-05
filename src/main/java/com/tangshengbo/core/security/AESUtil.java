@@ -1,4 +1,4 @@
-package com.tangshengbo.core.crypto;
+package com.tangshengbo.core.security;
 
 import com.alibaba.druid.util.Base64;
 
