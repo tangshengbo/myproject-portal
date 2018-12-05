@@ -27,27 +27,19 @@ public final class AESUtil {
     }
 
     public static byte[] encrypt(byte[] key, byte[] ivByte, byte[] value) throws Exception {
-        try {
-            SecureRandom sr = new SecureRandom();
-            SecretKey securekey = new SecretKeySpec(key, "AES");
-            IvParameterSpec iv = new IvParameterSpec(ivByte);
-            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-            cipher.init(1, securekey, iv, sr);
-            return cipher.doFinal(value);
-        } catch (Exception var7) {
-            throw var7;
-        }
+        SecureRandom sr = new SecureRandom();
+        SecretKey securekey = new SecretKeySpec(key, "AES");
+        IvParameterSpec iv = new IvParameterSpec(ivByte);
+        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+        cipher.init(1, securekey, iv, sr);
+        return cipher.doFinal(value);
     }
 
     public static byte[] encrypt(byte[] key, byte[] value) throws Exception {
-        try {
-            SecretKey securekey = new SecretKeySpec(key, "AES");
-            Cipher cipher = Cipher.getInstance("AES");
-            cipher.init(1, securekey);
-            return cipher.doFinal(value);
-        } catch (Exception var4) {
-            throw var4;
-        }
+        SecretKey securekey = new SecretKeySpec(key, "AES");
+        Cipher cipher = Cipher.getInstance("AES");
+        cipher.init(1, securekey);
+        return cipher.doFinal(value);
     }
 
     public static void encrypt(byte[] key, byte[] ivByte, InputStream dataToEncrypt, OutputStream encryptedOut) throws Exception {
@@ -55,71 +47,55 @@ public final class AESUtil {
         SecretKey securekey = new SecretKeySpec(key, "AES");
         IvParameterSpec iv = new IvParameterSpec(ivByte);
         Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-        cipher.init(1, securekey, iv, sr);
-        try {
-            byte[] buffer = new byte[1024];
+        cipher.init(Cipher.ENCRYPT_MODE, securekey, iv, sr);
+        byte[] buffer = new byte[1024];
 
-            for (int read = dataToEncrypt.read(buffer); read > 0; read = dataToEncrypt.read(buffer)) {
-                if (read < 1024) {
-                    encryptedOut.write(cipher.doFinal(Arrays.copyOfRange(buffer, 0, read)));
-                } else {
-                    encryptedOut.write(cipher.doFinal(buffer));
-                }
+        for (int read = dataToEncrypt.read(buffer); read > 0; read = dataToEncrypt.read(buffer)) {
+            if (read < 1024) {
+                encryptedOut.write(cipher.doFinal(Arrays.copyOfRange(buffer, 0, read)));
+            } else {
+                encryptedOut.write(cipher.doFinal(buffer));
             }
-
-            dataToEncrypt.close();
-            encryptedOut.close();
-        } catch (Exception var10) {
-            throw var10;
         }
+
+        dataToEncrypt.close();
+        encryptedOut.close();
     }
 
     public static byte[] decrypt(byte[] key, byte[] ivByte, byte[] value) throws Exception {
-        try {
-            SecureRandom sr = new SecureRandom();
-            SecretKey securekey = new SecretKeySpec(key, "AES");
-            IvParameterSpec iv = new IvParameterSpec(ivByte);
-            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-            cipher.init(2, securekey, iv, sr);
-            return cipher.doFinal(value);
-        } catch (Exception var7) {
-            throw var7;
-        }
+        SecureRandom sr = new SecureRandom();
+        SecretKey securekey = new SecretKeySpec(key, "AES");
+        IvParameterSpec iv = new IvParameterSpec(ivByte);
+        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+        cipher.init(Cipher.DECRYPT_MODE, securekey, iv, sr);
+        return cipher.doFinal(value);
     }
 
     public static byte[] decrypt(byte[] key, byte[] value) throws Exception {
-        try {
-            SecretKey securekey = new SecretKeySpec(key, "AES");
-            Cipher cipher = Cipher.getInstance("AES");
-            cipher.init(2, securekey);
-            return cipher.doFinal(value);
-        } catch (Exception var4) {
-            throw var4;
-        }
+        SecretKey securekey = new SecretKeySpec(key, "AES");
+        Cipher cipher = Cipher.getInstance("AES");
+        cipher.init(2, securekey);
+        return cipher.doFinal(value);
     }
 
     public static void decrypt(byte[] key, byte[] ivByte, InputStream dataToDecrypt, OutputStream decryptOut) throws Exception {
-        try {
-            SecureRandom sr = new SecureRandom();
-            SecretKey securekey = new SecretKeySpec(key, "AES");
-            IvParameterSpec iv = new IvParameterSpec(ivByte);
-            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-            cipher.init(2, securekey, iv, sr);
-            byte[] buffer = new byte[1040];
+        SecureRandom sr = new SecureRandom();
+        SecretKey securekey = new SecretKeySpec(key, "AES");
+        IvParameterSpec iv = new IvParameterSpec(ivByte);
+        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+        cipher.init(2, securekey, iv, sr);
+        byte[] buffer = new byte[1040];
 
-            for (int read = dataToDecrypt.read(buffer); read > 0; read = dataToDecrypt.read(buffer)) {
-                if (read < 1040) {
-                    decryptOut.write(cipher.doFinal(Arrays.copyOfRange(buffer, 0, read)));
-                } else {
-                    decryptOut.write(cipher.doFinal(buffer));
-                }
+        for (int read = dataToDecrypt.read(buffer); read > 0; read = dataToDecrypt.read(buffer)) {
+            if (read < 1040) {
+                decryptOut.write(cipher.doFinal(Arrays.copyOfRange(buffer, 0, read)));
+            } else {
+                decryptOut.write(cipher.doFinal(buffer));
             }
-
-            dataToDecrypt.close();
-            decryptOut.close();
-        } catch (Exception var10) {
-            throw var10;
         }
+
+        dataToDecrypt.close();
+        decryptOut.close();
     }
 
     public static String byte2Hex(byte[] b) {
