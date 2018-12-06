@@ -1,16 +1,10 @@
 package com.tangshengbo.interceptor;
 
-import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
-import com.tangshengbo.core.security.EncryptUtil;
-import com.tangshengbo.core.security.SignUtil;
-import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
@@ -28,34 +22,35 @@ public class SecurityIntercept extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        Boolean rsa = Boolean.valueOf(request.getParameter("rsa"));
-        if (!rsa) {
-            return true;
-        }
-        try {
-            String requestStr = request.getParameter("requestStr");
-            if (StringUtils.isEmpty(requestStr)) {
-                return false;
-            }
-            String decRequestStr = EncryptUtil.decrypt(requestStr);
-            Map<String, Object> decMap = JSON.parseObject(decRequestStr);
-            String decContent = String.valueOf(decMap.get("content"));
-            String sign = String.valueOf(decMap.get("sign"));
-            logger.info("decContent:{},sign:{}", decContent, sign);
-            request.setAttribute("content", decContent);
-            boolean verifySign = SignUtil.verifySign(decContent, sign);
-            logger.info("验签结果:{}", verifySign);
-            modifyRequestParam(request, decContent);
-            logger.info("获取解密后的参数:{}", request.getParameter("content"));
-            return verifySign;
-        } catch (Exception e) {
-            logger.error("{}", e);
-            try (ServletOutputStream outputStream = response.getOutputStream()) {
-                IOUtils.write("解密失败", outputStream, "UTF-8");
-                outputStream.flush();
-                return false;
-            }
-        }
+//        Boolean rsa = Boolean.valueOf(request.getParameter("rsa"));
+//        if (!rsa) {
+//            return true;
+//        }
+//        try {
+//            String requestStr = request.getParameter("requestStr");
+//            if (StringUtils.isEmpty(requestStr)) {
+//                return false;
+//            }
+//            String decRequestStr = EncryptUtil.decrypt(requestStr);
+//            Map<String, Object> decMap = JSON.parseObject(decRequestStr);
+//            String decContent = String.valueOf(decMap.get("content"));
+//            String sign = String.valueOf(decMap.get("sign"));
+//            logger.info("decContent:{},sign:{}", decContent, sign);
+//            request.setAttribute("content", decContent);
+//            boolean verifySign = SignUtil.verifySign(decContent, sign);
+//            logger.info("验签结果:{}", verifySign);
+//            modifyRequestParam(request, decContent);
+//            logger.info("获取解密后的参数:{}", request.getParameter("content"));
+//            return verifySign;
+//        } catch (Exception e) {
+//            logger.error("{}", e);
+//            try (ServletOutputStream outputStream = response.getOutputStream()) {
+//                IOUtils.write("解密失败", outputStream, "UTF-8");
+//                outputStream.flush();
+//                return false;
+//            }
+//        }
+        return true;
     }
 
     private void modifyRequestParam(HttpServletRequest request, String decContent) {

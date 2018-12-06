@@ -7,10 +7,7 @@ import com.dangdang.ddframe.rdb.sharding.id.generator.self.CommonSelfIdGenerator
 import com.google.gson.Gson;
 import com.tangshengbo.core.ResponseGenerator;
 import com.tangshengbo.core.ResponseMessage;
-import com.tangshengbo.model.CanvasImage;
-import com.tangshengbo.model.HttpLog;
-import com.tangshengbo.model.LoveImage;
-import com.tangshengbo.model.MyInject;
+import com.tangshengbo.model.*;
 import com.tangshengbo.service.AccountService;
 import com.tangshengbo.service.HttpLogService;
 import com.tangshengbo.service.LogService;
@@ -213,7 +210,7 @@ public class LogController {
     }
 
     @PostMapping("/exposeProxy")
-    public ResponseMessage exposeProxy(@RequestParam("str") Date str, @RequestParam(value = "content", required = false) String content) {
+    public ResponseMessage exposeProxy(@RequestParam("str") Date str, @RequestParamDecode("content") String content) {
         logger.info("exposeProxy:{},", str);
         return ResponseGenerator.genSuccessResult(str.toString() + "-" + content);
     }

@@ -60,6 +60,11 @@
                     </bean>
                 </list>
             </property>
+           <property name="customArgumentResolvers">
+               <list>
+                   <ref bean="myRequestParamMethodArgumentResolver"/>
+               </list>
+           </property>
             <property name="webBindingInitializer" ref="configurableWebBindingInitializer"/>
             <property name="order" value="-1"/>
         </bean>
@@ -73,10 +78,14 @@
                 <bean class="com.tangshengbo.interceptor.SecurityIntercept"/>
             </mvc:interceptor>
         </mvc:interceptors>
+    <bean  id="myRequestParamMethodArgumentResolver" class="com.tangshengbo.model.MyRequestParamMethodArgumentResolver">
+        <constructor-arg index="0" value="false"/>
+    </bean>
         <bean id="configurableWebBindingInitializer" class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer">
             <property name="conversionService" ref="defaultFormattingConversionService"/>
             <property name="propertyEditorRegistrar" ref="customPropertyEditorRegistrar"/>
         </bean>
+
     <!--</beans>-->
 
     <!-- 单独为webapplicationContext注入placeholder  -->
