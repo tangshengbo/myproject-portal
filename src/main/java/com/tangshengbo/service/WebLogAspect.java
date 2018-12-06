@@ -48,7 +48,7 @@ public class WebLogAspect extends BaseController {
         HttpServletRequest request = attributes.getRequest();
         String requestUrl = request.getRequestURL().toString();
         String httpMethod = request.getMethod();
-        String clientIp = getIpAddr(request);
+        String clientIp = getClientIp(request);
         String clientProxy = request.getHeader("User-Agent");
 
         MDC.put("clientIp", clientIp);

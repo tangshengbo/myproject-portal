@@ -7,9 +7,7 @@ import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
-import java.io.BufferedReader;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.security.SecureRandom;
 import java.util.Arrays;
@@ -28,26 +26,26 @@ public final class AESUtil {
 
     public static byte[] encrypt(byte[] key, byte[] ivByte, byte[] value) throws Exception {
         SecureRandom sr = new SecureRandom();
-        SecretKey securekey = new SecretKeySpec(key, "AES");
+        SecretKey secureKey = new SecretKeySpec(key, "AES");
         IvParameterSpec iv = new IvParameterSpec(ivByte);
         Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-        cipher.init(1, securekey, iv, sr);
+        cipher.init(1, secureKey, iv, sr);
         return cipher.doFinal(value);
     }
 
     public static byte[] encrypt(byte[] key, byte[] value) throws Exception {
-        SecretKey securekey = new SecretKeySpec(key, "AES");
+        SecretKey secureKey = new SecretKeySpec(key, "AES");
         Cipher cipher = Cipher.getInstance("AES");
-        cipher.init(1, securekey);
+        cipher.init(1, secureKey);
         return cipher.doFinal(value);
     }
 
     public static void encrypt(byte[] key, byte[] ivByte, InputStream dataToEncrypt, OutputStream encryptedOut) throws Exception {
         SecureRandom sr = new SecureRandom();
-        SecretKey securekey = new SecretKeySpec(key, "AES");
+        SecretKey secureKey = new SecretKeySpec(key, "AES");
         IvParameterSpec iv = new IvParameterSpec(ivByte);
         Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-        cipher.init(Cipher.ENCRYPT_MODE, securekey, iv, sr);
+        cipher.init(Cipher.ENCRYPT_MODE, secureKey, iv, sr);
         byte[] buffer = new byte[1024];
 
         for (int read = dataToEncrypt.read(buffer); read > 0; read = dataToEncrypt.read(buffer)) {
@@ -64,26 +62,26 @@ public final class AESUtil {
 
     public static byte[] decrypt(byte[] key, byte[] ivByte, byte[] value) throws Exception {
         SecureRandom sr = new SecureRandom();
-        SecretKey securekey = new SecretKeySpec(key, "AES");
+        SecretKey secureKey = new SecretKeySpec(key, "AES");
         IvParameterSpec iv = new IvParameterSpec(ivByte);
         Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-        cipher.init(Cipher.DECRYPT_MODE, securekey, iv, sr);
+        cipher.init(Cipher.DECRYPT_MODE, secureKey, iv, sr);
         return cipher.doFinal(value);
     }
 
     public static byte[] decrypt(byte[] key, byte[] value) throws Exception {
-        SecretKey securekey = new SecretKeySpec(key, "AES");
+        SecretKey secureKey = new SecretKeySpec(key, "AES");
         Cipher cipher = Cipher.getInstance("AES");
-        cipher.init(2, securekey);
+        cipher.init(2, secureKey);
         return cipher.doFinal(value);
     }
 
     public static void decrypt(byte[] key, byte[] ivByte, InputStream dataToDecrypt, OutputStream decryptOut) throws Exception {
         SecureRandom sr = new SecureRandom();
-        SecretKey securekey = new SecretKeySpec(key, "AES");
+        SecretKey secureKey = new SecretKeySpec(key, "AES");
         IvParameterSpec iv = new IvParameterSpec(ivByte);
         Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-        cipher.init(2, securekey, iv, sr);
+        cipher.init(2, secureKey, iv, sr);
         byte[] buffer = new byte[1040];
 
         for (int read = dataToDecrypt.read(buffer); read > 0; read = dataToDecrypt.read(buffer)) {
@@ -141,12 +139,20 @@ public final class AESUtil {
     }
 
     public static void main(String[] args) throws Exception {
-        byte[] default_Key = generateKey(128);
-        String x = new String(default_Key, "UTF-8");
-        byte[] Key = x.getBytes("UTF-8");
-        new BufferedReader(new InputStreamReader(System.in));
-        System.out.println("***********************************************" + Base64.byteArrayToBase64(default_Key));
         System.out.println("**********密码加密小工具   ***************");
-        System.out.print("*** 请输入密码原文：");
+        //密钥长度16个字节->128bit
+        byte[] default_Key = "qwertyuiopasd唐".getBytes();
+        System.out.println(default_Key.length);
+        System.out.println("密钥:" + Base64.byteArrayToBase64(default_Key));
+        System.out.println("密钥:" + java.util.Base64.getEncoder().encodeToString(default_Key));
+        String source = "小唐";
+        System.out.println("原数据:" + source);
+        byte[] encrypt = encrypt(default_Key,source.getBytes(AES_CHARSET_NAME));
+        System.out.println("加密后:" + Base64.byteArrayToBase64(encrypt));
+
+        byte[] decrypt = decrypt(default_Key, encrypt);
+        String decryptStr = new String(decrypt, AES_CHARSET_NAME);
+        System.out.println("解密后:" + decryptStr);
+        System.out.println("***********************************************");
     }
 }

@@ -177,7 +177,7 @@ public class BaseController {
      *
      * @return
      */
-    public String getIpAddr(HttpServletRequest request) {
+    public String getClientIp(HttpServletRequest request) {
         String ipAddress = null;
         ipAddress = request.getHeader("x-forwarded-for");
         if (ipAddress == null || ipAddress.length() == 0 || "unknown".equalsIgnoreCase(ipAddress)) {
@@ -196,7 +196,9 @@ public class BaseController {
                 } catch (UnknownHostException e) {
                     e.printStackTrace();
                 }
-                ipAddress = inet.getHostAddress();
+                if (inet != null) {
+                    ipAddress = inet.getHostAddress();
+                }
             }
 
         }

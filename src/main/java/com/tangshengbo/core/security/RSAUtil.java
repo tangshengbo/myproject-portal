@@ -1,7 +1,6 @@
 package com.tangshengbo.core.security;
 
 import com.alibaba.druid.util.Base64;
-import com.google.common.collect.Maps;
 import tk.mybatis.mapper.util.StringUtil;
 
 import javax.crypto.BadPaddingException;
@@ -10,10 +9,13 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import java.io.*;
 import java.security.*;
+import java.security.interfaces.RSAPrivateKey;
+import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -287,6 +289,28 @@ public final class RSAUtil {
     }
 
     /**
+     * 初始化密钥
+     * @return
+     * @throws Exception
+     */
+    public static Map<String,Object> initKey()throws Exception{
+        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(KEY_ALGORITHM);
+        keyPairGenerator.initialize(1024);
+        KeyPair keyPair = keyPairGenerator.generateKeyPair();
+
+        //公钥
+        RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
+        //私钥
+        RSAPrivateKey privateKey =  (RSAPrivateKey) keyPair.getPrivate();
+
+        Map<String,Object> keyMap = new HashMap<>(2);
+        keyMap.put(PUBLIC_KEY, publicKey);
+        keyMap.put(PRIVATE_KEY, privateKey);
+
+        return keyMap;
+    }
+
+    /**
      * 用私钥加密
      *
      * @param data 加密数据
@@ -451,11 +475,11 @@ public final class RSAUtil {
 
     public static void main(String[] args) {
         try {
-//            Map<String, Object> map = RSAUtil.initKey();
-            KeyPair keyPair = RSAConfig.getDefaultInstance().getKeyPair();
-            Map<String, Object> map = Maps.newHashMap();
-            map.put(PRIVATE_KEY, keyPair.getPrivate());
-            map.put(PUBLIC_KEY, keyPair.getPublic());
+            Map<String, Object> map = RSAUtil.initKey();
+//            KeyPair keyPair = RSAConfig.getDefaultInstance().getKeyPair();
+//            Map<String, Object> map = Maps.newHashMap();
+//            map.put(PRIVATE_KEY, keyPair.getPrivate());
+//            map.put(PUBLIC_KEY, keyPair.getPublic());
             String privateKey = getPrivateKey(map);
             String publicKey = getPublicKey(map);
             String source = "小唐";
