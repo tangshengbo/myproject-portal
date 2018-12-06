@@ -18,6 +18,7 @@ import com.tangshengbo.service.component.ApplicationContextHolder;
 import com.tangshengbo.service.component.MyApplicationContextEvent;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.aop.framework.AopContext;
@@ -31,6 +32,7 @@ import org.springframework.core.env.PropertySources;
 import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.annotation.Annotation;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -201,6 +203,12 @@ public class LogController {
         //暴露代理接口
         LogController proxy = (LogController) AopContext.currentProxy();
         proxy.exposeProxy(new Date(), "");
+        new Reflections("org.springframework")
+                .getSubTypesOf(Annotation.class)
+                .stream()
+                .map(Class::getName)
+                .sorted()
+                .forEach(System.out::println);
         return ResponseGenerator.genSuccessResult(conversionService.convert(date, Date.class));
     }
 
