@@ -199,7 +199,7 @@ public class LogController {
     public ResponseMessage stringToDate(String date) {
         //暴露代理接口
         LogController proxy = (LogController) AopContext.currentProxy();
-        proxy.exposeProxy(new Date(), "", "");
+        proxy.exposeProxy(new Date(), "");
         new Reflections("org.springframework")
                 .getSubTypesOf(Annotation.class)
                 .stream()
@@ -210,9 +210,14 @@ public class LogController {
     }
 
     @PostMapping("/exposeProxy")
-    public ResponseMessage exposeProxy(@RequestParam("str") Date str, @RequestParamDecode("content") String content, @RequestHeader("Postman-Token") String token) {
+    public ResponseMessage exposeProxy(@RequestParam("str") Date str, @RequestParamDecode("content") String content) {
         logger.info("exposeProxy:{},", str);
-        return ResponseGenerator.genSuccessResult(str.toString() + "-" + content + "-" + token);
+        return ResponseGenerator.genSuccessResult(str.toString() + "-" + content);
+    }
+
+    @RequestMapping("/extractRequest")
+    public ResponseMessage extractRequest(@RequestHeader("Postman-Token") String token) {
+        return ResponseGenerator.genSuccessResult(token);
     }
 
     @GetMapping("/environment")
