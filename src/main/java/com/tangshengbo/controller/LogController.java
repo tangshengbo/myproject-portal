@@ -1,5 +1,6 @@
 package com.tangshengbo.controller;
 
+import cn.hutool.core.date.DatePattern;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -215,9 +216,10 @@ public class LogController {
         return ResponseGenerator.genSuccessResult(str.toString() + "-" + content);
     }
 
+    @ResponseBodyEncode
     @RequestMapping("/extractRequest")
     public ResponseMessage extractRequest(@RequestHeader("Postman-Token") String token) {
-        return ResponseGenerator.genSuccessResult(token);
+        return ResponseGenerator.genSuccessResult(token + "-" + DatePattern.NORM_DATETIME_FORMAT.format(new Date()));
     }
 
     @GetMapping("/environment")

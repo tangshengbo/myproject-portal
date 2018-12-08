@@ -65,6 +65,11 @@
                    <ref bean="myRequestParamMethodArgumentResolver"/>
                </list>
            </property>
+            <property name="responseBodyAdvice">
+                <list>
+                    <ref bean="myResponseBodyAdvice"/>
+                </list>
+            </property>
             <property name="webBindingInitializer" ref="configurableWebBindingInitializer"/>
             <property name="order" value="-1"/>
         </bean>
@@ -81,6 +86,7 @@
     <bean  id="myRequestParamMethodArgumentResolver" class="com.tangshengbo.model.MyRequestParamMethodArgumentResolver">
         <constructor-arg index="0" value="false"/>
     </bean>
+    <bean id="myResponseBodyAdvice" class="com.tangshengbo.model.MyResponseBodyAdvice"/>
         <bean id="configurableWebBindingInitializer" class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer">
             <property name="conversionService" ref="defaultFormattingConversionService"/>
             <property name="propertyEditorRegistrar" ref="customPropertyEditorRegistrar"/>
