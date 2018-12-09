@@ -1,6 +1,7 @@
 package com.tangshengbo.javaconfig;
 
-import com.tangshengbo.model.InitServlet;
+import com.tangshengbo.core.extension.InitServlet;
+import com.tangshengbo.core.extension.XssFilter;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
@@ -39,6 +40,9 @@ public class MyWebApplicationInitializer extends AbstractAnnotationConfigDispatc
         encodingFilter.setAsyncSupported(true);
         encodingFilter.setInitParameter("forceEncoding", "true");
         encodingFilter.addMappingForUrlPatterns(null, false, "*");
+
+        FilterRegistration.Dynamic xssFilter = servletContext.addFilter("xssFilter", XssFilter.class);
+        xssFilter.addMappingForUrlPatterns(null, false, "*");
 
     }
 

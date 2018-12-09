@@ -1,4 +1,4 @@
-package com.tangshengbo.model;
+package com.tangshengbo.core.extension;
 
 import cn.hutool.core.date.DateUtil;
 

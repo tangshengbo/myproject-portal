@@ -1,4 +1,4 @@
-package com.tangshengbo.model;
+package com.tangshengbo.core.extension;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,4 +1,4 @@
-package com.tangshengbo.model;
+package com.tangshengbo.core.extension;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;

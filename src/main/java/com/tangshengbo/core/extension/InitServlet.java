@@ -1,4 +1,4 @@
-package com.tangshengbo.model;
+package com.tangshengbo.core.extension;
 
 import com.tangshengbo.service.component.ApplicationContextHolder;
 import org.apache.commons.io.IOUtils;

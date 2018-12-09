@@ -1,6 +1,6 @@
 package com.tangshengbo.service.component;
 
-import com.tangshengbo.model.MyInject;
+import com.tangshengbo.core.extension.MyInject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;

@@ -1,5 +1,6 @@
-package com.tangshengbo.model;
+package com.tangshengbo.core.extension;
 
+import com.tangshengbo.model.User;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.xml.AbstractSimpleBeanDefinitionParser;
 import org.springframework.beans.factory.xml.ParserContext;

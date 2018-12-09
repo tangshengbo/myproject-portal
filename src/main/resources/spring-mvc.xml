@@ -83,10 +83,10 @@
                 <bean class="com.tangshengbo.interceptor.SecurityIntercept"/>
             </mvc:interceptor>
         </mvc:interceptors>
-    <bean  id="myRequestParamMethodArgumentResolver" class="com.tangshengbo.model.MyRequestParamMethodArgumentResolver">
+    <bean  id="myRequestParamMethodArgumentResolver" class="com.tangshengbo.core.extension.MyRequestParamMethodArgumentResolver">
         <constructor-arg index="0" value="false"/>
     </bean>
-    <bean id="myResponseBodyAdvice" class="com.tangshengbo.model.MyResponseBodyAdvice"/>
+    <bean id="myResponseBodyAdvice" class="com.tangshengbo.core.extension.MyResponseBodyAdvice"/>
         <bean id="configurableWebBindingInitializer" class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer">
             <property name="conversionService" ref="defaultFormattingConversionService"/>
             <property name="propertyEditorRegistrar" ref="customPropertyEditorRegistrar"/>

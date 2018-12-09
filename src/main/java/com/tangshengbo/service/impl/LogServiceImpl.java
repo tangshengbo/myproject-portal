@@ -3,7 +3,7 @@ package com.tangshengbo.service.impl;
 import com.tangshengbo.core.QueryString;
 import com.tangshengbo.dao.HttpLogMapper;
 import com.tangshengbo.model.HttpLog;
-import com.tangshengbo.model.MyInject;
+import com.tangshengbo.core.extension.MyInject;
 import com.tangshengbo.service.LogService;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.jsoup.Jsoup;

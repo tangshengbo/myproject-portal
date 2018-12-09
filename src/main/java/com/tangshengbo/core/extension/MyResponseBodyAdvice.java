@@ -1,4 +1,4 @@
-package com.tangshengbo.model;
+package com.tangshengbo.core.extension;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;

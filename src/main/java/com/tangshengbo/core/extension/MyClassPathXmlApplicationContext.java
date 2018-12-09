@@ -1,4 +1,4 @@
-package com.tangshengbo.model;
+package com.tangshengbo.core.extension;
 
 import com.tangshengbo.listener.MyReaderEventListener;
 import org.springframework.beans.BeansException;

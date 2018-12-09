@@ -38,7 +38,7 @@
     <!--</servlet>-->
     <!--<servlet>-->
         <!--<servlet-name>initServlet</servlet-name>-->
-        <!--<servlet-class>com.tangshengbo.model.InitServlet</servlet-class>-->
+        <!--<servlet-class>com.tangshengbo.core.extension.InitServlet</servlet-class>-->
         <!--<load-on-startup>-1</load-on-startup>-->
     <!--</servlet>-->
     <!--<servlet-mapping>-->

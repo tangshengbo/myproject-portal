@@ -1,1 +1,1 @@
-http\://www.tangshengbo.com/schema/user=com.tangshengbo.model.MyNamespaceHandler
+http\://www.tangshengbo.com/schema/user=com.tangshengbo.core.extension.MyNamespaceHandler

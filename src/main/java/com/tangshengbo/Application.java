@@ -1,6 +1,6 @@
 package com.tangshengbo;
 
-import com.tangshengbo.model.MyClassPathXmlApplicationContext;
+import com.tangshengbo.core.extension.MyClassPathXmlApplicationContext;
 import com.tangshengbo.model.User;
 import com.tangshengbo.model.cycle.TestA;
 import com.tangshengbo.service.LogService;
