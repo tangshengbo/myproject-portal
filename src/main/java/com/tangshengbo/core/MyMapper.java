@@ -1,5 +1,6 @@
 package com.tangshengbo.core;
 
+import com.tangshengbo.model.Account;
 import tk.mybatis.mapper.common.BaseMapper;
 import tk.mybatis.mapper.common.ConditionMapper;
 import tk.mybatis.mapper.common.IdsMapper;
@@ -20,4 +21,6 @@ public interface MyMapper<T>
     void insertBatch(List<T> users);
 
     void updateBatch(List<T> users);
+
+
 }

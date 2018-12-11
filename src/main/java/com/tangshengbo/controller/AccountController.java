@@ -65,6 +65,7 @@ public class AccountController extends BaseController {
 
     // 本方法将处理 /courses/view?courseId=123 形式的URL
     @RequestMapping(value = "/save/{count}", method = RequestMethod.GET)
+    @ResponseBody
     public ResponseMessage<String> addAccount(@PathVariable("count") int count) {
         accountService.saveBatchAccount(count);
         return ResponseGenerator.genSuccessResult("批量新增成功");

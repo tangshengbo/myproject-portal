@@ -19,6 +19,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StopWatch;
 
 import java.util.Date;
 import java.util.List;
@@ -62,11 +63,17 @@ public class AccountServiceImpl extends AbstractService<Account> implements Acco
         Random rand = new Random();
         for (int i = 0; i < batchCount; i++) {
             accounts.add(new Account("唐声波", (i * 11.3 * rand.nextInt(100000)), new Date()));
+
         }
+
         logger.info("插入总数{}", accounts.size());
+        StopWatch watch = new StopWatch();
+        watch.start();
+        accounts.forEach(account -> accountMapper.insertSelective(account));
 //        userMapper.insertList(users);
-        saveBatch(accounts);
-        logger.info("批量插入结束...................");
+//        saveBatch(accounts);
+        watch.stop();
+        logger.info("批量插入结束...................{}s", watch.getTotalTimeSeconds());
     }
 
     @Override

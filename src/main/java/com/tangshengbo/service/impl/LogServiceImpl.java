@@ -1,16 +1,18 @@
 package com.tangshengbo.service.impl;
 
 import com.tangshengbo.core.QueryString;
+import com.tangshengbo.core.extension.MyInject;
 import com.tangshengbo.dao.HttpLogMapper;
 import com.tangshengbo.model.HttpLog;
-import com.tangshengbo.core.extension.MyInject;
 import com.tangshengbo.service.LogService;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
+import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.net.URL;
@@ -27,6 +29,9 @@ public class LogServiceImpl implements LogService {
     @MyInject
     private HttpLogMapper logMapper;
 
+    @Autowired
+    private SqlSessionTemplate sqlSessionTemplate;
+
     @Override
     public List<HttpLog> listHttpLog() {
         List<HttpLog> logList = logMapper.listHttpLog();
@@ -39,6 +44,10 @@ public class LogServiceImpl implements LogService {
         String address = getAddressByIp(httpLog.getClientIp());
         httpLog.setClientAddress(address);
         logMapper.insertSelective(httpLog);
+    }
+
+    public void saveBatchHttpLog() {
+        HttpLogMapper mapper = sqlSessionTemplate.getMapper(HttpLogMapper.class);
     }
 
     private String getAddressByIp(String ip) {
