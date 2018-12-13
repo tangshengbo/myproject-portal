@@ -11,6 +11,7 @@ import com.tangshengbo.model.Account;
 import com.tangshengbo.service.AbstractService;
 import com.tangshengbo.service.AccountService;
 import org.apache.commons.lang3.StringUtils;
+import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,22 +55,26 @@ public class AccountServiceImpl extends AbstractService<Account> implements Acco
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 
+    @Autowired
+    private SqlSessionTemplate sqlSessionTemplate;
+
     private static final String ACCOUNT_JSON = "accountJson";
 
     @Override
     public void saveBatchAccount(int batchCount) {
         logger.info("批量插入开始...................");
         List<Account> accounts = Lists.newArrayList();
+        AccountMapper mapper = sqlSessionTemplate.getMapper(AccountMapper.class);
         Random rand = new Random();
         for (int i = 0; i < batchCount; i++) {
             accounts.add(new Account("唐声波", (i * 11.3 * rand.nextInt(100000)), new Date()));
 
         }
-
         logger.info("插入总数{}", accounts.size());
         StopWatch watch = new StopWatch();
         watch.start();
-        accounts.forEach(account -> accountMapper.insertSelective(account));
+        System.out.println(mapper.selectAll());
+//        accounts.forEach(mapper::insertSelective);
 //        userMapper.insertList(users);
 //        saveBatch(accounts);
         watch.stop();

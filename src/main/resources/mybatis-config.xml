@@ -4,7 +4,7 @@
 <configuration>
 
     <settings>
-        <setting name="defaultExecutorType" value="BATCH"/>
+        <setting name="defaultExecutorType" value="SIMPLE"/>
         <setting name="cacheEnabled" value="false"/>
     </settings>
     <!--<plugins>-->
