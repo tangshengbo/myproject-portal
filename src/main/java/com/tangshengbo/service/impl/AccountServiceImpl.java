@@ -64,7 +64,7 @@ public class AccountServiceImpl extends AbstractService<Account> implements Acco
     public void saveBatchAccount(int batchCount) {
         logger.info("批量插入开始...................");
         List<Account> accounts = Lists.newArrayList();
-        AccountMapper mapper = sqlSessionTemplate.getMapper(AccountMapper.class);
+//        AccountMapper mapper = sqlSessionTemplate.getMapper(AccountMapper.class);
         Random rand = new Random();
         for (int i = 0; i < batchCount; i++) {
             accounts.add(new Account("唐声波", (i * 11.3 * rand.nextInt(100000)), new Date()));
@@ -73,9 +73,11 @@ public class AccountServiceImpl extends AbstractService<Account> implements Acco
         logger.info("插入总数{}", accounts.size());
         StopWatch watch = new StopWatch();
         watch.start();
-        System.out.println(mapper.selectAll());
+//        System.out.println(mapper.selectAll());
 //        accounts.forEach(mapper::insertSelective);
-//        userMapper.insertList(users);
+        accounts.forEach(account -> {
+            accountMapper.insertSelective(account);
+        });
 //        saveBatch(accounts);
         watch.stop();
         logger.info("批量插入结束...................{}s", watch.getTotalTimeSeconds());

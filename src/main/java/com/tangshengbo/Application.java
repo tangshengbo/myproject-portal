@@ -1,10 +1,17 @@
 package com.tangshengbo;
 
+import com.tangshengbo.core.MybatisUtil;
 import com.tangshengbo.core.extension.MyClassPathXmlApplicationContext;
+import com.tangshengbo.dao.HttpLogMapper;
+import com.tangshengbo.model.HttpLog;
 import com.tangshengbo.model.User;
 import com.tangshengbo.model.cycle.TestA;
 import com.tangshengbo.service.LogService;
 import org.apache.commons.io.IOUtils;
+import org.apache.ibatis.session.ExecutorType;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.FactoryBean;
@@ -52,5 +59,15 @@ public class Application {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Test
+    public void testMybatis() {
+        SqlSessionFactory sqlSessionFactory = MybatisUtil.getSqlSessionFactory();
+        SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH);
+        HttpLogMapper mapper = sqlSession.getMapper(HttpLogMapper.class);
+        HttpLog httpLog = mapper.selectByPrimaryKey(1);
+        System.out.println(mapper.toString());
+        logger.info("{}", httpLog);
     }
 }
