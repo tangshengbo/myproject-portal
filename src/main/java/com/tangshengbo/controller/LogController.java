@@ -1,6 +1,7 @@
 package com.tangshengbo.controller;
 
 import cn.hutool.core.date.DatePattern;
+import cn.hutool.core.io.FileUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -11,7 +12,9 @@ import com.tangshengbo.core.ResponseMessage;
 import com.tangshengbo.core.extension.MyInject;
 import com.tangshengbo.core.extension.RequestParamDecode;
 import com.tangshengbo.core.extension.ResponseBodyEncode;
-import com.tangshengbo.model.*;
+import com.tangshengbo.model.CanvasImage;
+import com.tangshengbo.model.HttpLog;
+import com.tangshengbo.model.LoveImage;
 import com.tangshengbo.service.AccountService;
 import com.tangshengbo.service.HttpLogService;
 import com.tangshengbo.service.LogService;
@@ -32,7 +35,9 @@ import org.springframework.core.env.Environment;
 import org.springframework.core.env.PropertySources;
 import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.util.Arrays;
 import java.util.Date;
@@ -240,5 +245,16 @@ public class LogController {
             sb.append(source.toString());
         });
         return ResponseGenerator.genSuccessResult(sb.toString());
+    }
+
+    @PostMapping("/upload")
+    public ResponseMessage uploadFile(@RequestPart("file") MultipartFile multipartFile) {
+        logger.info("{},{}", multipartFile.getOriginalFilename(), multipartFile.getSize() / 1024);
+        try {
+            multipartFile.transferTo(FileUtil.file("e:/" + multipartFile.getOriginalFilename()));
+        } catch (IOException e) {
+           return ResponseGenerator.genFailResult("上传失败");
+        }
+        return ResponseGenerator.genSuccessResult("上传成功");
     }
 }

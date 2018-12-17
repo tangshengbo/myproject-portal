@@ -87,10 +87,12 @@
         <constructor-arg index="0" value="false"/>
     </bean>
     <bean id="myResponseBodyAdvice" class="com.tangshengbo.core.extension.MyResponseBodyAdvice"/>
-        <bean id="configurableWebBindingInitializer" class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer">
-            <property name="conversionService" ref="defaultFormattingConversionService"/>
-            <property name="propertyEditorRegistrar" ref="customPropertyEditorRegistrar"/>
-        </bean>
+    <bean id="configurableWebBindingInitializer" class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer">
+        <property name="conversionService" ref="defaultFormattingConversionService"/>
+        <property name="propertyEditorRegistrar" ref="customPropertyEditorRegistrar"/>
+    </bean>
+
+    <bean id="standardServletMultipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver"/>
 
     <!--</beans>-->
 

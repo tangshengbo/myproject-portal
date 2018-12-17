@@ -43,11 +43,10 @@ public class MyWebApplicationInitializer extends AbstractAnnotationConfigDispatc
 
         FilterRegistration.Dynamic xssFilter = servletContext.addFilter("xssFilter", XssFilter.class);
         xssFilter.addMappingForUrlPatterns(null, false, "*");
-
     }
 
     @Override
     protected void customizeRegistration(ServletRegistration.Dynamic registration) {
-       registration.setMultipartConfig(new MultipartConfigElement("/temp/",10240, 20480, 0));
+       registration.setMultipartConfig(new MultipartConfigElement("E:/temp/",102400, 204800, 0));
     }
 }
