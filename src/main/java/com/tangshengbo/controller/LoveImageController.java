@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
@@ -166,9 +167,8 @@ public class LoveImageController {
     }
 
     @RequestMapping(value = "/list", method = {RequestMethod.GET})
-    public String getHttpLogs(Model model) {
+    public ModelAndView getHttpLogs() {
         List<HttpLog> httpLogs = logService.listHttpLog();
-        model.addAttribute("collects", httpLogs);
-        return "log_list";
+        return new ModelAndView("log_list", "collects", httpLogs);
     }
 }
