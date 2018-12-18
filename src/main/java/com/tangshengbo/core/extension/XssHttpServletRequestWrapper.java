@@ -37,7 +37,6 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
      */
 
     @Override
-
     public String getParameter(String name) {
         String value = super.getParameter(name);
         if (null != value) {

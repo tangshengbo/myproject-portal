@@ -47,6 +47,8 @@ public class MyWebApplicationInitializer extends AbstractAnnotationConfigDispatc
 
     @Override
     protected void customizeRegistration(ServletRegistration.Dynamic registration) {
-       registration.setMultipartConfig(new MultipartConfigElement("E:/temp/",102400, 204800, 0));
+        registration.setInitParameter("detectAllHandlerAdapters", "false");
+        int maxFileSize = (1024 * 1024) * 100;
+        registration.setMultipartConfig(new MultipartConfigElement("E:/temp/", maxFileSize, maxFileSize, 0));
     }
 }

@@ -1,7 +1,6 @@
 package com.tangshengbo.controller;
 
 import cn.hutool.core.date.DatePattern;
-import cn.hutool.core.io.FileUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -35,8 +34,8 @@ import org.springframework.core.env.Environment;
 import org.springframework.core.env.PropertySources;
 import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.Part;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.util.Arrays;
@@ -248,10 +247,10 @@ public class LogController {
     }
 
     @PostMapping("/upload")
-    public ResponseMessage uploadFile(@RequestPart("file") MultipartFile multipartFile) {
-        logger.info("{},{}", multipartFile.getOriginalFilename(), multipartFile.getSize() / 1024);
+    public ResponseMessage uploadFile(@RequestPart("file")Part part) {
+        logger.info("{},{},{}", part.getSubmittedFileName(), part.getSize() / 1024, part.getContentType());
         try {
-            multipartFile.transferTo(FileUtil.file("e:/" + multipartFile.getOriginalFilename()));
+            part.write("e:/" + part.getSubmittedFileName());
         } catch (IOException e) {
            return ResponseGenerator.genFailResult("上传失败");
         }

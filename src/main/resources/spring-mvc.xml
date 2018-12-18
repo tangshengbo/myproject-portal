@@ -47,7 +47,7 @@
           p:suffix=".html" p:templateMode="HTML" p:characterEncoding="UTF-8"/>
     <!-- 完成请求和注解POJO的映射 -->
     <!--<beans profile="dev">-->
-        <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+        <bean id="handlerAdapter" class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
             <property name="messageConverters">
                 <list>
                     <bean
@@ -71,7 +71,7 @@
                 </list>
             </property>
             <property name="webBindingInitializer" ref="configurableWebBindingInitializer"/>
-            <property name="order" value="-1"/>
+            <!--<property name="order" value="-1"/>-->
         </bean>
         <mvc:interceptors>
             <mvc:interceptor>
@@ -92,8 +92,11 @@
         <property name="propertyEditorRegistrar" ref="customPropertyEditorRegistrar"/>
     </bean>
 
-    <bean id="standardServletMultipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver"/>
-
+    <!--<bean id="standardServletMultipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver"/>-->
+    <bean id="simpleMappingExceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <property name="defaultErrorView" value="error"/>
+        <property name="order" value="-1"/>
+    </bean>
     <!--</beans>-->
 
     <!-- 单独为webapplicationContext注入placeholder  -->
