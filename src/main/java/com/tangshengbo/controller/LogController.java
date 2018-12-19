@@ -225,8 +225,8 @@ public class LogController {
 
     @ResponseBodyEncode
     @RequestMapping("/extractRequest")
-    public ResponseMessage extractRequest(@RequestHeader("Postman-Token") String token) {
-        return ResponseGenerator.genSuccessResult(token + "-" + DatePattern.NORM_DATETIME_FORMAT.format(new Date()));
+    public ResponseMessage extractRequest(@RequestHeader("Postman-Token") String token, @CookieValue("JSESSIONID") String sessionId) {
+        return ResponseGenerator.genSuccessResult(token + "-" + DatePattern.NORM_DATETIME_FORMAT.format(new Date()) + "-" + sessionId);
     }
 
     @GetMapping("/environment")
