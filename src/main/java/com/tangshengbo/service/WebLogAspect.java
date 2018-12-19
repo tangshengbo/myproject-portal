@@ -1,6 +1,7 @@
 package com.tangshengbo.service;
 
 import com.tangshengbo.controller.BaseController;
+import com.tangshengbo.core.JsonUtils;
 import com.tangshengbo.model.HttpLog;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -10,11 +11,19 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.AbstractErrors;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.filter.OncePerRequestFilter;
 
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.io.InputStream;
+import java.text.Format;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -28,6 +37,11 @@ public class WebLogAspect extends BaseController {
 
 //    @DeclareParents(value = "com.tangshengbo.service.LogService+", defaultImpl = com.tangshengbo.service.impl.AccountServiceImpl.class )
 //    private AccountService AccountService;
+
+    private static final List<Class<?>> ignoreClasses = Arrays.asList(
+            HttpSession.class, AbstractErrors.class, OncePerRequestFilter.class, ServletRequest.class,
+            ServletResponse.class, Format.class, InputStream.class);
+
 
     @Autowired
     private LogService logService;
@@ -61,7 +75,7 @@ public class WebLogAspect extends BaseController {
         logger.info("代理 : {}", clientProxy);
         logger.info("CLASS_METHOD : " + joinPoint.getSignature().getDeclaringTypeName() + "."
                 + joinPoint.getSignature().getName());
-        logger.info("参数 : " + Arrays.toString(joinPoint.getArgs()));
+        logger.info("参数 : " + toJsonString(joinPoint.getArgs()));
 
         writeLog(requestUrl, httpMethod, clientIp, clientProxy);
 
@@ -117,5 +131,46 @@ public class WebLogAspect extends BaseController {
                 + request.getRequestURI();
         String url2 = request.getRequestURL().toString();
         return url;
+    }
+
+    private String toJsonString(Object[] objects) {
+        String res = "";
+        try {
+            StringBuilder builder = new StringBuilder();
+            boolean isFirst = true;
+            for (Object object : objects) {
+                if (isIgnoreClass(object)) {
+                    continue;
+                }
+                if (isFirst) {
+                    isFirst = false;
+                } else {
+                    builder.append(",");
+                }
+                try {
+                    res = JsonUtils.objectToJson(object);
+                } catch (Exception e) {
+                    res = object.getClass().getName();
+                }
+                builder.append(res);
+            }
+            res = builder.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return res;
+    }
+
+    @SuppressWarnings("unchecked")
+    private boolean isIgnoreClass(Object o) {
+        if (null == o) {
+            return false;
+        }
+        for (Class cls : ignoreClasses) {
+            if (cls.isAssignableFrom(o.getClass())) {
+                return true;
+            }
+        }
+        return false;
     }
 }

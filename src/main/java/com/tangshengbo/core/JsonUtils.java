@@ -27,9 +27,8 @@ public class JsonUtils {
         try {
             return MAPPER.writeValueAsString(data);
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
-        return null;
     }
 
     /**
