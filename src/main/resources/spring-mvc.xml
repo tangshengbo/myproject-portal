@@ -17,7 +17,7 @@
     <!--开启Spring注解配置功能-->
     <context:annotation-config/>
     <!-- 启动注解驱动的Spring MVC功能，注册请求url和注解POJO类方法的映射-->
-    <mvc:annotation-driven>
+    <mvc:annotation-driven conversion-service="conversionServiceFactoryBean">
         <mvc:message-converters>
             <!--使用GsonConvertor 排在默认JacksonConvertor前作为application/json序列化转换器 -->
             <bean id="jsonConvertor"

@@ -96,7 +96,7 @@ public class WebLogAspect extends BaseController {
     }
 
     // returning的值和doAfterReturning的参数名一致
-    @AfterReturning(returning = "ret", pointcut = "logPointCut()" )
+    @AfterReturning(returning = "ret", pointcut = "logPointCut()")
     public void doAfterReturning(Object ret) throws Throwable {
         // 处理完请求，返回内容
         logger.info("返回值 : " + ret);
@@ -137,16 +137,12 @@ public class WebLogAspect extends BaseController {
         String res = "";
         try {
             StringBuilder builder = new StringBuilder();
-            boolean isFirst = true;
             for (Object object : objects) {
                 if (isIgnoreClass(object)) {
+                    res = object.getClass().getName();
                     continue;
                 }
-                if (isFirst) {
-                    isFirst = false;
-                } else {
-                    builder.append(",");
-                }
+                builder.append(",");
                 try {
                     res = JsonUtils.objectToJson(object);
                 } catch (Exception e) {
@@ -154,7 +150,7 @@ public class WebLogAspect extends BaseController {
                 }
                 builder.append(res);
             }
-            res = builder.toString();
+            res = builder.toString().substring(1);
         } catch (Exception e) {
             e.printStackTrace();
         }

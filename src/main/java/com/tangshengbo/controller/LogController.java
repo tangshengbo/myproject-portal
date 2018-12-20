@@ -21,10 +21,8 @@ import com.tangshengbo.service.component.ApplicationContextHolder;
 import com.tangshengbo.service.component.MyApplicationContextEvent;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.aop.framework.AopContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,12 +30,13 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.PropertySources;
+import org.springframework.core.io.Resource;
 import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Part;
 import java.io.IOException;
-import java.lang.annotation.Annotation;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -94,6 +93,8 @@ public class LogController {
     @Autowired
     private Environment environment;
 
+    @Value("https://www.baidu.com/")
+    private Resource url;
 
     // 本方法将处理 /courses/view?courseId=123 形式的URL
     @RequestMapping(value = "/list", method = {RequestMethod.GET, RequestMethod.POST})
@@ -204,16 +205,11 @@ public class LogController {
     }
 
     @GetMapping("/convert")
-    public ResponseMessage stringToDate(String date) {
+    public ResponseMessage stringToDate(String date, HttpServletRequest request) {
         //暴露代理接口
-        LogController proxy = (LogController) AopContext.currentProxy();
-        proxy.exposeProxy(new Date(), "");
-        new Reflections("org.springframework")
-                .getSubTypesOf(Annotation.class)
-                .stream()
-                .map(Class::getName)
-                .sorted()
-                .forEach(System.out::println);
+//        LogController proxy = (LogController) AopContext.currentProxy();
+//        proxy.exposeProxy(new Date(), "");
+        conversionService = (ConversionService) request.getAttribute("org.springframework.core.convert.ConversionService");
         return ResponseGenerator.genSuccessResult(conversionService.convert(date, Date.class));
     }
 
@@ -230,8 +226,9 @@ public class LogController {
     }
 
     @GetMapping("/environment")
-    public ResponseMessage environment(String name) {
+    public ResponseMessage environment(String name) throws Exception {
         logger.info("environment:{},", name);
+        logger.info("{}", url.getURL());
         return ResponseGenerator.genSuccessResult(environment.getProperty(name));
     }
 
@@ -247,12 +244,12 @@ public class LogController {
     }
 
     @PostMapping("/upload")
-    public ResponseMessage uploadFile(@RequestPart("file")Part part) {
+    public ResponseMessage uploadFile(@RequestPart("file") Part part) {
         logger.info("{},{},{}", part.getSubmittedFileName(), part.getSize() / 1024, part.getContentType());
         try {
             part.write("e:/" + part.getSubmittedFileName());
         } catch (IOException e) {
-           return ResponseGenerator.genFailResult("上传失败");
+            return ResponseGenerator.genFailResult("上传失败");
         }
         return ResponseGenerator.genSuccessResult("上传成功");
     }
