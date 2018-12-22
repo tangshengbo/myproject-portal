@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.AbstractErrors;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -77,7 +78,7 @@ public class WebLogAspect extends BaseController {
                 + joinPoint.getSignature().getName());
         logger.info("参数 : " + toJsonString(joinPoint.getArgs()));
 
-        writeLog(requestUrl, httpMethod, clientIp, clientProxy);
+//        writeLog(requestUrl, httpMethod, clientIp, clientProxy);
 
     }
 
@@ -150,7 +151,7 @@ public class WebLogAspect extends BaseController {
                 }
                 builder.append(res);
             }
-            res = builder.toString().substring(1);
+            res = StringUtils.hasText(builder.toString()) ? builder.toString().substring(1) : res;
         } catch (Exception e) {
             e.printStackTrace();
         }

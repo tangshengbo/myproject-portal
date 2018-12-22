@@ -1,6 +1,5 @@
 package com.tangshengbo.javaconfig;
 
-import com.tangshengbo.core.extension.InitServlet;
 import com.tangshengbo.core.extension.XssFilter;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
@@ -31,9 +30,9 @@ public class MyWebApplicationInitializer extends AbstractAnnotationConfigDispatc
     public void onStartup(ServletContext servletContext) throws ServletException {
         super.onStartup(servletContext);
 
-        ServletRegistration.Dynamic dynamic = servletContext.addServlet("initServlet", InitServlet.class);
-        dynamic.setLoadOnStartup(-1);
-        dynamic.addMapping("/init");
+//        ServletRegistration.Dynamic dynamic = servletContext.addServlet("initServlet", InitServlet.class);
+//        dynamic.setLoadOnStartup(-1);
+//        dynamic.addMapping("/init");
 
         FilterRegistration.Dynamic encodingFilter = servletContext.addFilter("encodingFilter", CharacterEncodingFilter.class);
         encodingFilter.setInitParameter("encoding", "UTF-8");
@@ -47,7 +46,7 @@ public class MyWebApplicationInitializer extends AbstractAnnotationConfigDispatc
 
     @Override
     protected void customizeRegistration(ServletRegistration.Dynamic registration) {
-        registration.setInitParameter("detectAllHandlerAdapters", "false");
+//        registration.setInitParameter("detectAllHandlerAdapters", "false");
         int maxFileSize = (1024 * 1024) * 100;
         registration.setMultipartConfig(new MultipartConfigElement("E:/temp/", maxFileSize, maxFileSize, 0));
     }

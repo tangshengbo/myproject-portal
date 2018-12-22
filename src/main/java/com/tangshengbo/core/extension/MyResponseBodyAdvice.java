@@ -55,6 +55,5 @@ public class MyResponseBodyAdvice implements ResponseBodyAdvice {
         }
         responseMessage.setData(encryptStr);
         return responseMessage;
-
     }
 }
