@@ -1,10 +1,11 @@
 package com.tangshengbo.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.tangshengbo.core.ResponseGenerator;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -37,11 +38,10 @@ public class InitServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("text/html; charset=UTF-8");
-
-        try (ServletOutputStream outputStream = resp.getOutputStream()){
-            IOUtils.write("初始化完成",outputStream, "UTF-8");
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        resp.setContentType("application/json;charset=UTF-8");
+        try (ServletOutputStream outputStream = resp.getOutputStream()) {
+            IOUtils.write(JSON.toJSONString(ResponseGenerator.genSuccessResult("初始化完成")), outputStream, "UTF-8");
             outputStream.flush();
         }
     }
