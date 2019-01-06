@@ -5,6 +5,7 @@ import com.tangshengbo.service.LogService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 import org.springframework.web.servlet.mvc.Controller;
@@ -16,6 +17,7 @@ import java.util.List;
 /**
  * Created by TangShengBo on 2018/12/22
  */
+@Component("myController")
 public class MyController extends AbstractController implements Controller {
 
     private static Logger logger = LoggerFactory.getLogger(MyController.class);

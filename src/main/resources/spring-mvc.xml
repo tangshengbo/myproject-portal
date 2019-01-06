@@ -73,29 +73,30 @@
             <property name="webBindingInitializer" ref="configurableWebBindingInitializer"/>
             <property name="order" value="-1"/>
         </bean>
-        <mvc:interceptors>
-            <mvc:interceptor>
-                <mvc:mapping path="/"/>
-                <bean class="com.tangshengbo.interceptor.LogInterceptor"/>
-            </mvc:interceptor>
-            <mvc:interceptor>
-                <mvc:mapping path="/log/*"/>
-                <bean class="com.tangshengbo.interceptor.SecurityIntercept"/>
-            </mvc:interceptor>
-        </mvc:interceptors>
+         <bean id="myHandler" class="com.tangshengbo.core.extension.MyHandlerAdapter"/>
+        <!--<mvc:interceptors>-->
+            <!--<mvc:interceptor>-->
+                <!--<mvc:mapping path="/"/>-->
+                <!--<bean class="com.tangshengbo.interceptor.LogInterceptor"/>-->
+            <!--</mvc:interceptor>-->
+            <!--<mvc:interceptor>-->
+                <!--<mvc:mapping path="/log/*"/>-->
+                <!--<bean class="com.tangshengbo.interceptor.SecurityIntercept"/>-->
+            <!--</mvc:interceptor>-->
+        <!--</mvc:interceptors>-->
     <bean  id="myRequestParamMethodArgumentResolver" class="com.tangshengbo.core.extension.MyRequestParamMethodArgumentResolver">
         <constructor-arg index="0" value="false"/>
     </bean>
-    <bean id="myController" class="com.tangshengbo.controller.MyController"/>
+
     <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping" >
         <property name="order" value="-1"/>
         <property name="urlMap">
             <map>
                 <entry key="/my.htm" value-ref="myController"/>
                 <entry key="/my.do" value-ref="servletWrappingController"/>
+                <entry key="/my-handler.do" value-ref="myHandlerController"/>
             </map>
         </property>
-
     </bean>
 
     <bean id="servletWrappingController" class="org.springframework.web.servlet.mvc.ServletWrappingController">

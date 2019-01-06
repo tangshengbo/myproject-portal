@@ -48,7 +48,7 @@ public class WebLogAspect extends BaseController {
     private LogService logService;
 
     //两个..代表所有子目录，最后括号里的两个..代表所有参数
-    @Pointcut("execution(public * com.tangshengbo.controller.*.*(..)) && !bean(accountController)")
+    @Pointcut("execution(public * com.tangshengbo.controller.*.*(..)) && !bean(accountController) && !bean(myHandlerController)")
     public void logPointCut() {
     }
 //
