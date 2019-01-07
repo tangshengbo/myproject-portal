@@ -39,10 +39,10 @@
 
 
     <bean class="org.thymeleaf.spring4.view.ThymeleafViewResolver" p:templateEngine-ref="springTemplateEngine"
-          p:contentType="text/html;charset=UTF-8" p:characterEncoding="UTF-8"/>
+          p:contentType="text/html;charset=UTF-8" p:characterEncoding="UTF-8" p:cacheLimit="1024"/>
     <bean id="springTemplateEngine" class="org.thymeleaf.spring4.SpringTemplateEngine"
           p:templateResolver-ref="contextTemplateResolver"/>
-    <bean id="contextTemplateResolver" class="org.thymeleaf.templateresolver.ServletContextTemplateResolver"
+    <bean id="contextTemplateResolver" class="org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver"
           p:prefix="/WEB-INF/templates/"
           p:suffix=".html" p:templateMode="HTML" p:characterEncoding="UTF-8"/>
     <!-- 完成请求和注解POJO的映射 -->
