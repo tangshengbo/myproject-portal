@@ -16,6 +16,6 @@ public class MyServletRequestHandledListener implements ApplicationListener<Serv
 
     @Override
     public void onApplicationEvent(ServletRequestHandledEvent event) {
-        logger.info("请求完成:{}", event);
+//        logger.info("请求完成:{}", event);
     }
 }
