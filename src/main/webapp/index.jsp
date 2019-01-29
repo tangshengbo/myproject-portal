@@ -14,29 +14,44 @@
         //            alert(data);
         //            console.log(data);
         //        });
-
-        function jsonpCallback(data) {
-
+        //
+        function jsCallback(data) {
+            console.info(data);
+            // alert(data);
         }
-
-        $.ajax({
-            // 请求方式
-            type: "get",
-            // 请求地址
-            url: "http://localhost/jsonp",
-            // 标志跨域请求
-            // 跨域函数名的键值，即服务端提取函数名的钥匙（默认为callback）
-            jsonp: "callbackParam",
-            // 客户端与服务端约定的函数名称
-            jsonpCallback: "jsonpCallback",
-            // 请求成功的回调函数，json既为我们想要获得的数据
-            success: function (json) {
-               alert(json);
-            },
-            // 请求失败的回调函数
-            error: function (e) {
-                alert("error");
-            }
+        // 得到航班信息查询结果后的回调函数
+        // var flightHandler = function(data){
+        //     alert(eval(data).jsonp);
+        // };
+        // 提供jsonp服务的url地址（不管是什么类型的地址，最终生成的返回值都是一段javascript代码）
+        // var url = "http://localhost/jsonp?callback=flightHandler";
+        // // 创建script标签，设置其属性
+        // var script = document.createElement('script');
+        // script.setAttribute('src', url);
+        // // 把script标签加入head，此时调用开始
+        // document.getElementsByTagName('head')[0].appendChild(script);
+        jQuery(document).ready(function () {
+            $.ajax({
+                // 请求方式
+                type: "get",
+                // 请求地址
+                url: "http://localhost/jsonp",
+                // 标志跨域请求
+                dataType: "jsonp",
+                // 跨域函数名的键值，即服务端提取函数名的钥匙（默认为callback）
+                jsonp: "callback",
+                // // 客户端与服务端约定的函数名称
+                jsonpCallback: "jsCallback",
+                // 请求成功的回调函数，json既为我们想要获得的数据
+                success: function (json) {
+                    console.info(json);
+                    // alert(eval(json).jsonp);
+                },
+                // 请求失败的回调函数
+                error: function (e) {
+                    alert("error");
+                }
+            })
         });
     </script>
 </head>
