@@ -15,10 +15,10 @@
         //            console.log(data);
         //        });
         //
-        function jsCallback(data) {
-            console.info(data);
-            // alert(data);
-        }
+        // function jsCallback(data) {
+        //     console.info(data);
+        //     // alert(data);
+        // }
         // 得到航班信息查询结果后的回调函数
         // var flightHandler = function(data){
         //     alert(eval(data).jsonp);
@@ -31,27 +31,47 @@
         // // 把script标签加入head，此时调用开始
         // document.getElementsByTagName('head')[0].appendChild(script);
         jQuery(document).ready(function () {
-            $.ajax({
-                // 请求方式
-                type: "get",
-                // 请求地址
-                url: "http://localhost/jsonp",
-                // 标志跨域请求
-                dataType: "jsonp",
-                // 跨域函数名的键值，即服务端提取函数名的钥匙（默认为callback）
-                jsonp: "callback",
-                // // 客户端与服务端约定的函数名称
-                jsonpCallback: "jsCallback",
-                // 请求成功的回调函数，json既为我们想要获得的数据
-                success: function (json) {
-                    console.info(json);
-                    // alert(eval(json).jsonp);
-                },
-                // 请求失败的回调函数
-                error: function (e) {
-                    alert("error");
-                }
-            })
+            $("#corsBtn").click(function () {
+                $.ajax({
+                    // 请求方式
+                    type: "post",
+                    // 请求地址
+                    url: "http://localhost/cors",
+                    // 标志跨域请求
+                    dataType: "json",
+                    success: function (json) {
+                        console.info(json);
+                    },
+                    // 请求失败的回调函数
+                    error: function (e) {
+                        alert("error");
+                    }
+                })
+            });
+
+            $("#jsonpBtn").click(function () {
+                $.ajax({
+                    // 请求方式
+                    type: "get",
+                    // 请求地址
+                    url: "http://localhost/jsonp",
+                    // 标志跨域请求
+                    dataType: "jsonp",
+                    // 跨域函数名的键值，即服务端提取函数名的钥匙（默认为callback）
+                    jsonp: "callback",
+                    // // 客户端与服务端约定的函数名称
+                    jsonpCallback: "jsCallback",
+                    // 请求成功的回调函数，json既为我们想要获得的数据
+                    success: function (json) {
+                        console.info(json);
+                        // alert(eval(json).jsonp);
+                    },
+                    // 请求失败的回调函数
+                    error: function (e) {
+                        alert("error");
+                    }
+                });
+            });
         });
     </script>
 </head>
@@ -64,6 +84,8 @@
 <div id="result"></div>
 
 <input type="button" id="addBtn" value="添加">
+<input type="button" id="jsonpBtn" value="Jsonp">
+<input type="button" id="corsBtn" value="Cors">
 </body>
 </html>
 
