@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dangdang.ddframe.rdb.sharding.id.generator.self.CommonSelfIdGenerator;
 import com.google.gson.Gson;
+import com.tangshengbo.cache.JedisClientPool;
 import com.tangshengbo.core.ResponseGenerator;
 import com.tangshengbo.core.ResponseMessage;
 import com.tangshengbo.core.extension.MyInject;
@@ -19,6 +20,7 @@ import com.tangshengbo.service.HttpLogService;
 import com.tangshengbo.service.LogService;
 import com.tangshengbo.service.component.ApplicationContextHolder;
 import com.tangshengbo.service.component.MyApplicationContextEvent;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
@@ -37,10 +39,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Part;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static jdk.nashorn.internal.runtime.regexp.joni.Config.log;
 
@@ -95,6 +94,9 @@ public class LogController {
 
     @Value("https://www.baidu.com/")
     private Resource url;
+
+    @Autowired
+    private JedisClientPool jedisClient;
 
     // 本方法将处理 /courses/view?courseId=123 形式的URL
     @RequestMapping(value = "/list", method = {RequestMethod.GET, RequestMethod.POST})
@@ -252,5 +254,15 @@ public class LogController {
             return ResponseGenerator.genFailResult("上传失败");
         }
         return ResponseGenerator.genSuccessResult("上传成功");
+    }
+    @PostMapping("/redis")
+    public ResponseMessage accessRedis(@RequestHeader("token") String token) {
+        String value = jedisClient.get(token);
+        if (StringUtils.isEmpty(value)) {
+            return ResponseGenerator.genFailResult("验证失败");
+        }
+        String tokenNew = UUID.randomUUID().toString();
+        jedisClient.set(tokenNew, String.valueOf(System.currentTimeMillis()), 60 * 5);
+        return ResponseGenerator.genSuccessResult(tokenNew);
     }
 }

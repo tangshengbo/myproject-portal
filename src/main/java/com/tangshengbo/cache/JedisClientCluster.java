@@ -26,6 +26,15 @@ public class JedisClientCluster implements JedisClient {
     }
 
     @Override
+    public String set(String key, String value, int cacheSeconds) {
+        String string = jedisCluster.set(key, value);
+        if (cacheSeconds != 0) {
+            jedisCluster.expire(key, cacheSeconds);
+        }
+        return string;
+    }
+
+    @Override
     public long incr(String key) {
         Long result = jedisCluster.incr(key);
         return result;

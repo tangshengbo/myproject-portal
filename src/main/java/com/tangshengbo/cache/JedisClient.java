@@ -6,6 +6,8 @@ public interface JedisClient {
 
     String set(String key, String value);
 
+    String set(String key, String value, int cacheSeconds);
+
     long incr(String key);
 
     Long hset(String hkey, String key, String value);

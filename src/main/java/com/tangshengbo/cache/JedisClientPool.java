@@ -31,6 +31,17 @@ public class JedisClientPool implements JedisClient {
     }
 
     @Override
+    public String set(String key, String value, int cacheSeconds) {
+        Jedis jedis = jedisPool.getResource();
+        String string = jedis.set(key, value);
+        if (cacheSeconds != 0) {
+            jedis.expire(key, cacheSeconds);
+        }
+        jedis.close();
+        return string;
+    }
+
+    @Override
     public long incr(String key) {
         Jedis jedis = jedisPool.getResource();
         Long result = jedis.incr(key);
