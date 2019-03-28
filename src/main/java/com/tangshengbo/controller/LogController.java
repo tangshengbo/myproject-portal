@@ -20,6 +20,7 @@ import com.tangshengbo.service.HttpLogService;
 import com.tangshengbo.service.LogService;
 import com.tangshengbo.service.component.ApplicationContextHolder;
 import com.tangshengbo.service.component.MyApplicationContextEvent;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -39,6 +40,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Part;
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -265,5 +267,13 @@ public class LogController {
         String tokenNew = UUID.randomUUID().toString();
         jedisClient.set(tokenNew, String.valueOf(System.currentTimeMillis()), 60 * 5);
         return ResponseGenerator.genSuccessResult(tokenNew);
+    }
+
+    @PostMapping("/fileUpload")
+    public ResponseMessage fileUpload(@RequestBody Map<String, String> params) throws Exception {
+        logger.info("{}", params.get("fileStr"));
+        byte[] fileBytes = Base64.getDecoder().decode(params.get("fileStr"));
+        FileUtils.writeByteArrayToFile(new File("E:/" +params.get("fileName")), fileBytes);
+        return ResponseGenerator.genSuccessResult();
     }
 }

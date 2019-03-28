@@ -60,7 +60,7 @@ public class JsonUtils {
         if (StringUtils.isEmpty(jsonData)) {
             return null;
         }
-        JavaType javaType = MAPPER.getTypeFactory().constructParametrizedType(List.class, List.class, beanType);
+        JavaType javaType = MAPPER.getTypeFactory().constructParametricType(List.class, List.class, beanType);
         try {
             return MAPPER.readValue(jsonData, javaType);
         } catch (Exception e) {
