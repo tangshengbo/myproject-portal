@@ -25,6 +25,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.aop.framework.AopContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -209,8 +210,8 @@ public class LogController {
     @GetMapping("/convert")
     public ResponseMessage stringToDate(String date, HttpServletRequest request) {
         //暴露代理接口
-//        LogController proxy = (LogController) AopContext.currentProxy();
-//        proxy.exposeProxy(new Date(), "");
+        LogController proxy = (LogController) AopContext.currentProxy();
+        proxy.exposeProxy(new Date(), "exposeProxy");
         conversionService = (ConversionService) request.getAttribute("org.springframework.core.convert.ConversionService");
         return ResponseGenerator.genSuccessResult(conversionService.convert(date, Date.class));
     }

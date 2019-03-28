@@ -78,7 +78,7 @@
 <body>
 
 <h1>myproject-portal</h1>
-<form action="${ctx}/account/list" method="post">
+<form action="http://localhost/cors" method="post">
     <input type="submit" value="Test">
 </form>
 <div id="result"></div>
