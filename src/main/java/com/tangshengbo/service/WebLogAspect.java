@@ -25,7 +25,6 @@ import java.io.InputStream;
 import java.text.Format;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Created by Tang on 2017/6/26.
@@ -97,22 +96,21 @@ public class WebLogAspect extends BaseController {
     }
 
     // returning的值和doAfterReturning的参数名一致
-    @AfterReturning(returning = "ret", pointcut = "logPointCut()")
-    public void doAfterReturning(Object ret) throws Throwable {
-        // 处理完请求，返回内容
-        logger.info("返回值 : " + ret);
-        MDC.clear();
-//        logger.info("{}", MDC.getCopyOfContextMap().size());
-    }
+//    @AfterReturning(returning = "ret", pointcut = "logPointCut()")
+//    public void doAfterReturning(Object ret) throws Throwable {
+//        // 处理完请求，返回内容
+//
+//
+////        logger.info("{}", MDC.getCopyOfContextMap().size());
+//    }
 
     @Around("logPointCut()")
     public Object doAround(ProceedingJoinPoint pjp) throws Throwable {
         long startTime = System.currentTimeMillis();
         Object ob = pjp.proceed();// ob 为方法的返回值
-        if (Objects.isNull(ob)) {
-            ob = pjp.proceed();// ob 为方法的返回值
-        }
         logger.info("耗时 : " + (System.currentTimeMillis() - startTime) + "ms");
+        logger.info("返回值 : " + ob);
+        MDC.clear();
         return ob;
     }
 
