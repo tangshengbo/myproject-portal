@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tk.mybatis.mapper.util.StringUtil;
 
+import java.nio.charset.StandardCharsets;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.Signature;
@@ -21,7 +22,7 @@ public class SignUtil {
 
     public static String sign(String content) throws Exception {
         PrivateKey privateKey = RSAConfig.getDefaultInstance().getKeyPair().getPrivate();
-        byte[] contentBytes = content.getBytes("UTF-8");
+        byte[] contentBytes = content.getBytes(StandardCharsets.UTF_8);
         return Base64.encodeBase64String(RSAUtil.genSignature(contentBytes, privateKey, "SHA256withRSA"));
     }
 
@@ -57,7 +58,7 @@ public class SignUtil {
         PublicKey publicKey = RSAConfig.getDefaultInstance().getKeyPair().getPublic();
         Signature sig = Signature.getInstance("SHA256withRSA");
         sig.initVerify(publicKey);
-        sig.update(content.getBytes("UTF-8"));
+        sig.update(content.getBytes(StandardCharsets.UTF_8));
         return sig.verify(Base64.decodeBase64(sign));
     }
 
