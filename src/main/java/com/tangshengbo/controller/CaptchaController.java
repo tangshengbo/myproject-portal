@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -40,7 +41,7 @@ public class CaptchaController {
      * @return 验证码
      * @throws IOException
      */
-    @GetMapping("getCaptchaCode")
+    @GetMapping(value = "getCaptchaCode", produces = "image/jpeg;charset=UTF-8")
     public void getCaptchaCode(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
 
@@ -70,7 +71,7 @@ public class CaptchaController {
      *
      * @param captchaCode 用户输入验证码
      */
-    @RequestMapping("/checkCaptchaCode")
+    @PostMapping("/checkCaptchaCode")
     public void checkCaptchaCode(HttpServletRequest request, HttpServletResponse response, @RequestParam("captchaCode") String captchaCode)
             throws IOException {
         logger.info("页面输入验证码===={}", captchaCode);
