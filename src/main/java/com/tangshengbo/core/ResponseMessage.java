@@ -34,7 +34,7 @@ public class ResponseMessage<T> implements Serializable {
         return this;
     }
 
-    public Object getData() {
+    public T getData() {
         return data;
     }
 
