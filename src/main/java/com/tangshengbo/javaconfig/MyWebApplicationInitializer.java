@@ -1,7 +1,10 @@
 package com.tangshengbo.javaconfig;
 
 import com.tangshengbo.core.extension.XssFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CharacterEncodingFilter;
+import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import javax.servlet.*;
@@ -40,6 +43,9 @@ public class MyWebApplicationInitializer extends AbstractAnnotationConfigDispatc
         encodingFilter.setInitParameter("forceEncoding", "true");
         encodingFilter.addMappingForUrlPatterns(null, false, "*");
 
+        FilterRegistration.Dynamic corsFilter = servletContext.addFilter("corsFilter", corsFilter());
+        corsFilter.addMappingForUrlPatterns(null, false, "*");
+
         FilterRegistration.Dynamic xssFilter = servletContext.addFilter("xssFilter", XssFilter.class);
         xssFilter.addMappingForUrlPatterns(null, false, "*");
     }
@@ -49,5 +55,17 @@ public class MyWebApplicationInitializer extends AbstractAnnotationConfigDispatc
 //        registration.setInitParameter("detectAllHandlerAdapters", "false");
         int maxFileSize = (1024 * 1024) * 100;
         registration.setMultipartConfig(new MultipartConfigElement("E:/temp/", maxFileSize, maxFileSize, 0));
+    }
+
+    private CorsFilter corsFilter() {
+        final UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
+        final CorsConfiguration corsConfiguration = new CorsConfiguration();
+        corsConfiguration.setAllowCredentials(true);
+        corsConfiguration.addAllowedOrigin("*");
+        corsConfiguration.addAllowedHeader("*");
+        corsConfiguration.addAllowedMethod("*");
+        corsConfiguration.addExposedHeader("Content-Disposition");
+        urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
+        return new CorsFilter(urlBasedCorsConfigurationSource);
     }
 }
