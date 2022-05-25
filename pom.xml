@@ -11,7 +11,7 @@
     <name>${project.artifactId}</name>
     <packaging>war</packaging>
     <properties>
-        <spring.version>4.3.10.RELEASE</spring.version>
+        <spring.version>5.2.22.RELEASE</spring.version>
         <spring.data.version>1.10.1.RELEASE</spring.data.version>
     </properties>
 
