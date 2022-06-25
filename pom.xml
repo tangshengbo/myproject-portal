@@ -12,7 +12,7 @@
     <packaging>war</packaging>
     <properties>
         <spring.version>4.3.10.RELEASE</spring.version>
-        <spring.data.version>1.10.1.RELEASE</spring.data.version>
+        <spring.data.version>3.3.5</spring.data.version>
     </properties>
 
 
